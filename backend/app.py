@@ -136,13 +136,10 @@ def main() -> None:
     port = int(os.getenv("PORT", "4174"))
     host = os.getenv("HOST", "127.0.0.1")
 
-    def shutdown_handler(signum, frame):
+    try:
+        uvicorn.run(app, host=host, port=port, log_level="info")
+    except KeyboardInterrupt:
         print("shutting down")
-        os._exit(0)
-
-    signal.signal(signal.SIGTERM, shutdown_handler)
-
-    uvicorn.run(app, host=host, port=port, log_level="info")
 
 
 if __name__ == "__main__":
