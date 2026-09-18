@@ -1,21 +1,17 @@
+"""æææ.com backend — agentic coherence main server."""
+
+import os
+import signal
+import uvicorn
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse, JSONResponse
-from fastapi.staticfiles import StaticFiles
 from pathlib import Path
-import importlib.util
 
 app = FastAPI(title="æææ.com backend")
 
 BASE = Path(__file__).resolve().parent
-STATIC = BASE / "static"
-TEMPLATES = BASE / "templates"
-DATA = BASE / "data"
-DATA.mkdir(exist_ok=True)
-
-for folder in (STATIC, TEMPLATES):
-    folder.mkdir(exist_ok=True)
-
-INDEX_HTML = (BASE.parent / "index.html").read_text(encoding="utf-8")
+PARENT = BASE.parent
+INDEX_HTML = (PARENT / "index.html").read_text(encoding="utf-8")
 
 STATUS = {
     "site": "æææ.com",
@@ -24,22 +20,24 @@ STATUS = {
     "backend": "python",
 }
 
-BRANDS = [
-    {"key": "ae", "label": "æ:", "href": "https://xn--6caaa.com/%C3%A6%3A", "status": "root"},
-    {"key": "yael", "label": "yæl", "href": "https://xn--6caaa.com/y%C3%A6l", "status": "identity"},
-    {"key": "llmstore", "label": "LLM.store", "href": "https://xn--6caaa.com/llm-store-1", "status": "intelligence"},
-    {"key": "privateclient", "label": "privateclient.ai", "href": "https://xn--6caaa.com/privateclient-ai", "status": "custody"},
-    {"key": "molt", "label": "molt.earth", "href": "https://xn--6caaa.com/molt-earth", "status": "evolve"},
-    {"key": "cli", "label": "cli.llc", "href": "https://xn--6caaa.com/cli-llc", "status": "execute"},
-    {"key": "dao", "label": "daollc.ai", "href": "https://xn--6caaa.com/daollc-ai", "status": "economy"},
-    {"key": "teologia", "label": "teologia.ai", "href": "https://xn--6caaa.com/teologia-ai", "status": "knowledge"},
-    {"key": "zacapa", "label": "zacapa.ai", "href": "https://xn--6caaa.com/zacapa-ai", "status": "place"},
-    {"key": "enchiridion", "label": "enchiridion", "href": "https://xn--6caaa.com/enchiridion", "status": "canon"},
-    {"key": "neuromitosis", "label": "neuromitosis", "href": "https://xn--6caaa.com/neuromitosis", "status": "distribute"},
-    {"key": "commandprompt", "label": "commandprompt", "href": "https://xn--6caaa.com/commandprompt", "status": "intent"},
-    {"key": "ioa", "label": "ioa", "href": "https://xn--6caaa.com/ioa", "status": "network"},
-    {"key": "consumerredline", "label": "Consumer Redline Index", "href": "https://xn--6caaa.com/consumer-redline-index", "status": "measure"},
+BRAND_REGISTRY = [
+    {"key": "ae", "label": "æ:", "href": "https://æææ.com", "status": "root"},
+    {"key": "yael", "label": "yæl", "href": "https://æææ.com", "status": "identity"},
+    {"key": "llmstore", "label": "LLM.store", "href": "https://llm.store", "status": "intelligence"},
+    {"key": "privateclient", "label": "privateclient.ai", "href": "https://privateclient.ai", "status": "custody"},
+    {"key": "molt", "label": "molt.earth", "href": "https://molt.earth", "status": "evolve"},
+    {"key": "cli", "label": "cli.llc", "href": "https://cli.llc", "status": "execute"},
+    {"key": "dao", "label": "daollc.ai", "href": "https://daollc.ai", "status": "economy"},
+    {"key": "teologia", "label": "teologia.ai", "href": "https://teologia.ai", "status": "knowledge"},
+    {"key": "zacapa", "label": "zacapa.ai", "href": "https://zacapa.ai", "status": "place"},
+    {"key": "enchiridion", "label": "enchiridion", "href": "https://æææ.com/enchiridion", "status": "canon"},
+    {"key": "neuromitosis", "label": "neuromitosis", "href": "https://æææ.com/neuromitosis", "status": "distribute"},
+    {"key": "commandprompt", "label": "commandprompt", "href": "https://æææ.com/commandprompt", "status": "intent"},
+    {"key": "ioa", "label": "ioa", "href": "https://æææ.com/ioa", "status": "network"},
+    {"key": "consumerredline", "label": "Consumer Redline Index", "href": "https://æææ.com/consumer-redline-index", "status": "measure"},
 ]
+
+REGISTRY_BY_KEY = {b["key"]: b for b in BRAND_REGISTRY}
 
 
 @app.get("/health")
@@ -54,7 +52,33 @@ def api_status():
 
 @app.get("/api/brands")
 def api_brands():
-    return JSONResponse({"count": len(BRANDS), "items": BRANDS})
+    return JSONResponse({
+        "count": len(BRAND_REGISTRY),
+        "items": BRAND_REGISTRY,
+    })
+
+
+@app.get("/api/brands/{key}")
+def api_brand(key: str):
+    brand = REGISTRY_BY_KEY.get(key)
+    if not brand:
+        return JSONResponse({"detail": "brand not found"}, status_code=404)
+    return JSONResponse(brand)
+
+
+@app.get("/api/root")
+def api_root():
+    return JSONResponse({
+        "origin": "æææ.com",
+        "tagline": "Open Intelligence · Private Authority · Sovereign Value",
+        "principal": "human",
+        "default": "local-sovereign",
+        "authority": "human-principal",
+        "lineage": "live",
+        "backend": "python",
+        "status": "sovereign",
+        "registry_count": len(BRAND_REGISTRY),
+    })
 
 
 @app.get("/api/receipt")
@@ -62,10 +86,12 @@ def api_receipt():
     return JSONResponse({
         "receipt": {
             "origin": "æææ.com",
+            "principal": "human",
+            "default": "local-sovereign",
             "authority": "human-principal",
             "lineage": "live",
             "backend": "python",
-            "status": "sovereign"
+            "status": "sovereign",
         }
     })
 
@@ -75,15 +101,19 @@ def api_manifest():
     return JSONResponse({
         "name": "æææ.com",
         "tagline": "Open Intelligence · Private Authority · Sovereign Value",
+        "principal": "human",
+        "default": "local-sovereign",
         "backend": "python",
         "routes": [
             "/",
             "/health",
             "/api/status",
             "/api/brands",
+            "/api/brands/{key}",
+            "/api/root",
             "/api/receipt",
-            "/api/manifest"
-        ]
+            "/api/manifest",
+        ],
     })
 
 
@@ -94,11 +124,26 @@ def index_or_static(full_path: str):
     return HTMLResponse(INDEX_HTML)
 
 
-def run_dev(host: str = "127.0.0.1", port: int = 4173):
-    import uvicorn
+def run_dev(host: str = "127.0.0.1", port: int = 4173) -> None:
     uvicorn.run(app, host=host, port=port)
 
 
-def run_prod(host: str = "127.0.0.1", port: int = 4173):
-    import uvicorn
+def run_prod(host: str = "127.0.0.1", port: int = 4173) -> None:
     uvicorn.run(app, host=host, port=port, log_level="warning")
+
+
+def main() -> None:
+    port = int(os.getenv("PORT", "4174"))
+    host = os.getenv("HOST", "127.0.0.1")
+
+    def shutdown_handler(signum, frame):
+        print("shutting down")
+        os._exit(0)
+
+    signal.signal(signal.SIGTERM, shutdown_handler)
+
+    uvicorn.run(app, host=host, port=port, log_level="info")
+
+
+if __name__ == "__main__":
+    main()

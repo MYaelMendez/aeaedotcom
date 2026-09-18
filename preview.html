@@ -2,18 +2,20 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>æææ.com — preview</title>
   <style>
     :root {
       void: #020617;
       gold: #f5c842;
-      gold-dim: #b58a1e;
       gold-glow: rgba(245,200,66,.28);
-      blue: #2563eb;
       ink: #e5e7eb;
       ink-2: #9ca3af;
       ink-3: #6b7280;
+      blue: #2563eb;
+      neon: #10b981;
+      border: rgba(148,163,184,.18);
+      border-hot: rgba(245,200,66,.45);
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html, body {
@@ -23,11 +25,7 @@
       font-family: ui-monospace, 'SFMono-Regular', Menlo, Monaco, Consolas, monospace;
       line-height: 1.5;
     }
-    .wrap {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 20px 16px 40px;
-    }
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 20px 16px 40px; }
     header {
       display: flex;
       align-items: center;
@@ -60,7 +58,7 @@
     }
     nav a:hover { border-color: var(--gold); color: var(--ink); }
     .hero { background: rgba(17,24,39,.7); border: 1px solid rgba(245,200,66,.18); border-radius: 14px; padding: 14px; margin-bottom: 12px; }
-    .hero h1 { font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; font-weight: 900; letter-spacing: .18em; color: var(--gold); text-shadow: 0 0 14px var(--gold-glow); font-size: clamp(22px, 3.5vw, 34px); }
+    .hero h1 { font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; font-weight: 900; letter-spacing: .16em; color: var(--gold); text-shadow: 0 0 14px var(--gold-glow); font-size: clamp(22px, 4vw, 34px); }
     .hero p { color: var(--ink-2); margin-top: 6px; font-size: 13px; }
     .pills { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
     .pill { color: var(--ink-3); border: 1px solid rgba(245,200,66,.2); padding: 3px 8px; border-radius: 999px; font-size: 10px; letter-spacing: .1em; }
@@ -73,10 +71,25 @@
     .list a { color: var(--ink); text-decoration: none; border: 1px solid rgba(245,200,66,.18); padding: 6px 10px; border-radius: 10px; font-size: 12px; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
     .list a:hover { border-color: var(--gold); }
     .status2 { color: var(--ink-3); font-size: 11px; opacity: .85; }
-    .termblock { background: rgba(11,18,32,.85); border: 1px solid rgba(245,200,66,.18); border-radius: 14px; padding: 12px; color: var(--ink-2); font-size: 12px; white-space: pre-wrap; word-break: break-word; margin-bottom: 12px; }
     footer { margin-top: 14px; color: var(--ink-3); font-size: 11px; letter-spacing: .1em; display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
     .goldlink { color: var(--gold); text-decoration: none; }
     .goldlink:hover { text-shadow: 0 0 10px var(--gold-glow); }
+    @media (max-width: 640px) {
+      .wrap { padding: 14px 10px 22px; }
+      header { padding: 10px 10px; flex-direction: column; align-items: stretch; }
+      .brand { justify-content: center; }
+      .title { letter-spacing: .12em; font-size: clamp(16px, 5vw, 20px); }
+      .tagline { font-size: 9px; text-align: center; }
+      nav { gap: 5px; width: 100%; justify-content: center; flex-wrap: wrap; margin-top: 6px; }
+      nav a { padding: 5px 9px; font-size: 11px; }
+      .hero { text-align: center; padding: 13px; }
+      .hero h1 { letter-spacing: .12em; }
+      .hero p { margin: 6px auto 0; text-align: center; }
+      .pills { justify-content: center; }
+      .grid { grid-template-columns: 1fr; gap: 9px; }
+      .list a { font-size: 12px; }
+      footer { font-size: 10px; justify-content: center; text-align: center; padding-top: 8px; }
+    }
   </style>
 </head>
 <body>

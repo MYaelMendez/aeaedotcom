@@ -5,26 +5,47 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>æææ.com — Open Intelligence · Private Authority · Sovereign Value</title>
   <meta name="description" content="Agent-native index: Hermes, private client, sovereign runtime, and Any Ontology Compute." />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#020617" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23020617' stroke='%23f5c842' stroke-width='1.5'/%3E%3Ctext x='16' y='22' font-size='20' text-anchor='middle' fill='%23f5c842' font-family='monospace'%3Eæ%3C/text%3E%3C/svg%3E" />
   <style>
     :root {
-      void: #020617;
-      void-2: #0b1220;
-      gold: #f5c842;
-      gold-dim: #b58a1e;
-      gold-glow: rgba(245,200,66,.28);
-      blue: #2563eb;
-      blue-glow: rgba(37,99,235,.35);
-      neon: #10b981;
-      neon-glow: rgba(16,185,129,.25);
-      ink: #e5e7eb;
-      ink-2: #9ca3af;
-      ink-3: #6b7280;
-      border: rgba(148,163,184,.18);
-      border-hot: rgba(245,200,66,.45);
-      glass: rgba(17,24,39,.72);
-      glass-2: rgba(2,6,23,.45);
-      radius: 14px;
-      radius-sm: 10px;
+      --void: #020617;
+      --void-2: #0b1220;
+      --gold: #f5c842;
+      --gold-dim: #b58a1e;
+      --gold-glow: rgba(245,200,66,.28);
+      --blue: #2563eb;
+      --blue-glow: rgba(37,99,235,.35);
+      --neon: #10b981;
+      --neon-glow: rgba(16,185,129,.25);
+      --ink: #e5e7eb;
+      --ink-2: #9ca3af;
+      --ink-3: #6b7280;
+      --border: rgba(148,163,184,.18);
+      --border-hot: rgba(245,200,66,.45);
+      --glass: rgba(17,24,39,.72);
+      --glass-2: rgba(2,6,23,.45);
+      --radius: 14px;
+      --radius-sm: 10px;
+    }
+    html.night {
+      --void: #000409;
+      --void-2: #03070c;
+      --gold: #d4a41f;
+      --gold-dim: #6b5214;
+      --gold-glow: rgba(212,164,31,.20);
+      --border-hot: rgba(212,164,31,.35);
+      --ink: #c8ccd0;
+      --ink-2: #7f8690;
+      --ink-3: #4a5260;
+      --border: rgba(127,134,144,.15);
+      --glass: rgba(2,6,23,.85);
+      --glass-2: rgba(0,2,8,.55);
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html, body {
@@ -33,6 +54,9 @@
       color: var(--ink);
       font-family: ui-monospace, 'SFMono-Regular', Menlo, Monaco, Consolas, monospace;
       line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overscroll-behavior: none;
     }
     .site {
       position: relative;
@@ -99,235 +123,413 @@
       font-weight: 900;
       border-radius: 8px;
       font-size: 18px;
+      flex-shrink: 0;
     }
-    .title {
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-      font-weight: 800;
-      letter-spacing: .18em;
+    .brand .title {
+      font-size: clamp(14px, 4vw, 18px);
+      font-weight: 700;
+      letter-spacing: 0.5px;
       color: var(--gold);
-      text-shadow: 0 0 14px var(--gold-glow);
+      text-shadow: 0 0 18px var(--gold-glow);
     }
-    .tagline {
+    .brand .tagline {
+      font-size: clamp(11px, 2vw, 13px);
       color: var(--ink-2);
-      font-size: 11px;
-      letter-spacing: .12em;
-      opacity: .9;
+      max-width: 320px;
+      line-height: 1.4;
     }
-    nav {
+    .nav {
       display: flex;
+      align-items: center;
       gap: 6px;
       flex-wrap: wrap;
-      justify-content: flex-end;
     }
-    nav a {
+    .nav a, .nav .pill {
       color: var(--ink-2);
-      border: 1px solid var(--border);
-      padding: 6px 10px;
-      border-radius: var(--radius-sm);
-      text-decoration: none;
       font-size: 12px;
-      letter-spacing: .1em;
-      transition: transform .12s ease, border-color .15s ease, color .15s ease, box-shadow .15s ease;
+      text-decoration: none;
+      padding: 4px 10px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      transition: 140ms ease;
     }
-    nav a:hover {
+    .nav a:hover {
       border-color: var(--border-hot);
       color: var(--ink);
       box-shadow: 0 0 18px rgba(245,200,66,.12);
       transform: translateY(-1px);
     }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 12px;
-      margin-bottom: 14px;
-    }
-    .card {
-      background: var(--glass);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      backdrop-filter: blur(16px) saturate(120%);
-      padding: 12px;
-      overflow: hidden;
-    }
-    .card-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      margin-bottom: 10px;
-    }
-    .card-title {
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-      font-weight: 800;
-      letter-spacing: .12em;
+    .nav a.gold {
       color: var(--gold);
+    }
+    .nav a.gold:hover {
       text-shadow: 0 0 10px var(--gold-glow);
     }
-    .pill {
-      color: var(--ink-3);
-      border: 1px solid var(--border);
-      padding: 3px 8px;
-      border-radius: 999px;
-      font-size: 10px;
-      letter-spacing: .1em;
-    }
-    .pill.active {
-      color: var(--neon);
-      border-color: var(--neon);
-    }
-    .card-body {
-      color: var(--ink-2);
-      font-size: 12px;
-    }
-    .list {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-    .list a {
-      color: var(--ink);
-      text-decoration: none;
-      border: 1px solid var(--border);
-      padding: 6px 10px;
-      border-radius: var(--radius-sm);
-      font-size: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-    }
-    .list a:hover {
-      border-color: var(--border-hot);
-      box-shadow: 0 0 14px rgba(245,200,66,.12);
-    }
-    .status {
-      color: var(--ink-3);
-      font-size: 11px;
-      opacity: .85;
-    }
-    .hero {
-      background: var(--glass);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      backdrop-filter: blur(16px) saturate(120%);
-      padding: 16px;
-      margin-bottom: 14px;
-    }
-    .mobile-stack {
-      display: flex;
-      flex-direction: column;
-    }
-    .mobile-stack > * { width: 100%; }
-    .mobile-row {
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-    .hero h1 {
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-      font-weight: 900;
-      letter-spacing: .16em;
-      color: var(--gold);
-      text-shadow: 0 0 14px var(--gold-glow);
-      font-size: clamp(28px, 10vw, 42px);
-    }
-    .hero p {
-      color: var(--ink-2);
-      margin-top: 8px;
-      font-size: 13px;
-      max-width: 78ch;
-    }
-    .meta-row {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-top: 10px;
-    }
-    .mono {
-      color: var(--ink-2);
-      font-size: 12px;
-    }
-    .terminal {
-      background: rgba(11,18,32,.85);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 12px;
-      color: var(--ink-2);
-      font-size: 12px;
-      white-space: pre-wrap;
-      word-break: break-word;
-    }
-    footer {
-      margin-top: 18px;
-      color: var(--ink-3);
-      font-size: 11px;
-      letter-spacing: .1em;
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    a.gold { color: var(--gold); }
-    a.gold:hover { text-shadow: 0 0 10px var(--gold-glow); }
     .theme-btn {
       background: transparent;
       color: var(--ink-2);
-      border: 1px solid var(--border);
-      padding: 4px 8px;
-      border-radius: 8px;
+      border: 1px solid var(--border-hot);
+      padding: 4px 10px;
+      border-radius: 999px;
       cursor: pointer;
       font: inherit;
       font-size: 12px;
-      letter-spacing: .08em;
-      transition: border-color .15s ease, color .15s ease, background .15s ease;
+      transition: 140ms ease;
     }
-    .theme-btn:hover { border-color: var(--border-hot); color: var(--ink); }
-    .theme-btn.night { color: var(--gold); border-color: var(--gold); }
-    html.night {
-      --void: #070a12;
-      --void-2: #0a0e1a;
-      --ink: #cdd4e0;
-      --ink-2: #9aa3b6;
-      --ink-3: #6c7586;
-      --border: rgba(150,168,188,.22);
-      --border-hot: rgba(245,200,66,.55);
-      --glass: rgba(18,24,40,.82);
-      --glass-2: rgba(7,12,22,.62);
+    .theme-btn:hover {
+      color: var(--gold);
+      box-shadow: 0 0 18px var(--gold-glow);
+    }
+    .theme-btn.night {
+      color: var(--gold);
+      border-color: var(--gold);
+    }
+    .status-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      color: var(--ink-3);
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--neon);
+      box-shadow: 0 0 10px var(--neon-glow);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: .4; }
+    }
+    h1 {
+      font-size: clamp(24px, 8vw, 42px);
+      color: var(--gold);
+      text-shadow: 0 0 20px var(--gold-glow);
+      letter-spacing: -0.5px;
+      margin-bottom: 8px;
+      line-height: 1.15;
+    }
+    .tagline-line {
+      color: var(--ink-3);
+      font-size: 11px;
+      margin-bottom: 12px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+    .lead {
+      color: var(--ink-2);
+      font-size: 15px;
+      margin-bottom: 14px;
+      max-width: 700px;
+    }
+    .lead b {
+      color: var(--ink);
+    }
+    .lead .gold {
+      color: var(--gold);
+    }
+    .primary-actions {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-block;
+      padding: 8px 16px;
+      border-radius: 999px;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      border: 1px solid var(--border-hot);
+      color: var(--gold);
+      background: rgba(245,200,66,.06);
+      transition: 140ms ease;
+    }
+    .btn:hover {
+      background: rgba(245,200,66,.12);
+      box-shadow: 0 0 18px var(--gold-glow);
+      transform: translateY(-1px);
+    }
+    .btn.sec {
+      border-color: var(--border);
+      color: var(--ink-2);
+      background: transparent;
+    }
+    .btn.sec:hover {
+      border-color: var(--border-hot);
+      color: var(--ink);
+    }
+    .proc {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+      font-size: 12px;
+      color: var(--ink-2);
+      margin-top: 10px;
+    }
+    .proc .step {
+      border: 1px solid var(--border);
+      padding: 4px 8px;
+      border-radius: 6px;
+      background: var(--glass-2);
+    }
+    .proc .step.gold {
+      color: var(--gold);
+      border-color: var(--border-hot);
+    }
+    .proc .arrow {
+      color: var(--ink-3);
+    }
+    .body {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+    }
+    @media (min-width: 760px) {
+      .body {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    .panel {
+      background: var(--glass);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px;
+      backdrop-filter: blur(18px) saturate(120%);
+    }
+    .panel h2 {
+      font-size: 12px;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 14px;
+      text-shadow: 0 0 10px var(--gold-glow);
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .panel h2::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--gold);
+      box-shadow: 0 0 10px var(--gold-glow);
+    }
+    .panel.gold {
+      border-color: var(--border-hot);
+      box-shadow: 0 0 20px rgba(245,200,66,.05);
+    }
+    .panel .line {
+      font-size: 13px;
+      color: var(--ink-2);
+      padding: 6px 0;
+      display: flex;
+      gap: 8px;
+      align-items: baseline;
+      border-bottom: 1px dashed var(--border);
+    }
+    .panel .line:last-child {
+      border-bottom: 0;
+    }
+    .panel .line b {
+      color: var(--ink);
+      font-weight: 600;
+      min-width: 90px;
+    }
+    .panel .line code {
+      color: var(--gold);
+      font-family: ui-monospace, monospace;
+      font-size: 13px;
+    }
+    .panel .line .val {
+      margin-left: auto;
+      color: var(--ink);
+      text-align: right;
+    }
+    .panel code.fn {
+      color: var(--neon);
+    }
+    .panel code.fn.pulse {
+      animation: pulse-gold 1.5s infinite;
+    }
+    @keyframes pulse-gold {
+      0%, 100% { opacity: 1; }
+      50% { opacity: .4; }
+    }
+    .brand-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 10px;
+    }
+    .brand-link {
+      display: block;
+      padding: 10px 12px;
+      background: var(--glass);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--ink);
+      text-decoration: none;
+      font-size: 13px;
+      transition: 140ms ease;
+    }
+    .brand-link .key {
+      font-size: 10px;
+      color: var(--ink-3);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      display: block;
+      margin-bottom: 3px;
+    }
+    .brand-link .label {
+      color: var(--ink);
+      font-weight: 600;
+    }
+    .brand-link .status {
+      font-size: 10px;
+      color: var(--ink-3);
+      display: block;
+      margin-top: 3px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .brand-link:hover {
+      border-color: var(--border-hot);
+      box-shadow: 0 0 14px var(--gold-glow);
+      transform: translateY(-1px);
+      color: var(--gold);
+    }
+    .brand-link:hover .label {
+      color: var(--gold);
+    }
+    .brand-link.root {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+    .brand-link.root .label {
+      color: var(--gold);
+    }
+    .brand-link .key.gold {
+      color: var(--gold);
+    }
+    footer {
+      margin-top: 24px;
+      padding: 14px;
+      text-align: center;
+      font-size: 11px;
+      color: var(--ink-3);
+      border-top: 1px solid var(--border);
+    }
+    footer span {
+      display: inline-block;
+      margin: 0 8px;
+    }
+    footer a {
+      color: var(--gold);
+      text-decoration: none;
+    }
+    .sync-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 10px;
+      color: var(--neon);
+      margin-left: 8px;
     }
     @media (max-width: 640px) {
       .wrap { padding: 14px 10px 22px; }
       .site .scan { background: repeating-linear-gradient(transparent 0 2px, rgba(148,163,184,.08) 2px 4px); }
       .site { min-height: 100dvh; }
-      html, body { min-height: 100dvh; }
-      header { padding: 10px 10px; gap: 8px; flex-direction: column; align-items: stretch; }
-      .brand { justify-content: center; }
-      .glyph { width: 28px; height: 28px; font-size: 15px; }
-      .title { letter-spacing: .12em; font-size: clamp(18px, 6vw, 22px); }
-      .tagline { font-size: 9px; text-align: center; }
-      nav { gap: 5px; width: 100%; justify-content: center; flex-wrap: wrap; margin-top: 6px; }
-      nav a { padding: 5px 9px; font-size: 11px; }
-      .theme-btn { padding: 5px 9px; font-size: 11px; }
-      .grid { grid-template-columns: 1fr; gap: 9px; margin-bottom: 10px; }
-      .hero { padding: 13px; margin-bottom: 10px; text-align: center; }
-      .hero h1 { letter-spacing: .12em; }
-      .hero p { margin: 6px auto 0; font-size: 12px; text-align: center; }
-      .meta-row { justify-content: center; margin-top: 8px; }
-      .meta-row .pill { font-size: 9px; padding: 2px 6px; }
-      .list { gap: 5px; }
-      .list a { padding: 7px 10px; font-size: 12px; }
-      .card-head { flex-wrap: wrap; gap: 6px; justify-content: space-between; }
-      .card-title { font-size: 13px; }
-      .card-body { font-size: 11px; margin-top: 2px; }
-      .terminal { padding: 10px; font-size: 11px; }
-      footer { font-size: 10px; padding: 8px 0 4px; justify-content: center; text-align: center; }
-      .mono { font-size: 11px; }
-      .status { font-size: 10px; }
+      header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 10px;
+      }
+      .brand { flex-direction: column; align-items: center; gap: 6px; }
+      .brand .tagline { max-width: 90%; }
+      .nav { justify-content: center; }
+      h1 { text-align: center; }
+      .lead { text-align: center; }
+      .tagline-line { text-align: center; }
+      .meta-row { justify-content: center; }
+      .primary-actions { justify-content: center; }
+      .proc { justify-content: center; }
+      .body { gap: 14px; }
+      .panel { padding: 14px; }
+      .brand-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+      footer { padding: 12px 8px; }
+      footer span { display: block; margin: 4px 0; }
     }
     @supports (padding: max(0px)) {
       @media (max-width: 640px) {
-        .wrap { padding: max(12px, env(safe-area-inset-top)) max(10px, env(safe-area-inset-right)) max(22px, env(safe-area-inset-bottom)) max(10px, env(safe-area-inset-left)); }
-        header { padding-top: max(10px, env(safe-area-inset-top)); padding-bottom: max(10px, env(safe-area-inset-bottom)); }
+        .wrap { padding-left: max(10px, env(safe-area-inset-left)); padding-right: max(10px, env(safe-area-inset-right)); padding-bottom: max(22px, env(safe-area-inset-bottom)); }
       }
     }
+    .glitch {
+      position: relative;
+      display: inline-block;
+    }
+    .glitch::after {
+      content: attr(data-text);
+      position: absolute;
+      inset: 0;
+      color: var(--gold);
+      opacity: 0;
+      pointer-events: none;
+      animation: glitch 3s infinite;
+    }
+    @keyframes glitch {
+      0%, 100% { opacity: 0; transform: translate(0); }
+      90%, 94% { opacity: 0; transform: translate(0); }
+      91% { opacity: 0.7; transform: translate(-2px, 1px); }
+      92% { opacity: 0; transform: translate(2px, -1px); }
+      93% { opacity: 0.4; transform: translate(-1px, 2px); }
+      95%, 100% { opacity: 0; transform: translate(0); }
+    }
+    .empty {
+      color: var(--ink-3);
+      font-size: 13px;
+      padding: 12px;
+      text-align: center;
+    }
+    .sync-note {
+      font-size: 11px;
+      color: var(--ink-3);
+      margin-top: 8px;
+      text-align: center;
+    }
+    .hostname-tag {
+      font-size: 10px;
+      color: var(--ink-3);
+      letter-spacing: 0.5px;
+      margin-left: 8px;
+    }
+    .theme-btn.night {
+      color: var(--gold);
+      border-color: var(--gold);
+    }
+    .panel.gold {
+      border-color: var(--border-hot);
+    }
+    .panel.gold h2 {
+      color: var(--gold);
+    }
+    .brand-link.root {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+    .brand-link.root .label {
+      color: var(--gold);
+    }
+  </style>
 </head>
 <body>
   <div class="site">
@@ -336,158 +538,177 @@
     <div class="vig"></div>
     <div class="wrap">
       <header>
-        <div>
-          <div class="brand">
-            <div class="glyph">æ</div>
-            <div>
-              <div class="title">æææ.com</div>
-              <div class="tagline">Open Intelligence · Private Authority · Sovereign Value</div>
-            </div>
+        <div class="brand">
+          <div class="glyph">æ</div>
+          <div>
+            <div class="title">æææ.com</div>
+            <div class="tagline">Open Intelligence · Private Authority · Sovereign Value</div>
           </div>
         </div>
-        <nav>
-          <a href="#index">Index</a>
+        <div class="nav">
+          <a href="#index" class="gold">Index</a>
           <a href="#agents">Agents</a>
           <a href="#brands">Brands</a>
           <a href="#runtime">Runtime</a>
-          <button id="theme-toggle" class="theme-btn">Night</button>
-        </nav>
+          <button class="theme-btn" id="theme-toggle" type="button">Night</button>
+        </div>
       </header>
 
-      <section class="hero" id="index">
-        <h1>ONE PRINCIPAL · ANY ONTOLOGY</h1>
-        <p>Agent-native origin. Human principal first. Local-sovereign default. This origin exposes code, data, tools, schemas, capabilities, and receipts.</p>
-        <div class="meta-row">
-          <span class="pill active">● HUMAN://ROOT</span>
-          <span class="pill">LOCAL-SOVEREIGN://default</span>
-          <span class="pill">æææ://root</span>
-        </div>
-      </section>
+      <div class="status-row">
+        <span class="dot"></span>
+        <span>Live from backend</span>
+        <span class="sync-badge" id="sync-badge">⟳ manifest sync</span>
+        <span class="hostname-tag">host: 127.0.0.1:4174</span>
+      </div>
 
-      <section class="grid" id="agents">
-        <div class="card">
-          <div class="card-head">
-            <div class="card-title">COMMANDPROMPT.AI</div>
-            <span class="pill">INTENT</span>
-          </div>
-          <div class="card-body">
-            <div class="terminal">HUMAN://PRINCIPAL
-HERMES default agent
-OPENCLAW execution
-INTENT >_æ://
-AUTH://EXPLICIT
-LINEAGE://LIVE</div>
-          </div>
+      <div id="root-panel" class="panel gold">
+        <h2>Root</h2>
+        <div id="root-content">
+          <div class="empty">bootstrapping root of trust…</div>
         </div>
-        <div class="card">
-          <div class="card-head">
-            <div class="card-title">PRIVATECLIENT.AI</div>
-            <span class="pill active">● PRIVATE</span>
-          </div>
-          <div class="card-body">
-            <div class="terminal">ROOT OF TRUST: HUMAN PRINCIPAL
-IDENTITY ✓
-MEMORY ✓
-CONTEXT ✓
-KEYS ✓
-CAPITAL ✓
-AUTHORITY: ROOT</div>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-head">
-            <div class="card-title">SOVÆREIGN</div>
-            <span class="pill">SELF-CUSTODY</span>
-          </div>
-          <div class="card-body">
-            <div class="terminal">PUBLIC >_æ://
-PRIVATE >_æ://private_client
-SOVEREIGN >_soværeign://
-CUSTODY://VERIFIED
-HUMAN://PRINCIPAL</div>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-head">
-            <div class="card-title">æææ OS</div>
-            <span class="pill">ANY ONTOLOGY COMPUTE</span>
-          </div>
-          <div class="card-body">
-            <div class="terminal">ONTOLOGY:// agentic neural biological economic organizational physical
-SHOULD? ethics
-VALUE? economics
-HOW? engineering
-RECEIPT? provenance</div>
-          </div>
-        </div>
-      </section>
+      </div>
 
-      <section class="card" id="brands">
-        <div class="card-head">
-          <div class="card-title">BRANDS / PROPERTIES</div>
-          <span class="pill">INDEX</span>
-        </div>
-        <div class="list">
-          <a href="https://xn--6caaa.com/%C3%A6%3A" target="_blank" rel="noopener">æ: <span class="status">root</span></a>
-          <a href="https://xn--6caaa.com/y%C3%A6l" target="_blank" rel="noopener">yæl <span class="status">identity</span></a>
-          <a href="https://xn--6caaa.com/llm-store-1" target="_blank" rel="noopener">LLM.store <span class="status">intelligence</span></a>
-          <a href="https://xn--6caaa.com/privateclient-ai" target="_blank" rel="noopener">privateclient.ai <span class="status">custody</span></a>
-          <a href="https://xn--6caaa.com/molt-earth" target="_blank" rel="noopener">molt.earth <span class="status">evolve</span></a>
-          <a href="https://xn--6caaa.com/cli-llc" target="_blank" rel="noopener">cli.llc <span class="status">execute</span></a>
-          <a href="https://xn--6caaa.com/daollc-ai" target="_blank" rel="noopener">daollc.ai <span class="status">economy</span></a>
-          <a href="https://xn--6caaa.com/teologia-ai" target="_blank" rel="noopener">teologia.ai <span class="status">knowledge</span></a>
-          <a href="https://xn--6caaa.com/zacapa-ai" target="_blank" rel="noopener">zacapa.ai <span class="status">place</span></a>
-          <a href="https://xn--6caaa.com/enchiridion" target="_blank" rel="noopener">enchiridion <span class="status">canon</span></a>
-          <a href="https://xn--6caaa.com/neuromitosis" target="_blank" rel="noopener">neuromitosis <span class="status">distribute</span></a>
-          <a href="https://xn--6caaa.com/commandprompt" target="_blank" rel="noopener">commandprompt <span class="status">intent</span></a>
-          <a href="https://xn--6caaa.com/ioa" target="_blank" rel="noopener">ioa <span class="status">network</span></a>
-          <a href="https://xn--6caaa.com/consumer-redline-index" target="_blank" rel="noopener">Consumer Redline Index <span class="status">measure</span></a>
-        </div>
-      </section>
-
-      <section class="card" id="runtime">
-        <div class="card-head">
-          <div class="card-title">RUNTIME</div>
-          <span class="pill active">● ONLINE</span>
-        </div>
-        <div class="card-body">
-          <div class="terminal">SCHOOL OF HERMES:// ONLINE
-OCW:// curriculum available
-OSW:// contributor loop available
-ÆL:// >_æ:// invocation surface ready
-HOST YOUR HERMES-AGENT
-NOUS PORTAL · #cloudagent</div>
-          <div class="meta-row" style="margin-top:10px;">
-            <a class="gold" href="https://portal.nousresearch.com/r/yael" target="_blank" rel="noopener">Nous Portal · referring →</a>
+      <main>
+        <div class="hero">
+          <div class="tagline-line">AGENT-NATIVE INDEX · ANY ONTOLOGY COMPUTE</div>
+          <h1 class="glitch" data-text="æææ.com">æææ.com</h1>
+          <p class="lead">
+            <b>One principal.</b> A sovereign index for Hermes, private client,
+            local runtime, and <span class="gold">any ontology compute</span>.
+            Gold-on-void. Offline-first. Agent-default surfaces.
+          </p>
+          <div class="primary-actions">
+            <a class="btn" href="#runtime">Runtime</a>
+            <a class="btn sec" href="#brands">Brands</a>
+          </div>
+          <div class="proc">
+            <span class="step gold">LEARN</span>
+            <span class="arrow">→</span>
+            <span class="step">BUILD</span>
+            <span class="arrow">→</span>
+            <span class="step">RUN</span>
+            <span class="arrow">→</span>
+            <span class="step">MOLT</span>
           </div>
         </div>
-      </section>
+
+        <div class="body">
+          <div id="agents-panel" class="panel">
+            <h2>Agents</h2>
+            <div class="line"><b>Principal</b><span class="val">human</span></div>
+            <div class="line"><b>Default</b><span class="val">local-sovereign</span></div>
+            <div class="line"><b>Authority</b><span class="val">human-principal</span></div>
+            <div class="line"><b>Lineage</b><span class="val">live</span></div>
+            <div class="line"><b>Backend</b><code class="fn pulse">python</code></div>
+          </div>
+
+          <div id="brands-panel" class="panel gold">
+            <h2>Brands <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:11px;color:var(--ink-3);margin-left:auto;" id="brand-count">—</span></h2>
+            <div class="brand-grid" id="brand-grid">
+              <div class="empty">loading brands from backend…</div>
+            </div>
+          </div>
+        </div>
+      </main>
 
       <footer>
         <span>æææ.com · local-sovereign default</span>
         <span>Hermes Agent · HTML/CSS · offline-first</span>
+        <span>Agentic coherence manifest: <code id="manifest-ref">/api/manifest</code></span>
       </footer>
-      <script>
-        const root = document.documentElement;
-        const btn = document.getElementById('theme-toggle');
-        const apply = (night) => {
-          root.classList.toggle('night', night);
-          if (btn) btn.textContent = night ? 'Day' : 'Night';
-        };
-        const start = () => {
-          const stored = localStorage.getItem('æææ-theme');
-          apply(stored === 'night');
-        };
-        if (btn) {
-          btn.addEventListener('click', () => {
-            const current = root.classList.contains('night');
-            apply(!current);
-            localStorage.setItem('æææ-theme', !current ? 'night' : 'day');
-          });
-        }
-        start();
-      </script>
     </div>
   </div>
+
+  <script>
+    const root = document.documentElement;
+    const syncBadge = document.getElementById('sync-badge');
+    const toggle = document.getElementById('theme-toggle');
+
+    const applyTheme = (night) => {
+      root.classList.toggle('night', night);
+      toggle.textContent = night ? 'Day' : 'Night';
+      toggle.classList.toggle('night', night);
+      try { localStorage.setItem('theme', night ? 'night' : 'day'); } catch (_) {}
+    };
+
+    const saved = (() => { try { return localStorage.getItem('theme'); } catch (_) {} })();
+    if (saved === 'night') applyTheme(true);
+
+    toggle.addEventListener('click', () => applyTheme(!root.classList.contains('night')));
+
+    const fetchJSON = async (path, label) => {
+      const start = performance.now();
+      const res = await fetch(path);
+      if (!res.ok) throw new Error(`${label}: ${res.status}`);
+      const payload = await res.json();
+      const ms = Math.round(performance.now() - start);
+      syncBadge.textContent = `⟳ ${label} · ${ms}ms`;
+      return payload;
+    };
+
+    const renderRoot = (r) => {
+      const el = document.getElementById('root-content');
+      el.innerHTML = `
+        <div class="line"><b>Origin</b><span class="val code">${r.origin}</span></div>
+        <div class="line"><b>Tagline</b><span class="val">${r.tagline}</span></div>
+        <div class="line"><b>Principal</b><span class="val">${r.principal}</span></div>
+        <div class="line"><b>Default</b><span class="val">${r.default}</span></div>
+        <div class="line"><b>Authority</b><span class="val">${r.authority}</span></div>
+        <div class="line"><b>Lineage</b><span class="val">${r.lineage}</span></div>
+        <div class="line"><b>Backend</b><code class="fn pulse">${r.backend}</code></div>
+        <div class="line"><b>Status</b><span class="val">${r.status}</span></div>
+        <div class="line"><b>Registry</b><span class="val">${r.registry_count} brands</span></div>
+      `;
+    };
+
+    const renderBrands = (data) => {
+      const grid = document.getElementById('brand-grid');
+      const count = document.getElementById('brand-count');
+      count.textContent = `${data.count} brands · backend-synced`;
+      grid.innerHTML = data.items
+        .map(b => `
+          <a class="brand-link ${b.status === 'root' ? 'root' : ''}" href="${b.href}" target="_blank" rel="noopener">
+            <span class="key ${b.status === 'root' ? 'gold' : ''}">${b.key}</span>
+            <span class="label">${b.label}</span>
+            <span class="status">${b.status}</span>
+          </a>
+        `)
+        .join('');
+    };
+
+    const syncManifest = async () => {
+      try {
+        const manifest = await fetchJSON('/api/manifest', 'manifest');
+        const ref = document.getElementById('manifest-ref');
+        if (ref) ref.textContent = manifest.routes.join(' / ');
+        return manifest;
+      } catch (e) {
+        if (syncBadge) syncBadge.textContent = `manifest offline`;
+        console.warn('manifest sync failed', e);
+        return null;
+      }
+    };
+
+    const init = async () => {
+      try {
+        const status = await fetchJSON('/api/status', 'status');
+        const rootData = await fetchJSON('/api/root', 'root');
+        renderRoot(rootData);
+        const brands = await fetchJSON('/api/brands', 'brands');
+        renderBrands(brands);
+        await syncManifest();
+      } catch (e) {
+        const el = document.getElementById('root-content');
+        if (el) el.innerHTML = `<div class="empty">backend unreachable · offline mode</div>`;
+        console.warn('backend sync failed', e);
+      }
+    };
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+  </script>
 </body>
 </html>
