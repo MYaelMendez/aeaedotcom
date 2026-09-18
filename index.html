@@ -259,6 +259,31 @@
     }
     a.gold { color: var(--gold); }
     a.gold:hover { text-shadow: 0 0 10px var(--gold-glow); }
+    .theme-btn {
+      background: transparent;
+      color: var(--ink-2);
+      border: 1px solid var(--border);
+      padding: 4px 8px;
+      border-radius: 8px;
+      cursor: pointer;
+      font: inherit;
+      font-size: 12px;
+      letter-spacing: .08em;
+      transition: border-color .15s ease, color .15s ease, background .15s ease;
+    }
+    .theme-btn:hover { border-color: var(--border-hot); color: var(--ink); }
+    .theme-btn.night { color: var(--gold); border-color: var(--gold); }
+    html.night {
+      --void: #070a12;
+      --void-2: #0a0e1a;
+      --ink: #cdd4e0;
+      --ink-2: #9aa3b6;
+      --ink-3: #6c7586;
+      --border: rgba(150,168,188,.22);
+      --border-hot: rgba(245,200,66,.55);
+      --glass: rgba(18,24,40,.82);
+      --glass-2: rgba(7,12,22,.62);
+    }
   </style>
 </head>
 <body>
@@ -282,6 +307,7 @@
           <a href="#agents">Agents</a>
           <a href="#brands">Brands</a>
           <a href="#runtime">Runtime</a>
+          <button id="theme-toggle" class="theme-btn">Night</button>
         </nav>
       </header>
 
@@ -398,6 +424,26 @@ NOUS PORTAL · #cloudagent</div>
         <span>æææ.com · local-sovereign default</span>
         <span>Hermes Agent · HTML/CSS · offline-first</span>
       </footer>
+      <script>
+        const root = document.documentElement;
+        const btn = document.getElementById('theme-toggle');
+        const apply = (night) => {
+          root.classList.toggle('night', night);
+          if (btn) btn.textContent = night ? 'Day' : 'Night';
+        };
+        const start = () => {
+          const stored = localStorage.getItem('æææ-theme');
+          apply(stored === 'night');
+        };
+        if (btn) {
+          btn.addEventListener('click', () => {
+            const current = root.classList.contains('night');
+            apply(!current);
+            localStorage.setItem('æææ-theme', !current ? 'night' : 'day');
+          });
+        }
+        start();
+      </script>
     </div>
   </div>
 </body>

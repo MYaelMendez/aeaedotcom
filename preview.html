@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>æææ.com — preview</title>
+  <style>
+    :root {
+      void: #020617;
+      gold: #f5c842;
+      gold-dim: #b58a1e;
+      gold-glow: rgba(245,200,66,.28);
+      blue: #2563eb;
+      ink: #e5e7eb;
+      ink-2: #9ca3af;
+      ink-3: #6b7280;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      height: 100%;
+      background: var(--void);
+      color: var(--ink);
+      font-family: ui-monospace, 'SFMono-Regular', Menlo, Monaco, Consolas, monospace;
+      line-height: 1.5;
+    }
+    .wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 20px 16px 40px;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--gold);
+      background: rgba(2,6,23,.7);
+      border-radius: 14px;
+      margin-bottom: 16px;
+    }
+    .brand { display: flex; align-items: center; gap: 10px; }
+    .glyph {
+      width: 32px; height: 32px; display: grid; place-items: center;
+      border: 1px solid var(--gold); color: var(--gold);
+      text-shadow: 0 0 14px var(--gold-glow); font-weight: 900;
+      border-radius: 8px; font-size: 18px;
+    }
+    .title {
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      font-weight: 800; letter-spacing: .18em;
+      color: var(--gold); text-shadow: 0 0 14px var(--gold-glow);
+    }
+    .tagline { color: var(--ink-2); font-size: 11px; letter-spacing: .12em; opacity: .9; }
+    nav { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+    nav a {
+      color: var(--ink-2); border: 1px solid rgba(245,200,66,.2);
+      padding: 6px 10px; border-radius: 10px; text-decoration: none;
+      font-size: 12px; letter-spacing: .1em;
+    }
+    nav a:hover { border-color: var(--gold); color: var(--ink); }
+    .hero { background: rgba(17,24,39,.7); border: 1px solid rgba(245,200,66,.18); border-radius: 14px; padding: 14px; margin-bottom: 12px; }
+    .hero h1 { font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; font-weight: 900; letter-spacing: .18em; color: var(--gold); text-shadow: 0 0 14px var(--gold-glow); font-size: clamp(22px, 3.5vw, 34px); }
+    .hero p { color: var(--ink-2); margin-top: 6px; font-size: 13px; }
+    .pills { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+    .pill { color: var(--ink-3); border: 1px solid rgba(245,200,66,.2); padding: 3px 8px; border-radius: 999px; font-size: 10px; letter-spacing: .1em; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; margin-bottom: 12px; }
+    .card { background: rgba(17,24,39,.7); border: 1px solid rgba(245,200,66,.18); border-radius: 14px; padding: 12px; }
+    .card-title { font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; font-weight: 800; letter-spacing: .12em; color: var(--gold); text-shadow: 0 0 10px var(--gold-glow); }
+    .pill2 { color: var(--ink-3); border: 1px solid rgba(245,200,66,.2); padding: 3px 8px; border-radius: 999px; font-size: 10px; letter-spacing: .1em; margin-bottom: 8px; }
+    .terminal { background: rgba(11,18,32,.85); border: 1px solid rgba(245,200,66,.18); border-radius: 12px; padding: 10px; color: var(--ink-2); font-size: 12px; white-space: pre-wrap; word-break: break-word; }
+    .list { display: flex; flex-direction: column; gap: 6px; }
+    .list a { color: var(--ink); text-decoration: none; border: 1px solid rgba(245,200,66,.18); padding: 6px 10px; border-radius: 10px; font-size: 12px; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    .list a:hover { border-color: var(--gold); }
+    .status2 { color: var(--ink-3); font-size: 11px; opacity: .85; }
+    .termblock { background: rgba(11,18,32,.85); border: 1px solid rgba(245,200,66,.18); border-radius: 14px; padding: 12px; color: var(--ink-2); font-size: 12px; white-space: pre-wrap; word-break: break-word; margin-bottom: 12px; }
+    footer { margin-top: 14px; color: var(--ink-3); font-size: 11px; letter-spacing: .1em; display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+    .goldlink { color: var(--gold); text-decoration: none; }
+    .goldlink:hover { text-shadow: 0 0 10px var(--gold-glow); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="glyph">æ</div>
+        <div>
+          <div class="title">æææ.com</div>
+          <div class="tagline">Open Intelligence · Private Authority · Sovereign Value</div>
+        </div>
+      </div>
+      <nav>
+        <a href="#index">Index</a>
+        <a href="#agents">Agents</a>
+        <a href="#brands">Brands</a>
+        <a href="#runtime">Runtime</a>
+      </nav>
+    </header>
+
+    <section class="hero" id="index">
+      <h1>ONE PRINCIPAL · ANY ONTOLOGY</h1>
+      <p>Agent-native origin. Human principal first. Local-sovereign default. This origin exposes code, data, tools, schemas, capabilities, and receipts.</p>
+      <div class="pills">
+        <span class="pill">● HUMAN://ROOT</span>
+        <span class="pill">LOCAL-SOVEREIGN://default</span>
+        <span class="pill">æææ://root</span>
+      </div>
+    </section>
+
+    <section class="grid" id="agents">
+      <div class="card">
+        <div class="card-title">COMMANDPROMPT.AI</div>
+        <div class="pill2">INTENT</div>
+        <div class="terminal">HUMAN://PRINCIPAL
+HERMES default agent
+OPENCLAW execution
+INTENT >_æ://
+AUTH://EXPLICIT
+LINEAGE://LIVE</div>
+      </div>
+      <div class="card">
+        <div class="card-title">PRIVATECLIENT.AI</div>
+        <div class="pill2">● PRIVATE</div>
+        <div class="terminal">ROOT OF TRUST: HUMAN PRINCIPAL
+IDENTITY ✓
+MEMORY ✓
+CONTEXT ✓
+KEYS ✓
+CAPITAL ✓
+AUTHORITY: ROOT</div>
+      </div>
+      <div class="card">
+        <div class="card-title">SOVÆREIGN</div>
+        <div class="pill2">SELF-CUSTODY</div>
+        <div class="terminal">PUBLIC >_æ://
+PRIVATE >_æ://private_client
+SOVEREIGN >_soværeign://
+CUSTODY://VERIFIED
+HUMAN://PRINCIPAL</div>
+      </div>
+      <div class="card">
+        <div class="card-title">æææ OS</div>
+        <div class="pill2">ANY ONTOLOGY COMPUTE</div>
+        <div class="terminal">ONTOLOGY:// agentic neural biological economic organizational physical
+SHOULD? ethics
+VALUE? economics
+HOW? engineering
+RECEIPT? provenance</div>
+      </div>
+    </section>
+
+    <section class="card" id="brands">
+      <div class="card-title">BRANDS / PROPERTIES</div>
+      <div class="list">
+        <a href="https://xn--6caaa.com/%C3%A6%3A" target="_blank">æ: <span class="status2">root</span></a>
+        <a href="https://xn--6caaa.com/y%C3%A6l" target="_blank">yæl <span class="status2">identity</span></a>
+        <a href="https://xn--6caaa.com/llm-store-1" target="_blank">LLM.store <span class="status2">intelligence</span></a>
+        <a href="https://xn--6caaa.com/privateclient-ai" target="_blank">privateclient.ai <span class="status2">custody</span></a>
+        <a href="https://xn--6caaa.com/molt-earth" target="_blank">molt.earth <span class="status2">evolve</span></a>
+        <a href="https://xn--6caaa.com/cli-llc" target="_blank">cli.llc <span class="status2">execute</span></a>
+        <a href="https://xn--6caaa.com/daollc-ai" target="_blank">daollc.ai <span class="status2">economy</span></a>
+        <a href="https://xn--6caaa.com/teologia-ai" target="_blank">teologia.ai <span class="status2">knowledge</span></a>
+        <a href="https://xn--6caaa.com/zacapa-ai" target="_blank">zacapa.ai <span class="status2">place</span></a>
+        <a href="https://xn--6caaa.com/enchiridion" target="_blank">enchiridion <span class="status2">canon</span></a>
+        <a href="https://xn--6caaa.com/neuromitosis" target="_blank">neuromitosis <span class="status2">distribute</span></a>
+        <a href="https://xn--6caaa.com/commandprompt" target="_blank">commandprompt <span class="status2">intent</span></a>
+        <a href="https://xn--6caaa.com/ioa" target="_blank">ioa <span class="status2">network</span></a>
+        <a href="https://xn--6caaa.com/consumer-redline-index" target="_blank">Consumer Redline Index <span class="status2">measure</span></a>
+      </div>
+    </section>
+
+    <section class="card" id="runtime">
+      <div class="card-title">RUNTIME</div>
+      <div class="pill2" style="color: var(--gold); border-color: var(--gold);">● ONLINE</div>
+      <div class="terminal">SCHOOL OF HERMES:// ONLINE
+OCW:// curriculum available
+OSW:// contributor loop available
+ÆL:// >_æ:// invocation surface ready
+HOST YOUR HERMES-AGENT
+NOUS PORTAL · #cloudagent</div>
+      <div style="margin-top: 10px;">
+        <a class="goldlink" href="https://portal.nousresearch.com/r/yael" target="_blank">Nous Portal · referring →</a>
+      </div>
+    </section>
+
+    <footer>
+      <span>æææ.com · local-sovereign default</span>
+      <span>Hermes Agent · HTML/CSS · offline-first</span>
+    </footer>
+  </div>
+</body>
+</html>
