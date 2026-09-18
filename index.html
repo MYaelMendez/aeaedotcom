@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>æææ.com — Open Intelligence · Private Authority · Sovereign Value</title>
   <meta name="description" content="Agent-native index: Hermes, private client, sovereign runtime, and Any Ontology Compute." />
   <style>
@@ -213,13 +213,22 @@
       padding: 16px;
       margin-bottom: 14px;
     }
+    .mobile-stack {
+      display: flex;
+      flex-direction: column;
+    }
+    .mobile-stack > * { width: 100%; }
+    .mobile-row {
+      flex-wrap: wrap;
+      gap: 6px;
+    }
     .hero h1 {
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
       font-weight: 900;
-      letter-spacing: .18em;
+      letter-spacing: .16em;
       color: var(--gold);
       text-shadow: 0 0 14px var(--gold-glow);
-      font-size: clamp(26px, 4vw, 42px);
+      font-size: clamp(28px, 10vw, 42px);
     }
     .hero p {
       color: var(--ink-2);
@@ -284,7 +293,41 @@
       --glass: rgba(18,24,40,.82);
       --glass-2: rgba(7,12,22,.62);
     }
-  </style>
+    @media (max-width: 640px) {
+      .wrap { padding: 14px 10px 22px; }
+      .site .scan { background: repeating-linear-gradient(transparent 0 2px, rgba(148,163,184,.08) 2px 4px); }
+      .site { min-height: 100dvh; }
+      html, body { min-height: 100dvh; }
+      header { padding: 10px 10px; gap: 8px; flex-direction: column; align-items: stretch; }
+      .brand { justify-content: center; }
+      .glyph { width: 28px; height: 28px; font-size: 15px; }
+      .title { letter-spacing: .12em; font-size: clamp(18px, 6vw, 22px); }
+      .tagline { font-size: 9px; text-align: center; }
+      nav { gap: 5px; width: 100%; justify-content: center; flex-wrap: wrap; margin-top: 6px; }
+      nav a { padding: 5px 9px; font-size: 11px; }
+      .theme-btn { padding: 5px 9px; font-size: 11px; }
+      .grid { grid-template-columns: 1fr; gap: 9px; margin-bottom: 10px; }
+      .hero { padding: 13px; margin-bottom: 10px; text-align: center; }
+      .hero h1 { letter-spacing: .12em; }
+      .hero p { margin: 6px auto 0; font-size: 12px; text-align: center; }
+      .meta-row { justify-content: center; margin-top: 8px; }
+      .meta-row .pill { font-size: 9px; padding: 2px 6px; }
+      .list { gap: 5px; }
+      .list a { padding: 7px 10px; font-size: 12px; }
+      .card-head { flex-wrap: wrap; gap: 6px; justify-content: space-between; }
+      .card-title { font-size: 13px; }
+      .card-body { font-size: 11px; margin-top: 2px; }
+      .terminal { padding: 10px; font-size: 11px; }
+      footer { font-size: 10px; padding: 8px 0 4px; justify-content: center; text-align: center; }
+      .mono { font-size: 11px; }
+      .status { font-size: 10px; }
+    }
+    @supports (padding: max(0px)) {
+      @media (max-width: 640px) {
+        .wrap { padding: max(12px, env(safe-area-inset-top)) max(10px, env(safe-area-inset-right)) max(22px, env(safe-area-inset-bottom)) max(10px, env(safe-area-inset-left)); }
+        header { padding-top: max(10px, env(safe-area-inset-top)); padding-bottom: max(10px, env(safe-area-inset-bottom)); }
+      }
+    }
 </head>
 <body>
   <div class="site">
