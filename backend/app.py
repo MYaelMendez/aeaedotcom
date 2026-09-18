@@ -1,17 +1,21 @@
 """æææ.com backend — agentic coherence main server."""
 
+import json
 import os
-import signal
 import uvicorn
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse, JSONResponse
 from pathlib import Path
+
+from .supervision_intro.model import build_machine_state
+from .supervision_intro.tickers import SiteTicker, render_ticker_html
 
 app = FastAPI(title="æææ.com backend")
 
 BASE = Path(__file__).resolve().parent
 PARENT = BASE.parent
 INDEX_HTML = (PARENT / "index.html").read_text(encoding="utf-8")
+DASHBOARD_HTML = (PARENT / "templates" / "dashboard.html").read_text(encoding="utf-8")
 
 STATUS = {
     "site": "æææ.com",
@@ -38,6 +42,38 @@ BRAND_REGISTRY = [
 ]
 
 REGISTRY_BY_KEY = {b["key"]: b for b in BRAND_REGISTRY}
+
+INTRO_SPOT = PARENT / "static" / "introspection" / "mcp_context_state.json"
+DEMO_INTRO = PARENT / "static" / "introspection" / "mcp_context_state.json"
+
+ROUTE_MAP = {
+    "/health": {"methods": ["GET"], "purpose": "liveness"},
+    "/api/status": {"methods": ["GET"], "purpose": "public status"},
+    "/api/brands": {"methods": ["GET"], "purpose": "brand registry index"},
+    "/api/brands/{key}": {"methods": ["GET"], "purpose": "single brand"},
+    "/api/root": {"methods": ["GET"], "purpose": "root of trust payload"},
+    "/api/receipt": {"methods": ["GET"], "purpose": "human-principal receipt"},
+    "/api/manifest": {"methods": ["GET"], "purpose": "route manifest for agents"},
+    "/api/tech": {"methods": ["GET"], "purpose": "machine/supervision inventory"},
+    "/api/tech/introspection": {"methods": ["GET"], "purpose": "digital introspection snapshot"},
+    "/api/tech/introspect/scan": {"methods": ["POST"], "purpose": "run a real CV scan now"},
+}
+
+
+def _introspection_snapshot():
+    for spot in (INTRO_SPOT, DEMO_INTRO):
+        if not spot.exists():
+            continue
+        try:
+            data = json.loads(spot.read_text(encoding="utf-8"))
+            return {
+                "live": True,
+                "source": str(spot.relative_to(PARENT)),
+                "snapshot": data,
+            }
+        except Exception as e:
+            return {"live": False, "source": str(spot.relative_to(PARENT)), "detail": str(e)}
+    return {"live": False, "detail": "no introspection snapshot on disk"}
 
 
 @app.get("/health")
@@ -104,23 +140,106 @@ def api_manifest():
         "principal": "human",
         "default": "local-sovereign",
         "backend": "python",
-        "routes": [
-            "/",
-            "/health",
-            "/api/status",
-            "/api/brands",
-            "/api/brands/{key}",
-            "/api/root",
-            "/api/receipt",
-            "/api/manifest",
-        ],
+        "routes": list(ROUTE_MAP.keys()),
+        "introspection": {
+            "live": _introspection_snapshot().get("live", False),
+            "source": _introspection_snapshot().get("source"),
+        },
     })
+
+
+@app.get("/api/tech")
+def api_tech():
+    state = build_machine_state(INTRO_SPOT, compute=COMPUTE_STATE, physical=PHYSICAL_STATE)
+    return JSONResponse({
+        "site": "æææ.com",
+        "mode": "local-sovereign",
+        "machine": state.to_dict()["surfaces"],
+        "routes": ROUTE_MAP,
+    })
+
+
+COMPUTE_STATE = {
+    "python": "3.11",
+    "backend": "fastapi/uvicorn",
+    "supervision_repo": "roboflow/supervision (cloned, shallow)",
+    "digital_introspection": {
+        "status": "active",
+        "source": "supervision_intro/real_digital_introspection.py",
+    },
+}
+
+PHYSICAL_STATE = {
+    "zone": "workstation",
+    "status": "not-wired",
+    "note": "webcam zone introspection pending",
+}
+
+
+@app.get("/api/tech/introspection")
+def api_tech_introspection():
+    state = build_machine_state(INTRO_SPOT, compute=COMPUTE_STATE, physical=PHYSICAL_STATE)
+    return JSONResponse(state.to_dict())
+
+
+@app.post("/api/tech/introspect/scan")
+def api_tech_introspect_scan():
+    from pathlib import Path
+    scanner = Path(__file__).resolve().parent.parent / "supervision" / "supervision_intro" / "real_digital_introspection.py"
+    if not scanner.exists():
+        return JSONResponse({"error": "scanner not found"}, status_code=503)
+    import subprocess, sys
+    proc = subprocess.run(
+        [sys.executable, str(scanner)],
+        cwd=PARENT,
+        capture_output=True,
+        text=True,
+        timeout=90,
+    )
+    if proc.returncode != 0:
+        return JSONResponse(
+            {"error": "scan failed", "stderr": proc.stderr[-2000:]},
+            status_code=500,
+        )
+    return JSONResponse(_introspection_snapshot())
+
+
+@app.get("/dashboard", response_class=HTMLResponse)
+@app.get("/dashboard/", response_class=HTMLResponse)
+def dashboard():
+    return HTMLResponse(DASHBOARD_HTML)
+
+
+@app.get("/api/ticker")
+def api_ticker():
+    ticker = SiteTicker.from_backend(PARENT)
+    return JSONResponse({
+        "site": "æææ.com",
+        "ticker": ticker.status_lines,
+        "render": render_ticker_html(ticker),
+    })
+
+
+@app.get("/api/introspect")
+def api_introspect():
+    state = build_machine_state(INTRO_SPOT, compute=COMPUTE_STATE, physical=PHYSICAL_STATE)
+    return JSONResponse({
+        "site": "æææ.com",
+        "surfaces": state.to_dict()["surfaces"],
+    })
+
+
+@app.get("/")
+def index():
+    return HTMLResponse(INDEX_HTML)
 
 
 @app.get("/{full_path:path}", response_class=HTMLResponse)
 def index_or_static(full_path: str):
-    if full_path and full_path != "index.html":
+    if full_path and full_path not in ("index.html", "dashboard.html", ""):
         return JSONResponse({"detail": "not found"}, status_code=404)
+    if full_path in ("dashboard.html", ""):
+        return HTMLResponse(DASHBOARD_HTML)
     return HTMLResponse(INDEX_HTML)
 
 
@@ -133,7 +252,7 @@ def run_prod(host: str = "127.0.0.1", port: int = 4173) -> None:
 
 
 def main() -> None:
-    port = int(os.getenv("PORT", "4174"))
+    port = int(os.getenv("PORT", "4177"))
     host = os.getenv("HOST", "127.0.0.1")
 
     try:

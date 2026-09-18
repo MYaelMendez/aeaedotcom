@@ -1,0 +1,662 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>æææ.com · dashboard</title>
+  <meta name="description" content="Local agentic dashboard: backend status, digital introspection, active contexts." />
+  <meta name="theme-color" content="#020617" />
+  <meta name="color-scheme" content="dark" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23020617' stroke='%23f5c842' stroke-width='1.5'/%3E%3Ctext x='16' y='22' font-size='20' text-anchor='middle' fill='%23f5c842' font-family='monospace'%3Eæ%3C/text%3E%3C/svg%3E" />
+  <style>
+    :root {
+      --void: #020617;
+      --void-2: #0b1220;
+      --gold: #f5c842;
+      --gold-dim: #b58a1e;
+      --gold-glow: rgba(245,200,66,.28);
+      --neon: #10b981;
+      --neon-glow: rgba(16,185,129,.25);
+      --ink: #e5e7eb;
+      --ink-2: #9ca3af;
+      --ink-3: #6b7280;
+      --border: rgba(148,163,184,.18);
+      --border-hot: rgba(245,200,66,.45);
+      --glass: rgba(17,24,39,.72);
+      --glass-2: rgba(2,6,23,.45);
+      --radius: 14px;
+      --radius-sm: 10px;
+    }
+    html.night {
+      --void: #000409;
+      --void-2: #03070c;
+      --gold: #d4a41f;
+      --gold-dim: #6b5214;
+      --gold-glow: rgba(212,164,31,.20);
+      --border-hot: rgba(212,164,31,.35);
+      --ink: #c8ccd0;
+      --ink-2: #7f8690;
+      --ink-3: #4a5260;
+      --border: rgba(127,134,144,.15);
+      --glass: rgba(2,6,23,.85);
+      --glass-2: rgba(0,2,8,.55);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      height: 100%;
+      background: var(--void);
+      color: var(--ink);
+      font-family: ui-monospace, 'SFMono-Regular', Menlo, Monaco, Consolas, monospace;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      overscroll-behavior: none;
+    }
+    .site {
+      position: relative;
+      min-height: 100vh;
+    }
+    .site .mesh {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(1200px 800px at 10% 0%, rgba(37,99,235,.18), transparent 45%),
+        radial-gradient(900px 700px at 90% 20%, rgba(245,200,66,.12), transparent 40%),
+        radial-gradient(1000px 900px at 60% 100%, rgba(16,185,129,.10), transparent 45%),
+        linear-gradient(180deg, rgba(2,6,23,.0), rgba(2,6,23,.85));
+    }
+    .site .vig {
+      position: fixed;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+      background: radial-gradient(ellipse at center, transparent 40%, rgba(2,6,23,.85) 100%);
+    }
+    .wrap {
+      position: relative;
+      z-index: 10;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 24px 16px 40px;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border-hot);
+      background: rgba(2,6,23,.72);
+      backdrop-filter: blur(18px) saturate(120%);
+      border-radius: var(--radius);
+      margin-bottom: 18px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .glyph {
+      width: 32px;
+      height: 32px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--border-hot);
+      color: var(--gold);
+      text-shadow: 0 0 14px var(--gold-glow);
+      font-weight: 900;
+      border-radius: 8px;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+    .brand .title {
+      font-size: clamp(14px, 4vw, 18px);
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      color: var(--gold);
+      text-shadow: 0 0 18px var(--gold-glow);
+    }
+    .brand .tagline {
+      font-size: clamp(11px, 2vw, 13px);
+      color: var(--ink-2);
+      max-width: 320px;
+      line-height: 1.4;
+    }
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .nav a, .nav .pill {
+      color: var(--ink-2);
+      font-size: 12px;
+      text-decoration: none;
+      padding: 4px 10px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      transition: 140ms ease;
+    }
+    .nav a:hover {
+      border-color: var(--border-hot);
+      color: var(--ink);
+      box-shadow: 0 0 18px rgba(245,200,66,.12);
+      transform: translateY(-1px);
+    }
+    .nav a.gold {
+      color: var(--gold);
+    }
+    .nav a.gold:hover {
+      text-shadow: 0 0 10px var(--gold-glow);
+    }
+    .theme-btn {
+      background: transparent;
+      color: var(--ink-2);
+      border: 1px solid var(--border-hot);
+      padding: 4px 10px;
+      border-radius: 999px;
+      cursor: pointer;
+      font: inherit;
+      font-size: 12px;
+      transition: 140ms ease;
+    }
+    .theme-btn:hover {
+      color: var(--gold);
+      box-shadow: 0 0 18px var(--gold-glow);
+    }
+    .theme-btn.night {
+      color: var(--gold);
+      border-color: var(--gold);
+    }
+    .status-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      color: var(--ink-3);
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--neon);
+      box-shadow: 0 0 10px var(--neon-glow);
+      animation: pulse 2s infinite;
+    }
+    .dot.off { background: var(--ink-3); box-shadow: none; animation: none; }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: .4; }
+    }
+    h2 {
+      font-size: 12px;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 14px;
+      text-shadow: 0 0 10px var(--gold-glow);
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    h2::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--gold);
+      box-shadow: 0 0 10px var(--gold-glow);
+    }
+    .body {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+    }
+    @media (min-width: 760px) {
+      .body {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    .panel {
+      background: var(--glass);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px;
+      backdrop-filter: blur(18px) saturate(120%);
+    }
+    .panel.gold {
+      border-color: var(--border-hot);
+      box-shadow: 0 0 20px rgba(245,200,66,.05);
+    }
+    .panel h3 {
+      font-size: 12px;
+      color: var(--ink-2);
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .line {
+      font-size: 13px;
+      color: var(--ink-2);
+      padding: 6px 0;
+      display: flex;
+      gap: 8px;
+      align-items: baseline;
+      border-bottom: 1px dashed var(--border);
+    }
+    .line:last-child { border-bottom: 0; }
+    .line b { color: var(--ink); font-weight: 600; min-width: 90px; }
+    .line code {
+      color: var(--gold);
+      font-family: ui-monospace, monospace;
+      font-size: 13px;
+    }
+    .line .val { margin-left: auto; color: var(--ink); text-align: right; }
+    .line .val code { color: var(--neon); }
+    .panel.gold { border-color: var(--border-hot); }
+    .panel.gold h2 { color: var(--gold); }
+    .btn {
+      display: inline-block;
+      padding: 8px 16px;
+      border-radius: 999px;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      border: 1px solid var(--border-hot);
+      color: var(--gold);
+      background: rgba(245,200,66,.06);
+      transition: 140ms ease;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .btn:hover {
+      background: rgba(245,200,66,.12);
+      box-shadow: 0 0 18px var(--gold-glow);
+      transform: translateY(-1px);
+    }
+    .btn.sec {
+      border-color: var(--border);
+      color: var(--ink-2);
+      background: transparent;
+    }
+    .btn.sec:hover {
+      border-color: var(--border-hot);
+      color: var(--ink);
+    }
+    .btn.small {
+      padding: 4px 10px;
+      font-size: 12px;
+    }
+    .context-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 10px 12px;
+      margin-bottom: 8px;
+      background: var(--glass-2);
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: center;
+    }
+    .context-card .label {
+      color: var(--ink);
+      font-weight: 600;
+    }
+    .context-card .meta {
+      color: var(--ink-3);
+      font-size: 11px;
+    }
+    .context-card .bounds {
+      color: var(--gold);
+      font-size: 11px;
+      font-family: ui-monospace, monospace;
+    }
+    .context-card .badge {
+      font-size: 10px;
+      color: var(--neon);
+      background: rgba(16,185,129,.10);
+      border: 1px solid rgba(16,185,129,.25);
+      padding: 2px 6px;
+      border-radius: 999px;
+    }
+    .empty {
+      color: var(--ink-3);
+      font-size: 13px;
+      padding: 12px;
+      text-align: center;
+    }
+    .hostname-tag {
+      font-size: 10px;
+      color: var(--ink-3);
+      letter-spacing: 0.5px;
+      margin-left: 8px;
+    }
+    .proc {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+      font-size: 12px;
+      color: var(--ink-2);
+      margin-top: 10px;
+    }
+    .proc .step {
+      border: 1px solid var(--border);
+      padding: 4px 8px;
+      border-radius: 6px;
+      background: var(--glass-2);
+    }
+    .proc .step.gold {
+      color: var(--gold);
+      border-color: var(--border-hot);
+    }
+    @media (max-width: 640px) {
+      .wrap { padding: 14px 10px 22px; }
+      header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 10px;
+      }
+      .brand { flex-direction: column; align-items: center; gap: 6px; }
+      .nav { justify-content: center; }
+      h2 { text-align: center; }
+      .body { gap: 14px; }
+      .panel { padding: 14px; }
+      footer { padding: 12px 8px; }
+    }
+    footer {
+      margin-top: 24px;
+      padding: 14px;
+      text-align: center;
+      font-size: 11px;
+      color: var(--ink-3);
+      border-top: 1px solid var(--border);
+    }
+    footer span { display: inline-block; margin: 0 8px; }
+    footer a { color: var(--gold); text-decoration: none; }
+    .glitch {
+      position: relative;
+      display: inline-block;
+    }
+    .glitch::after {
+      content: attr(data-text);
+      position: absolute;
+      inset: 0;
+      color: var(--gold);
+      opacity: 0;
+      pointer-events: none;
+      animation: glitch 3s infinite;
+    }
+    @keyframes glitch {
+      0%, 100% { opacity: 0; transform: translate(0); }
+      90%, 94% { opacity: 0; transform: translate(0); }
+      91% { opacity: 0.7; transform: translate(-2px, 1px); }
+      92% { opacity: 0; transform: translate(2px, -1px); }
+      93% { opacity: 0.4; transform: translate(-1px, 2px); }
+      95%, 100% { opacity: 0; transform: translate(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="site">
+    <div class="mesh"></div>
+    <div class="vig"></div>
+    <div class="wrap">
+      <header>
+        <div class="brand">
+          <div class="glyph">æ</div>
+          <div>
+            <div class="title">æææ.com · dashboard</div>
+            <div class="tagline">local-sovereign runtime · digital introspection · active contexts</div>
+          </div>
+        </div>
+        <div class="nav">
+          <a href="/" class="gold">Index</a>
+          <button class="theme-btn" id="theme-toggle" type="button">Night</button>
+        </div>
+      </header>
+
+      <div class="status-row">
+        <span class="dot" id="live-dot"></span>
+        <span id="status-text">connecting to backend…</span>
+        <span class="hostname-tag" id="hostname-tag">host: —</span>
+      </div>
+
+      <div id="root-panel" class="panel gold">
+        <h2>Root of Trust</h2>
+        <div id="root-content">
+          <div class="empty">bootstrapping…</div>
+        </div>
+      </div>
+
+      <main>
+        <div class="body">
+          <div class="panel">
+            <h2>Machine Status</h2>
+            <div id="machine-content">
+              <div class="empty">loading machine status…</div>
+            </div>
+          </div>
+
+          <div class="panel gold">
+            <h2>Digital Introspection</h2>
+            <div class="proc">
+              <span class="step gold">SCREEN</span>
+              <span class="arrow">→</span>
+              <span class="step">DETECT</span>
+              <span class="arrow">→</span>
+              <span class="step">STRUCTURE</span>
+              <span class="arrow">→</span>
+              <span class="step">MCP</span>
+            </div>
+            <div id="intro-content">
+              <div class="empty">loading introspection snapshot…</div>
+            </div>
+            <div style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap;">
+              <button class="btn small" id="refresh-intro" type="button">Refresh snapshot</button>
+              <button class="btn small gold" id="scan-now" type="button">Scan screen</button>
+              <a class="btn small sec" href="https://github.com/roboflow/supervision" target="_blank" rel="noopener">supervision</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="body">
+          <div class="panel gold">
+            <h2>Active Contexts <span id="context-count" style="font-weight:400;text-transform:none;letter-spacing:0;font-size:11px;color:var(--ink-3);margin-left:auto;">—</span></h2>
+            <div id="contexts-content">
+              <div class="empty">no active contexts reported</div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <h2>Schema</h2>
+            <div class="line"><b>Surface</b><code>active_contexts[]</code></div>
+            <div class="line"><b>Bounds</b><code>{x1,y1,x2,y2}</code></div>
+            <div class="line"><b>Class</b><code>ui_element</code></div>
+            <div class="line"><b>Score</b><code>confidence 0..1</code></div>
+            <div class="line"><b>Clock</b><code>timestamp</code></div>
+            <div class="line"><b>Route</b><code class="fn pulse">/api/tech/introspection</code></div>
+          </div>
+        </div>
+      </main>
+
+      <footer>
+        <span>æææ.com · local-sovereign default</span>
+        <span>Hermes Agent · HTML/CSS · offline-first</span>
+        <span>dashboard: <a href="/">index</a> · <a href="/?#runtime">runtime</a> · <a href="/?#brands">brands</a></span>
+      </footer>
+    </div>
+  </div>
+
+  <script>
+    const root = document.documentElement;
+    const liveDot = document.getElementById('live-dot');
+    const statusText = document.getElementById('status-text');
+    const hostnameTag = document.getElementById('hostname-tag');
+    const toggle = document.getElementById('theme-toggle');
+
+    const applyTheme = (night) => {
+      root.classList.toggle('night', night);
+      toggle.textContent = night ? 'Day' : 'Night';
+      toggle.classList.toggle('night', night);
+      try { localStorage.setItem('theme', night ? 'night' : 'day'); } catch (_) {}
+    };
+
+    const saved = (() => { try { return localStorage.getItem('theme'); } catch (_) {} })();
+    if (saved === 'night') applyTheme(true);
+
+    toggle.addEventListener('click', () => applyTheme(!root.classList.contains('night')));
+
+    const fmtBounds = (b) =>
+      `x1:${b.x1} y1:${b.y1} x2:${b.x2} y2:${b.y2}`;
+
+    const renderRoot = (r) => {
+      const el = document.getElementById('root-content');
+      el.innerHTML = `
+        <div class="line"><b>Origin</b><span class="val code">${r.origin}</span></div>
+        <div class="line"><b>Tagline</b><span class="val">${r.tagline}</span></div>
+        <div class="line"><b>Principal</b><span class="val">${r.principal}</span></div>
+        <div class="line"><b>Default</b><span class="val">${r.default}</span></div>
+        <div class="line"><b>Authority</b><span class="val">${r.authority}</span></div>
+        <div class="line"><b>Lineage</b><span class="val">${r.lineage}</span></div>
+        <div class="line"><b>Backend</b><code class="fn pulse">${r.backend}</code></div>
+        <div class="line"><b>Status</b><span class="val">${r.status}</span></div>
+        <div class="line"><b>Registry</b><span class="val">${r.registry_count} brands</span></div>
+      `;
+    };
+
+    const renderMachine = (t) => {
+      const el = document.getElementById('machine-content');
+      const m = t.machine || {};
+      const di = (m.digital_introspection || {});
+      el.innerHTML = `
+        <div class="line"><b>Runtime</b><span class="val">${m.mode || '—'}</span></div>
+        <div class="line"><b>Backend</b><code class="fn pulse">${m.backend || '—'}</code></div>
+        <div class="line"><b>Python</b><span class="val">${m.python || '—'}</span></div>
+        <div class="line"><b>Supervision</b><span class="val">${m.supervision_repo || '—'}</span></div>
+        <div class="line"><b>Introspection</b><span class="val">${di.status || '—'}</span></div>
+        <div class="line"><b>Snapshot</b><code class="fn">${di.last_snapshot || '—'}</code></div>
+      `;
+    };
+
+    const renderContexts = (snap) => {
+      const contextsEl = document.getElementById('contexts-content');
+      const countEl = document.getElementById('context-count');
+      if (!snap || !snap.live) {
+        contextsEl.innerHTML = `<div class="empty">no active contexts · introspection offline</div>`;
+        countEl.textContent = '0 contexts';
+        return;
+      }
+      const payload = snap.snapshot;
+      if (!payload || !payload.active_contexts || !payload.active_contexts.length) {
+        contextsEl.innerHTML = `<div class="empty">no active contexts reported</div>`;
+        countEl.textContent = '0 contexts';
+        return;
+      }
+      countEl.textContent = `${payload.active_contexts.length} contexts`;
+      contextsEl.innerHTML = payload.active_contexts.map((ctx, i) => {
+        const cls = (ctx.ui_element || '').replace(/[^a-z0-9]/g, '_');
+        return `
+          <div class="context-card">
+            <div>
+              <div class="label">${ctx.ui_element || 'unknown'} <span class="badge">${ctx.confidence?.toFixed(2) ?? '—'}</span></div>
+              <div class="meta">context #${i + 1} · class_id ${ctx.class_id ?? '—'}</div>
+            </div>
+            <div class="bounds">${fmtBounds(ctx.bounds)}</div>
+          </div>
+        `;
+      }).join('');
+    };
+
+    const renderIntro = (snap) => {
+      const el = document.getElementById('intro-content');
+      if (!snap || !snap.live) {
+        el.innerHTML = `<div class="empty">no introspection snapshot on disk</div>`;
+        return;
+      }
+      const p = snap.snapshot;
+      const res = p.resolution || {};
+      const ts = p.timestamp ? new Date(p.timestamp * 1000).toISOString() : '—';
+      el.innerHTML = `
+        <div class="line"><b>Live</b><span class="val">${snap.live ? 'yes' : 'no'}</span></div>
+        <div class="line"><b>Source</b><code class="fn">/static/introspection/mcp_context_state.json</code></div>
+        <div class="line"><b>Timestamp</b><span class="val">${ts}</span></div>
+        <div class="line"><b>Resolution</b><span class="val">${res.width ?? '—'} × ${res.height ?? '—'}</span></div>
+        <div class="line"><b>Contexts</b><span class="val">${p.active_contexts?.length ?? 0}</span></div>
+        <div class="line"><b>Route</b><code class="fn pulse">/api/tech/introspection</code></div>
+      `;
+    };
+
+    const fetchJSON = async (path, label) => {
+      const start = performance.now();
+      const res = await fetch(path);
+      if (!res.ok) throw new Error(`${label}: ${res.status}`);
+      const payload = await res.json();
+      const ms = Math.round(performance.now() - start);
+      statusText.textContent = `${label} · ${ms}ms`;
+      return payload;
+    };
+
+    const refreshIntro = async () => {
+      try {
+        const snap = await fetchJSON('/api/tech/introspection', 'introspection');
+        renderIntro(snap);
+        renderContexts(snap);
+        liveDot.classList.toggle('off', !snap.live);
+      } catch (e) {
+        statusText.textContent = 'introspection unavailable';
+        liveDot.classList.add('off');
+        console.warn('introspection refresh failed', e);
+      }
+    };
+
+    const init = async () => {
+      try {
+        const status = await fetchJSON('/api/status', 'status');
+        const rootData = await fetchJSON('/api/root', 'root');
+        const tech = await fetchJSON('/api/tech', 'tech');
+        renderRoot(rootData);
+        renderMachine(tech);
+
+        const hostname = window.location.hostname || '127.0.0.1';
+        const port = window.location.port || '';
+        hostnameTag.textContent = `host: ${hostname}${port ? ':' + port : ''}`;
+
+        const snap = await fetchJSON('/api/tech/introspection', 'introspection');
+        renderIntro(snap);
+        renderContexts(snap);
+        liveDot.classList.toggle('off', !snap.live);
+
+        document.getElementById('refresh-intro').addEventListener('click', refreshIntro);
+      } catch (e) {
+        statusText.textContent = 'backend unreachable · offline mode';
+        liveDot.classList.add('off');
+        console.warn('backend sync failed', e);
+      }
+    };
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+
+    setInterval(async () => {
+      try {
+        const snap = await fetch('/api/tech/introspection');
+        if (snap.ok) {
+          const data = await snap.json();
+          renderContexts(data);
+          renderIntro(data);
+          liveDot.classList.toggle('off', !data.live);
+        }
+      } catch (_) {}
+    }, 8000);
+  </script>
+</body>
+</html>

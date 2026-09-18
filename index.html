@@ -216,99 +216,125 @@
     .tagline-line {
       color: var(--ink-3);
       font-size: 11px;
-      margin-bottom: 12px;
+      margin-bottom: 8px;
       letter-spacing: 1.5px;
       text-transform: uppercase;
     }
     .lead {
       color: var(--ink-2);
-      font-size: 15px;
-      margin-bottom: 14px;
-      max-width: 700px;
+      font-size: 14px;
+      margin-bottom: 12px;
+      max-width: 760px;
     }
-    .lead b {
-      color: var(--ink);
+    .lead b { color: var(--ink); }
+    .lead .gold { color: var(--gold); }
+
+    /* ---------- ticker ---------- */
+    .ticker-wrap {
+      position: relative;
+      overflow: hidden;
+      height: 38px;
+      margin-bottom: 12px;
+      background: rgba(2,6,23,.6);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      backdrop-filter: blur(10px);
     }
-    .lead .gold {
-      color: var(--gold);
-    }
-    .primary-actions {
+    .ticker-track {
       display: flex;
-      gap: 8px;
-      margin-bottom: 14px;
-      flex-wrap: wrap;
-    }
-    .btn {
-      display: inline-block;
-      padding: 8px 16px;
-      border-radius: 999px;
-      text-decoration: none;
-      font-size: 13px;
-      font-weight: 600;
-      border: 1px solid var(--border-hot);
-      color: var(--gold);
-      background: rgba(245,200,66,.06);
-      transition: 140ms ease;
-    }
-    .btn:hover {
-      background: rgba(245,200,66,.12);
-      box-shadow: 0 0 18px var(--gold-glow);
-      transform: translateY(-1px);
-    }
-    .btn.sec {
-      border-color: var(--border);
-      color: var(--ink-2);
-      background: transparent;
-    }
-    .btn.sec:hover {
-      border-color: var(--border-hot);
-      color: var(--ink);
-    }
-    .proc {
-      display: flex;
-      gap: 8px;
       align-items: center;
-      flex-wrap: wrap;
+      gap: 0;
+      animation: ticker-scroll 48s linear infinite;
+      width: max-content;
+    }
+    .ticker-track:hover {
+      animation-play-state: paused;
+    }
+    @keyframes ticker-scroll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+    .ticker-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 22px;
+      height: 38px;
+      white-space: nowrap;
+      border-right: 1px solid var(--border);
       font-size: 12px;
       color: var(--ink-2);
-      margin-top: 10px;
     }
-    .proc .step {
+    .ticker-item .dot {
+      width: 6px;
+      height: 6px;
+      animation: pulse 1.6s infinite;
+    }
+    .ticker-item .label {
+      color: var(--gold);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-right: 6px;
+    }
+    .ticker-item .value {
+      color: var(--ink);
+    }
+    .ticker-item.gold .value { color: var(--gold); }
+
+    /* ---------- panel tabs ---------- */
+    .panel-tabs {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+    .panel-tab {
+      background: transparent;
+      color: var(--ink-2);
       border: 1px solid var(--border);
-      padding: 4px 8px;
-      border-radius: 6px;
-      background: var(--glass-2);
+      padding: 5px 12px;
+      border-radius: 999px;
+      font: inherit;
+      font-size: 12px;
+      cursor: pointer;
+      transition: 140ms ease;
     }
-    .proc .step.gold {
+    .panel-tab:hover {
+      border-color: var(--border-hot);
+      color: var(--ink);
+    }
+    .panel-tab.active {
+      border-color: var(--border-hot);
+      color: var(--gold);
+      background: rgba(245,200,66,.06);
+    }
+    .panel-tab.gold.active {
       color: var(--gold);
       border-color: var(--border-hot);
     }
-    .proc .arrow {
-      color: var(--ink-3);
+
+    .panel-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
     }
-    .body {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 18px;
-    }
-    @media (min-width: 760px) {
-      .body {
-        grid-template-columns: 1fr 1fr;
-      }
-    }
+
+    /* ---------- collapsible ---------- */
     .panel {
       background: var(--glass);
       border: 1px solid var(--border);
       border-radius: var(--radius);
       padding: 18px;
       backdrop-filter: blur(18px) saturate(120%);
+      transition: border-color 140ms ease, box-shadow 140ms ease;
     }
     .panel h2 {
       font-size: 12px;
       color: var(--gold);
       text-transform: uppercase;
       letter-spacing: 1.5px;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
       text-shadow: 0 0 10px var(--gold-glow);
       font-weight: 700;
       display: flex;
@@ -322,23 +348,49 @@
       border-radius: 50%;
       background: var(--gold);
       box-shadow: 0 0 10px var(--gold-glow);
+      flex-shrink: 0;
     }
     .panel.gold {
       border-color: var(--border-hot);
       box-shadow: 0 0 20px rgba(245,200,66,.05);
     }
+    .panel-toggle {
+      margin-left: auto;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--ink-3);
+      width: 22px;
+      height: 22px;
+      border-radius: 4px;
+      font: inherit;
+      font-size: 13px;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      transition: 120ms ease;
+      flex-shrink: 0;
+    }
+    .panel-toggle:hover {
+      color: var(--gold);
+      border-color: var(--border-hot);
+    }
+    .panel-toggle.collapsed { transform: rotate(0deg); }
+    .panel-toggle:not(.collapsed) { transform: rotate(45deg); }
+    .panel-collapse.collapsed > .panel-body { display: none; }
+    .panel-collapse > .panel-body { overflow: hidden; transition: max-height 240ms ease, opacity 160ms ease; }
+    .panel-collapse.collapsed { border-color: var(--border); }
+    .panel-collapse:not(.collapsed) { border-color: var(--border-hot); }
+
     .panel .line {
       font-size: 13px;
       color: var(--ink-2);
-      padding: 6px 0;
+      padding: 5px 0;
       display: flex;
       gap: 8px;
       align-items: baseline;
       border-bottom: 1px dashed var(--border);
     }
-    .panel .line:last-child {
-      border-bottom: 0;
-    }
+    .panel .line:last-child { border-bottom: 0; }
     .panel .line b {
       color: var(--ink);
       font-weight: 600;
@@ -354,16 +406,13 @@
       color: var(--ink);
       text-align: right;
     }
-    .panel code.fn {
-      color: var(--neon);
-    }
-    .panel code.fn.pulse {
-      animation: pulse-gold 1.5s infinite;
-    }
+    .panel code.fn { color: var(--neon); }
+    .panel code.fn.pulse { animation: pulse-gold 1.5s infinite; }
     @keyframes pulse-gold {
       0%, 100% { opacity: 1; }
       50% { opacity: .4; }
     }
+
     .brand-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
@@ -388,10 +437,7 @@
       display: block;
       margin-bottom: 3px;
     }
-    .brand-link .label {
-      color: var(--ink);
-      font-weight: 600;
-    }
+    .brand-link .label { color: var(--ink); font-weight: 600; }
     .brand-link .status {
       font-size: 10px;
       color: var(--ink-3);
@@ -406,35 +452,55 @@
       transform: translateY(-1px);
       color: var(--gold);
     }
-    .brand-link:hover .label {
-      color: var(--gold);
+    .brand-link:hover .label { color: var(--gold); }
+    .brand-link.root { border-color: var(--gold); color: var(--gold); }
+    .brand-link.root .label { color: var(--gold); }
+    .brand-link .key.gold { color: var(--gold); }
+
+    .runtime-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
     }
-    .brand-link.root {
-      border-color: var(--gold);
-      color: var(--gold);
+    @media (min-width: 760px) {
+      .runtime-grid { grid-template-columns: 1fr 1fr; }
     }
-    .brand-link.root .label {
-      color: var(--gold);
+    .runtime-cell {
+      background: var(--glass-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 10px 12px;
     }
-    .brand-link .key.gold {
-      color: var(--gold);
+    .runtime-cell .rt-key {
+      font-size: 10px;
+      color: var(--ink-3);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 2px;
     }
+    .runtime-cell .rt-val {
+      color: var(--ink);
+      font-size: 13px;
+      word-break: break-word;
+    }
+    .runtime-cell .rt-val.gold { color: var(--gold); }
+    .runtime-cell .rt-val.neon { color: var(--neon); }
+
     footer {
-      margin-top: 24px;
+      margin-top: 22px;
       padding: 14px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px 18px;
       text-align: center;
       font-size: 11px;
       color: var(--ink-3);
       border-top: 1px solid var(--border);
     }
-    footer span {
-      display: inline-block;
-      margin: 0 8px;
-    }
-    footer a {
-      color: var(--gold);
-      text-decoration: none;
-    }
+    footer span { display: inline-block; }
+    footer a { color: var(--gold); text-decoration: none; }
+
     .sync-badge {
       display: inline-flex;
       align-items: center;
@@ -443,36 +509,13 @@
       color: var(--neon);
       margin-left: 8px;
     }
-    @media (max-width: 640px) {
-      .wrap { padding: 14px 10px 22px; }
-      .site .scan { background: repeating-linear-gradient(transparent 0 2px, rgba(148,163,184,.08) 2px 4px); }
-      .site { min-height: 100dvh; }
-      header {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        padding: 10px;
-      }
-      .brand { flex-direction: column; align-items: center; gap: 6px; }
-      .brand .tagline { max-width: 90%; }
-      .nav { justify-content: center; }
-      h1 { text-align: center; }
-      .lead { text-align: center; }
-      .tagline-line { text-align: center; }
-      .meta-row { justify-content: center; }
-      .primary-actions { justify-content: center; }
-      .proc { justify-content: center; }
-      .body { gap: 14px; }
-      .panel { padding: 14px; }
-      .brand-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
-      footer { padding: 12px 8px; }
-      footer span { display: block; margin: 4px 0; }
+    .hostname-tag {
+      font-size: 10px;
+      color: var(--ink-3);
+      letter-spacing: 0.5px;
+      margin-left: 8px;
     }
-    @supports (padding: max(0px)) {
-      @media (max-width: 640px) {
-        .wrap { padding-left: max(10px, env(safe-area-inset-left)); padding-right: max(10px, env(safe-area-inset-right)); padding-bottom: max(22px, env(safe-area-inset-bottom)); }
-      }
-    }
+
     .glitch {
       position: relative;
       display: inline-block;
@@ -494,40 +537,43 @@
       93% { opacity: 0.4; transform: translate(-1px, 2px); }
       95%, 100% { opacity: 0; transform: translate(0); }
     }
+
     .empty {
       color: var(--ink-3);
       font-size: 13px;
       padding: 12px;
       text-align: center;
     }
-    .sync-note {
-      font-size: 11px;
-      color: var(--ink-3);
-      margin-top: 8px;
-      text-align: center;
+
+    /* density tuning */
+    .panel { padding: 16px; }
+    .panel .line { padding: 4px 0; font-size: 12.5px; }
+
+    @media (max-width: 640px) {
+      .wrap { padding: 14px 10px 22px; }
+      .site .scan { background: repeating-linear-gradient(transparent 0 2px, rgba(148,163,184,.08) 2px 4px); }
+      .site { min-height: 100dvh; }
+      header { flex-direction: column; align-items: center; text-align: center; padding: 10px; }
+      .brand { flex-direction: column; align-items: center; gap: 6px; }
+      .brand .tagline { max-width: 90%; }
+      .nav { justify-content: center; }
+      h1 { text-align: center; }
+      .lead { text-align: center; }
+      .tagline-line { text-align: center; }
+      .meta-row { justify-content: center; }
+      .primary-actions { justify-content: center; }
+      .proc { justify-content: center; }
+      .panel-wrap { gap: 10px; }
+      .panel { padding: 14px; }
+      .brand-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+      footer { padding: 12px 8px; }
+      footer span { display: block; margin: 4px 0; }
+      .panel-tabs { justify-content: center; }
     }
-    .hostname-tag {
-      font-size: 10px;
-      color: var(--ink-3);
-      letter-spacing: 0.5px;
-      margin-left: 8px;
-    }
-    .theme-btn.night {
-      color: var(--gold);
-      border-color: var(--gold);
-    }
-    .panel.gold {
-      border-color: var(--border-hot);
-    }
-    .panel.gold h2 {
-      color: var(--gold);
-    }
-    .brand-link.root {
-      border-color: var(--gold);
-      color: var(--gold);
-    }
-    .brand-link.root .label {
-      color: var(--gold);
+    @supports (padding: max(0px)) {
+      @media (max-width: 640px) {
+        .wrap { padding-left: max(10px, env(safe-area-inset-left)); padding-right: max(10px, env(safe-area-inset-right)); padding-bottom: max(22px, env(safe-area-inset-bottom)); }
+      }
     }
   </style>
 </head>
@@ -546,10 +592,11 @@
           </div>
         </div>
         <div class="nav">
-          <a href="#index" class="gold">Index</a>
-          <a href="#agents">Agents</a>
-          <a href="#brands">Brands</a>
-          <a href="#runtime">Runtime</a>
+          <button class="panel-tab active gold" data-target="hero-panel" data-label="Home">Home</button>
+          <button class="panel-tab" data-target="root-panel" data-label="Root">Root</button>
+          <button class="panel-tab" data-target="agents-panel" data-label="Agents">Agents</button>
+          <button class="panel-tab gold" data-target="brands-panel" data-label="Brands">Brands</button>
+          <button class="panel-tab" data-target="runtime-panel" data-label="Runtime">Runtime</button>
           <button class="theme-btn" id="theme-toggle" type="button">Night</button>
         </div>
       </header>
@@ -558,157 +605,376 @@
         <span class="dot"></span>
         <span>Live from backend</span>
         <span class="sync-badge" id="sync-badge">⟳ manifest sync</span>
-        <span class="hostname-tag">host: 127.0.0.1:4174</span>
+        <span class="hostname-tag" id="hostname-tag">host: 127.0.0.1:4174</span>
       </div>
 
-      <div id="root-panel" class="panel gold">
-        <h2>Root</h2>
-        <div id="root-content">
-          <div class="empty">bootstrapping root of trust…</div>
+      <!-- ticker -->
+      <div class="ticker-wrap">
+        <div class="ticker-track" id="ticker-track">
+          <span class="ticker-item"><span class="dot"></span><span class="label">sovereign</span><span class="value">python backend · local-sovereign</span></span>
+          <span class="ticker-item"><span class="dot"></span><span class="label">introspection</span><span class="value">sv.Detections on device</span></span>
+          <span class="ticker-item"><span class="dot"></span><span class="label">supervision</span><span class="value">roboflow/supervision · cloned</span></span>
+          <span class="ticker-item"><span class="dot"></span><span class="label">manifest</span><span class="value">/api/manifest agent-readable</span></span>
+          <span class="ticker-item gold"><span class="dot"></span><span class="label">scan</span><span class="value">POST /api/tech/introspect/scan</span></span>
+          <span class="ticker-item"><span class="dot"></span><span class="label">pipeline</span><span class="value">screen → detect → structure → mcp</span></span>
+          <!-- duplicate for seamless loop -->
+          <span class="ticker-item"><span class="dot"></span><span class="label">sovereign</span><span class="value">python backend · local-sovereign</span></span>
+          <span class="ticker-item"><span class="dot"></span><span class="label">introspection</span><span class="value">sv.Detections on device</span></span>
+          <span class="ticker-item"><span class="dot"></span><span class="label">supervision</span><span class="value">roboflow/supervision · cloned</span></span>
+          <span class="ticker-item"><span class="dot"></span><span class="label">manifest</span><span class="value">/api/manifest agent-readable</span></span>
+          <span class="ticker-item gold"><span class="dot"></span><span class="label">scan</span><span class="value">POST /api/tech/introspect/scan</span></span>
+          <span class="ticker-item"><span class="dot"></span><span class="label">pipeline</span><span class="value">screen → detect → structure → mcp</span></span>
         </div>
       </div>
 
-      <main>
-        <div class="hero">
-          <div class="tagline-line">AGENT-NATIVE INDEX · ANY ONTOLOGY COMPUTE</div>
-          <h1 class="glitch" data-text="æææ.com">æææ.com</h1>
-          <p class="lead">
-            <b>One principal.</b> A sovereign index for Hermes, private client,
-            local runtime, and <span class="gold">any ontology compute</span>.
-            Gold-on-void. Offline-first. Agent-default surfaces.
-          </p>
-          <div class="primary-actions">
-            <a class="btn" href="#runtime">Runtime</a>
-            <a class="btn sec" href="#brands">Brands</a>
-          </div>
-          <div class="proc">
-            <span class="step gold">LEARN</span>
-            <span class="arrow">→</span>
-            <span class="step">BUILD</span>
-            <span class="arrow">→</span>
-            <span class="step">RUN</span>
-            <span class="arrow">→</span>
-            <span class="step">MOLT</span>
+      <!-- panel tabs -->
+      <div class="panel-tabs" id="panel-tabs">
+        <button class="panel-tab active gold" data-target="hero-panel" data-label="Home">Home</button>
+        <button class="panel-tab" data-target="root-panel" data-label="Root">Root</button>
+        <button class="panel-tab" data-target="agents-panel" data-label="Agents">Agents</button>
+        <button class="panel-tab gold" data-target="brands-panel" data-label="Brands">Brands</button>
+        <button class="panel-tab" data-target="runtime-panel" data-label="Runtime">Runtime</button>
+      </div>
+
+      <!-- panel wrap -->
+      <div class="panel-wrap" id="panel-wrap">
+
+        <!-- hero: collapsible home -->
+        <div id="hero-panel" class="panel gold panel-collapse" data-panel="hero-panel">
+          <h2>
+            Home
+            <button class="panel-toggle" data-target="hero-panel" aria-label="Collapse">−</button>
+          </h2>
+          <div class="panel-body">
+            <div class="tagline-line">AGENT-NATIVE INDEX · ANY ONTOLOGY COMPUTE</div>
+            <h1 class="glitch" data-text="æææ.com">æææ.com</h1>
+            <p class="lead">
+              <b>One principal.</b> A sovereign index for Hermes, private client,
+              local runtime, and <span class="gold">any ontology compute</span>.
+              Gold-on-void. Offline-first. Agent-default surfaces.
+            </p>
+            <div class="proc" style="margin-top:8px">
+              <span class="step gold">LEARN</span>
+              <span class="arrow">→</span>
+              <span class="step">BUILD</span>
+              <span class="arrow">→</span>
+              <span class="step">RUN</span>
+              <span class="arrow">→</span>
+              <span class="step">MOLT</span>
+            </div>
           </div>
         </div>
 
-        <div class="body">
-          <div id="agents-panel" class="panel">
-            <h2>Agents</h2>
+        <!-- root -->
+        <div id="root-panel" class="panel gold panel-collapse" data-panel="root-panel" style="display:none">
+          <h2>
+            Root
+            <button class="panel-toggle" data-target="root-panel" aria-label="Collapse">−</button>
+          </h2>
+          <div class="panel-body">
+            <div id="root-content">
+              <div class="empty">bootstrapping root of trust…</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- agents -->
+        <div id="agents-panel" class="panel panel-collapse" data-panel="agents-panel" style="display:none">
+          <h2>
+            Agents
+            <button class="panel-toggle" data-target="agents-panel" aria-label="Collapse">−</button>
+          </h2>
+          <div class="panel-body">
             <div class="line"><b>Principal</b><span class="val">human</span></div>
             <div class="line"><b>Default</b><span class="val">local-sovereign</span></div>
             <div class="line"><b>Authority</b><span class="val">human-principal</span></div>
             <div class="line"><b>Lineage</b><span class="val">live</span></div>
             <div class="line"><b>Backend</b><code class="fn pulse">python</code></div>
           </div>
+        </div>
 
-          <div id="brands-panel" class="panel gold">
-            <h2>Brands <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:11px;color:var(--ink-3);margin-left:auto;" id="brand-count">—</span></h2>
+        <!-- brands -->
+        <div id="brands-panel" class="panel gold panel-collapse" data-panel="brands-panel" style="display:none">
+          <h2>
+            Brands
+            <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:11px;color:var(--ink-3);margin-left:auto;" id="brand-count">—</span>
+            <button class="panel-toggle" data-target="brands-panel" aria-label="Collapse">−</button>
+          </h2>
+          <div class="panel-body">
             <div class="brand-grid" id="brand-grid">
               <div class="empty">loading brands from backend…</div>
             </div>
           </div>
         </div>
-      </main>
 
+        <!-- runtime: collapsible, denser multi-cell -->
+        <div id="runtime-panel" class="panel panel-collapse" data-panel="runtime-panel" style="display:none">
+          <h2>
+            Runtime
+            <button class="panel-toggle" data-target="runtime-panel" aria-label="Collapse">−</button>
+          </h2>
+          <div class="panel-body">
+            <div class="runtime-grid" id="runtime-grid">
+              <div class="empty">loading runtime state…</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- footer -->
       <footer>
         <span>æææ.com · local-sovereign default</span>
         <span>Hermes Agent · HTML/CSS · offline-first</span>
-        <span>Agentic coherence manifest: <code id="manifest-ref">/api/manifest</code></span>
+        <span>Agentic coherence manifest: <a href="/api/manifest">/api/manifest</a></span>
       </footer>
+
     </div>
   </div>
 
   <script>
-    const root = document.documentElement;
-    const syncBadge = document.getElementById('sync-badge');
-    const toggle = document.getElementById('theme-toggle');
+    (function () {
+      const root = document.documentElement;
+      const syncBadge = document.getElementById('sync-badge');
+      const toggleBtn = document.getElementById('theme-toggle');
+      const hostnameTag = document.getElementById('hostname-tag');
+      const tickerTrack = document.getElementById('ticker-track');
 
-    const applyTheme = (night) => {
-      root.classList.toggle('night', night);
-      toggle.textContent = night ? 'Day' : 'Night';
-      toggle.classList.toggle('night', night);
-      try { localStorage.setItem('theme', night ? 'night' : 'day'); } catch (_) {}
-    };
+      /* ---------- theme ---------- */
+      const applyTheme = (night) => {
+        root.classList.toggle('night', night);
+        toggleBtn.textContent = night ? 'Day' : 'Night';
+        toggleBtn.classList.toggle('night', night);
+        try { localStorage.setItem('theme', night ? 'night' : 'day'); } catch (_) {}
+      };
+      (() => {
+        try {
+          const saved = localStorage.getItem('theme');
+          if (saved === 'night') applyTheme(true);
+        } catch (_) {}
+      })();
+      toggleBtn.addEventListener('click', () => applyTheme(!root.classList.contains('night')));
 
-    const saved = (() => { try { return localStorage.getItem('theme'); } catch (_) {} })();
-    if (saved === 'night') applyTheme(true);
+      /* ---------- hostname from backend ---------- */
+      (async () => {
+        try {
+          const tech = await fetch('/api/tech');
+          if (tech.ok) {
+            const t = await tech.json();
+            const host = t.machine?.compute?.backend ? 'python backend' : 'backend';
+            if (hostnameTag) hostnameTag.textContent = 'host: ' + host;
+          }
+        } catch (_) {}
+      })();
 
-    toggle.addEventListener('click', () => applyTheme(!root.classList.contains('night')));
-
-    const fetchJSON = async (path, label) => {
-      const start = performance.now();
-      const res = await fetch(path);
-      if (!res.ok) throw new Error(`${label}: ${res.status}`);
-      const payload = await res.json();
-      const ms = Math.round(performance.now() - start);
-      syncBadge.textContent = `⟳ ${label} · ${ms}ms`;
-      return payload;
-    };
-
-    const renderRoot = (r) => {
-      const el = document.getElementById('root-content');
-      el.innerHTML = `
-        <div class="line"><b>Origin</b><span class="val code">${r.origin}</span></div>
-        <div class="line"><b>Tagline</b><span class="val">${r.tagline}</span></div>
-        <div class="line"><b>Principal</b><span class="val">${r.principal}</span></div>
-        <div class="line"><b>Default</b><span class="val">${r.default}</span></div>
-        <div class="line"><b>Authority</b><span class="val">${r.authority}</span></div>
-        <div class="line"><b>Lineage</b><span class="val">${r.lineage}</span></div>
-        <div class="line"><b>Backend</b><code class="fn pulse">${r.backend}</code></div>
-        <div class="line"><b>Status</b><span class="val">${r.status}</span></div>
-        <div class="line"><b>Registry</b><span class="val">${r.registry_count} brands</span></div>
-      `;
-    };
-
-    const renderBrands = (data) => {
-      const grid = document.getElementById('brand-grid');
-      const count = document.getElementById('brand-count');
-      count.textContent = `${data.count} brands · backend-synced`;
-      grid.innerHTML = data.items
-        .map(b => `
-          <a class="brand-link ${b.status === 'root' ? 'root' : ''}" href="${b.href}" target="_blank" rel="noopener">
-            <span class="key ${b.status === 'root' ? 'gold' : ''}">${b.key}</span>
-            <span class="label">${b.label}</span>
-            <span class="status">${b.status}</span>
-          </a>
-        `)
-        .join('');
-    };
-
-    const syncManifest = async () => {
-      try {
-        const manifest = await fetchJSON('/api/manifest', 'manifest');
-        const ref = document.getElementById('manifest-ref');
-        if (ref) ref.textContent = manifest.routes.join(' / ');
-        return manifest;
-      } catch (e) {
-        if (syncBadge) syncBadge.textContent = `manifest offline`;
-        console.warn('manifest sync failed', e);
-        return null;
+      /* ---------- ticker ---------- */
+      async function refreshTicker() {
+        try {
+          const res = await fetch('/api/ticker');
+          if (!res.ok) return null;
+          const data = await res.json();
+          if (data.render && tickerTrack) { tickerTrack.innerHTML = data.render; }
+          return data;
+        } catch (_) { return null; }
       }
-    };
 
-    const init = async () => {
-      try {
-        const status = await fetchJSON('/api/status', 'status');
-        const rootData = await fetchJSON('/api/root', 'root');
-        renderRoot(rootData);
-        const brands = await fetchJSON('/api/brands', 'brands');
-        renderBrands(brands);
-        await syncManifest();
-      } catch (e) {
+
+      /* ---------- panel tabs ---------- */
+      const panelTabs = document.getElementById('panel-tabs');
+      const panelWrap = document.getElementById('panel-wrap');
+      const visiblePanels = new Set();
+
+      function activatePanel(targetId) {
+        // hide all
+        document.querySelectorAll('.panel-collapse').forEach(el => {
+          el.style.display = 'none';
+          el.classList.remove('active-tab');
+        });
+        // show target
+        const target = document.getElementById(targetId);
+        if (target) {
+          target.style.display = '';
+          target.classList.add('active-tab');
+          visiblePanels.add(targetId);
+          // auto-expand first open
+          const body = target.querySelector('.panel-body');
+          const toggle = target.querySelector('.panel-toggle');
+          if (body && toggle) {
+            if (target.classList.contains('collapsed')) {
+              target.classList.remove('collapsed');
+              toggle.classList.remove('collapsed');
+              body.style.maxHeight = body.scrollHeight + 'px';
+            }
+          }
+        }
+        // tab styling
+        document.querySelectorAll('.panel-tab').forEach(btn => {
+          btn.classList.toggle('active', btn.dataset.target === targetId);
+        });
+      }
+
+      panelTabs.addEventListener('click', (e) => {
+        const btn = e.target.closest('.panel-tab');
+        if (!btn) return;
+        const target = btn.dataset.target;
+        if (target) activatePanel(target);
+      });
+
+      // open first tab by default
+      const firstTab = document.querySelector('.panel-tab.active');
+      if (firstTab) activatePanel(firstTab.dataset.target);
+
+      /* ---------- collapsible panels ---------- */
+      document.addEventListener('click', (e) => {
+        const toggle = e.target.closest('.panel-toggle');
+        if (!toggle) return;
+        const targetId = toggle.dataset.target;
+        const panel = document.getElementById(targetId);
+        if (!panel) return;
+        const body = panel.querySelector('.panel-body');
+        if (!body) return;
+        const isCollapsed = panel.classList.toggle('collapsed');
+        toggle.classList.toggle('collapsed', isCollapsed);
+        if (isCollapsed) {
+          body.style.maxHeight = '0px';
+        } else {
+          body.style.maxHeight = body.scrollHeight + 'px';
+        }
+      });
+
+      /* ---------- fetch helpers ---------- */
+      const fetchJSON = async (path, label) => {
+        const start = performance.now();
+        const res = await fetch(path);
+        if (!res.ok) throw new Error(`${label}: ${res.status}`);
+        const payload = await res.json();
+        const ms = Math.round(performance.now() - start);
+        if (syncBadge) syncBadge.textContent = `⟳ ${label} · ${ms}ms`;
+        return payload;
+      };
+
+      const renderRoot = (r) => {
         const el = document.getElementById('root-content');
-        if (el) el.innerHTML = `<div class="empty">backend unreachable · offline mode</div>`;
-        console.warn('backend sync failed', e);
-      }
-    };
+        if (!el) return;
+        el.innerHTML = `
+          <div class="line"><b>Origin</b><span class="val code">${r.origin}</span></div>
+          <div class="line"><b>Tagline</b><span class="val">${r.tagline}</span></div>
+          <div class="line"><b>Principal</b><span class="val">${r.principal}</span></div>
+          <div class="line"><b>Default</b><span class="val">${r.default}</span></div>
+          <div class="line"><b>Authority</b><span class="val">${r.authority}</span></div>
+          <div class="line"><b>Lineage</b><span class="val">${r.lineage}</span></div>
+          <div class="line"><b>Backend</b><code class="fn pulse">${r.backend}</code></div>
+          <div class="line"><b>Status</b><span class="val">${r.status}</span></div>
+          <div class="line"><b>Registry</b><span class="val">${r.registry_count} brands</span></div>
+        `;
+      };
 
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', init);
-    } else {
-      init();
-    }
+      const renderBrands = (data) => {
+        const grid = document.getElementById('brand-grid');
+        const count = document.getElementById('brand-count');
+        if (!grid) return;
+        if (count) count.textContent = `${data.count} brands · backend-synced`;
+        grid.innerHTML = data.items
+          .map(b => `
+            <a class="brand-link ${b.status === 'root' ? 'root' : ''}" href="${b.href}" target="_blank" rel="noopener">
+              <span class="key ${b.status === 'root' ? 'gold' : ''}">${b.key}</span>
+              <span class="label">${b.label}</span>
+              <span class="status">${b.status}</span>
+            </a>
+          `).join('');
+      };
+
+      const renderRuntime = (tech) => {
+        const grid = document.getElementById('runtime-grid');
+        if (!grid) return;
+        const s = tech?.machine;
+        if (!s) {
+          grid.innerHTML = '<div class="empty">no runtime state</div>';
+          return;
+        }
+        const d = s.digital || {};
+        const p = s.physical || {};
+        const c = s.compute || {};
+        grid.innerHTML = `
+          <div class="runtime-cell">
+            <div class="rt-key">Backend</div>
+            <div class="rt-val gold">${c.backend || '—'}</div>
+          </div>
+          <div class="runtime-cell">
+            <div class="rt-key">Introspection</div>
+            <div class="rt-val neon">${d.status === 'active' ? 'active' : d.status || 'standby'}</div>
+          </div>
+          <div class="runtime-cell">
+            <div class="rt-key">Contexts</div>
+            <div class="rt-val">${d.context_count ?? d.contexts?.length ?? '—'}</div>
+          </div>
+          <div class="runtime-cell">
+            <div class="rt-key">Supervision</div>
+            <div class="rt-val">${c.supervision_repo || '—'}</div>
+          </div>
+          <div class="runtime-cell">
+            <div class="rt-key">Physical zone</div>
+            <div class="rt-val">${p.status || '—'}</div>
+          </div>
+          <div class="runtime-cell">
+            <div class="rt-key">Scan endpoint</div>
+            <div class="rt-val gold">POST /api/tech/introspect/scan</div>
+          </div>
+        `;
+      };
+
+      const syncManifest = async () => {
+        try {
+          const manifest = await fetchJSON('/api/manifest', 'manifest');
+          // footer manifest link already static; keep badge only
+          return manifest;
+        } catch (e) {
+          if (syncBadge) syncBadge.textContent = 'manifest offline';
+          console.warn('manifest sync failed', e);
+          return null;
+        }
+      };
+
+      const init = async () => {
+        try {
+          const status = await fetchJSON('/api/status', 'status');
+          const rootData = await fetchJSON('/api/root', 'root');
+          renderRoot(rootData);
+          const brands = await fetchJSON('/api/brands', 'brands');
+          renderBrands(brands);
+          const tech = await fetchJSON('/api/tech', 'tech');
+          renderRuntime(tech);
+          await syncManifest();
+        } catch (e) {
+          const el = document.getElementById('root-content');
+          if (el) el.innerHTML = '<div class="empty">backend unreachable · offline mode</div>';
+          console.warn('backend sync failed', e);
+        }
+      };
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+
+      /* ---------- ticker re-drive after panel toggle etc ---------- */
+      let tickerTimer = null;
+      const resyncTicker = () => {
+        clearTimeout(tickerTimer);
+        tickerTimer = setTimeout(() => {
+          refreshTicker();
+        }, 600);
+      };
+
+      // initial drive after scripts load
+      setTimeout(refreshTicker, 0);
+
+      // re-drive ticker after any collapsible opens (content shift)
+      document.addEventListener('click', (e) => {
+        if (e.target.closest('.panel-toggle')) resyncTicker();
+      });
+    })();
   </script>
 </body>
 </html>
