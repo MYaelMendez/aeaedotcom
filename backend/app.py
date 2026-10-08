@@ -9,6 +9,7 @@ from pathlib import Path
 
 from .supervision_intro.model import build_machine_state
 from .supervision_intro.tickers import SiteTicker, render_ticker_html
+from .commands import CommandRegistry, exec_command
 
 app = FastAPI(title="æææ.com backend")
 
@@ -42,6 +43,7 @@ BRAND_REGISTRY = [
 ]
 
 REGISTRY_BY_KEY = {b["key"]: b for b in BRAND_REGISTRY}
+CMD_REGISTRY = CommandRegistry.default()
 
 INTRO_SPOT = PARENT / "static" / "introspection" / "mcp_context_state.json"
 DEMO_INTRO = PARENT / "static" / "introspection" / "mcp_context_state.json"
@@ -226,6 +228,29 @@ def api_introspect():
     return JSONResponse({
         "site": "æææ.com",
         "surfaces": state.to_dict()["surfaces"],
+    })
+
+
+@app.post("/api/cmd")
+def api_cmd(body: dict = None):
+    if body is None:
+        body = {}
+    raw = (body.get("cmd") or "").strip()
+    if not raw:
+        from .commands import CommandResult
+        return JSONResponse(CommandResult(ok=False, command="", error="missing cmd").to_dict(), status_code=400)
+    tokens = raw.lower().split()
+    cmd = tokens[0]
+    arg = " ".join(tokens[1:]) if len(tokens) > 1 else ""
+    result = exec_command(cmd, arg, PARENT)
+    status = 200 if result.ok else 422
+    return JSONResponse(result.to_dict(), status_code=status)
+
+
+@app.get("/api/cmd/registry")
+def api_cmd_registry():
+    return JSONResponse({
+        "commands": CMD_REGISTRY.items,
     })
 
 

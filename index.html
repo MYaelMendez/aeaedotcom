@@ -32,6 +32,15 @@
       --glass-2: rgba(2,6,23,.45);
       --radius: 14px;
       --radius-sm: 10px;
+
+      /* Lakers: purple + gold + arena void */
+      --lakers-purple: #552583;
+      --lakers-purple-2: #3a1756;
+      --lakers-purple-glow: rgba(85,37,131,.35);
+      --lakers-gold: #fdb927;
+      --lakers-gold-dim: #b87a12;
+      --lakers-gold-glow: rgba(253,185,39,.32);
+      --team: "LAKERS";
     }
     html.night {
       --void: #000409;
@@ -46,6 +55,31 @@
       --border: rgba(127,134,144,.15);
       --glass: rgba(2,6,23,.85);
       --glass-2: rgba(0,2,8,.55);
+    }
+    html.lakers {
+      --void: #1a0a26;
+      --void-2: #100618;
+      --gold: var(--lakers-gold);
+      --gold-dim: var(--lakers-gold-dim);
+      --gold-glow: var(--lakers-gold-glow);
+      --border-hot: var(--lakers-gold-glow);
+      --ink: #f0e8d8;
+      --ink-2: #d4c4a8;
+      --ink-3: #a09078;
+      --border: rgba(180,155,90,.22);
+      --glass: rgba(26,10,38,.82);
+      --glass-2: rgba(10,4,18,.7);
+    }
+    html.lakers.night {
+      --void: #0a0212;
+      --void-2: #05000a;
+      --gold: var(--lakers-gold);
+      --gold-glow: rgba(253,185,39,.22);
+      --border-hot: rgba(253,185,39,.28);
+      --ink: #e0d2b4;
+      --ink-2: #b8a890;
+      --ink-3: #786850;
+      --border: rgba(140,118,60,.18);
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html, body {
@@ -69,9 +103,9 @@
       z-index: 0;
       pointer-events: none;
       background:
-        radial-gradient(1200px 800px at 10% 0%, rgba(37,99,235,.18), transparent 45%),
-        radial-gradient(900px 700px at 90% 20%, rgba(245,200,66,.12), transparent 40%),
-        radial-gradient(1000px 900px at 60% 100%, rgba(16,185,129,.10), transparent 45%),
+        radial-gradient(1200px 800px at 10% 0%, rgba(85,37,131,.24), transparent 45%),
+        radial-gradient(900px 700px at 90% 20%, rgba(253,185,39,.14), transparent 40%),
+        radial-gradient(1000px 900px at 60% 100%, rgba(85,37,131,.16), transparent 45%),
         linear-gradient(180deg, rgba(2,6,23,.0), rgba(2,6,23,.85));
     }
     .site .scan {
@@ -81,12 +115,26 @@
       pointer-events: none;
       background: repeating-linear-gradient(transparent 0 2px, rgba(148,163,184,.06) 2px 4px);
     }
+    html.lakers .site .scan {
+      background: repeating-linear-gradient(transparent 0 1px, rgba(148,163,184,.07) 1px 3px),
+                  repeating-linear-gradient(90deg, transparent 0 1px, rgba(148,163,184,.05) 1px 3px);
+    }
     .site .vig {
       position: fixed;
       inset: 0;
       z-index: 2;
       pointer-events: none;
       background: radial-gradient(ellipse at center, transparent 40%, rgba(2,6,23,.85) 100%);
+    }
+    html.lakers .site .mesh {
+      background:
+        radial-gradient(1400px 900px at 20% 0%, rgba(85,37,131,.30), transparent 50%),
+        radial-gradient(1100px 800px at 80% 15%, rgba(253,185,39,.18), transparent 45%),
+        radial-gradient(1200px 700px at 50% 100%, rgba(85,37,131,.22), transparent 50%),
+        linear-gradient(180deg, rgba(10,4,18,.0), rgba(6,2,12,.92));
+    }
+    html.lakers .site .vig {
+      background: radial-gradient(ellipse at 50% 30%, transparent 30%, rgba(10,4,18,.85) 100%);
     }
     .wrap {
       position: relative;
@@ -95,7 +143,8 @@
       margin: 0 auto;
       padding: 24px 16px 40px;
     }
-    header {
+    .header-wrap {
+      position: relative;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -107,10 +156,43 @@
       border-radius: var(--radius);
       margin-bottom: 18px;
     }
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
+    html.lakers header {
+      background: rgba(16,6,26,.82);
+      border-bottom-color: var(--lakers-gold-glow);
+      border-bottom-width: 2px;
+    }
+    html.lakers.night header {
+      background: rgba(6,2,12,.92);
+      border-bottom-color: rgba(253,185,39,.28);
+    }
+    .nav a, .nav .pill {
+      color: var(--ink-2);
+      font-size: 12px;
+      text-decoration: none;
+      padding: 4px 10px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      transition: 140ms ease;
+    }
+    .nav a:hover {
+      border-color: var(--border-hot);
+      color: var(--ink);
+      box-shadow: 0 0 18px rgba(245,200,66,.12);
+      transform: translateY(-1px);
+    }
+    .nav a.gold {
+      color: var(--gold);
+    }
+    .nav a.gold:hover {
+      text-shadow: 0 0 10px var(--gold-glow);
+    }
+    html.lakers .nav a.gold {
+      color: var(--gold);
+    }
+    html.lakers .nav a.gold:hover {
+      border-color: var(--gold);
+      box-shadow: 0 0 18px var(--gold-glow);
+      transform: translateY(-1px);
     }
     .glyph {
       width: 32px;
@@ -125,12 +207,26 @@
       font-size: 18px;
       flex-shrink: 0;
     }
+    .glyph.lakers {
+      border-color: var(--gold-glow);
+      color: var(--gold);
+      background: radial-gradient(circle at 50% 35%, rgba(85,37,131,.32), rgba(10,4,18,.0));
+      box-shadow: 0 0 14px var(--gold-glow);
+    }
     .brand .title {
       font-size: clamp(14px, 4vw, 18px);
       font-weight: 700;
       letter-spacing: 0.5px;
       color: var(--gold);
       text-shadow: 0 0 18px var(--gold-glow);
+    }
+    html.lakers .brand .title {
+      color: var(--gold);
+      letter-spacing: 0.6px;
+      text-shadow: 0 0 22px var(--gold-glow);
+    }
+    html.lakers .brand .tagline {
+      color: var(--ink-2);
     }
     .brand .tagline {
       font-size: clamp(11px, 2vw, 13px);
@@ -143,6 +239,92 @@
       align-items: center;
       gap: 6px;
       flex-wrap: wrap;
+    }
+    .omnibox {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      background: rgba(2,6,23,.78);
+      border: 1px solid var(--border-hot);
+      border-radius: 999px;
+      padding: 4px 8px 4px 10px;
+      backdrop-filter: blur(18px) saturate(120%);
+      box-shadow: 0 0 14px rgba(245,200,66,.06), inset 0 0 10px rgba(2,6,23,.4);
+      transition: border-color 140ms ease, box-shadow 140ms ease, background 140ms ease;
+      flex: 0 1 auto;
+      min-width: 0;
+    }
+    .omnibox:focus-within {
+      border-color: var(--gold);
+      box-shadow: 0 0 18px var(--gold-glow), inset 0 0 12px rgba(2,6,23,.5);
+      background: rgba(2,6,23,.92);
+    }
+    html.lakers .omnibox {
+      background: rgba(16,6,26,.88);
+      border-color: var(--gold-glow);
+      box-shadow: 0 0 14px var(--gold-glow), inset 0 0 10px rgba(10,4,18,.5);
+    }
+    html.lakers .omnibox:focus-within {
+      border-color: var(--gold);
+      background: rgba(10,4,18,.96);
+      box-shadow: 0 0 20px var(--gold-glow), inset 0 0 14px rgba(10,4,18,.6);
+    }
+    html.lakers.night .omnibox {
+      background: rgba(6,2,12,.92);
+      border-color: rgba(253,185,39,.28);
+    }
+    html.lakers.night .omnibox:focus-within {
+      border-color: var(--gold);
+      background: rgba(4,1,9,.96);
+    }
+    .prompt {
+      color: var(--ink-3);
+      font-size: 11px;
+      letter-spacing: 0.5px;
+      user-select: none;
+      flex-shrink: 0;
+    }
+    .prompt-char {
+      color: var(--gold);
+      font-weight: 900;
+      font-size: 12px;
+      text-shadow: 0 0 8px var(--gold-glow);
+    }
+    .prompt-sep {
+      color: var(--ink-3);
+      font-size: 11px;
+    }
+    .omni-input {
+      background: transparent;
+      border: none;
+      color: var(--ink);
+      font: inherit;
+      font-size: 12px;
+      font-family: ui-monospace, 'SFMono-Regular', Menlo, Monaco, Consolas, monospace;
+      padding: 4px 4px 4px 2px;
+      margin: 0;
+      width: 170px;
+      min-width: 120px;
+      outline: none;
+      caret-color: var(--gold);
+    }
+    .omni-input::placeholder {
+      color: var(--ink-3);
+      font-size: 11px;
+      opacity: 0.8;
+    }
+    .omni-caret {
+      color: var(--gold);
+      font-size: 13px;
+      animation: caret-blink 1.1s step-end infinite;
+      margin-left: 2px;
+      flex-shrink: 0;
+      user-select: none;
+      opacity: 0.9;
+    }
+    @keyframes caret-blink {
+      0%, 100% { opacity: 0.9; }
+      50% { opacity: 0.15; }
     }
     .nav a, .nav .pill {
       color: var(--ink-2);
@@ -205,6 +387,174 @@
       0%, 100% { opacity: 1; }
       50% { opacity: .4; }
     }
+    .omnibox {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      background: rgba(2,6,23,.78);
+      border: 1px solid var(--border-hot);
+      border-radius: 999px;
+      padding: 4px 8px 4px 10px;
+      backdrop-filter: blur(18px) saturate(120%);
+      box-shadow: 0 0 14px rgba(245,200,66,.06), inset 0 0 10px rgba(2,6,23,.4);
+      transition: border-color 140ms ease, box-shadow 140ms ease, background 140ms ease;
+      flex: 0 1 auto;
+      min-width: 0;
+      margin: 0 6px 0 0;
+    }
+    .omnibox:focus-within {
+      border-color: var(--gold);
+      box-shadow: 0 0 18px var(--gold-glow), inset 0 0 12px rgba(2,6,23,.5);
+      background: rgba(2,6,23,.92);
+    }
+    .omnibox.focused {
+      border-color: var(--gold);
+      box-shadow: 0 0 18px var(--gold-glow);
+    }
+    html.lakers .omnibox {
+      background: rgba(16,6,26,.88);
+      border-color: var(--gold-glow);
+      box-shadow: 0 0 14px var(--gold-glow), inset 0 0 10px rgba(10,4,18,.5);
+    }
+    html.lakers .omnibox:focus-within,
+    html.lakers .omnibox.focused {
+      border-color: var(--gold);
+      background: rgba(10,4,18,.96);
+      box-shadow: 0 0 20px var(--gold-glow), inset 0 0 14px rgba(10,4,18,.6);
+    }
+    html.lakers.night .omnibox {
+      background: rgba(6,2,12,.92);
+      border-color: rgba(253,185,39,.28);
+    }
+    html.lakers.night .omnibox:focus-within,
+    html.lakers.night .omnibox.focused {
+      border-color: var(--gold);
+      background: rgba(4,1,9,.96);
+    }
+    .prompt {
+      color: var(--ink-3);
+      font-size: 11px;
+      letter-spacing: 0.5px;
+      user-select: none;
+      flex-shrink: 0;
+    }
+    .prompt-char {
+      color: var(--gold);
+      font-weight: 900;
+      font-size: 12px;
+      text-shadow: 0 0 8px var(--gold-glow);
+    }
+    .prompt-sep {
+      color: var(--ink-3);
+      font-size: 11px;
+    }
+    .omni-input {
+      background: transparent;
+      border: none;
+      color: var(--ink);
+      font: inherit;
+      font-size: 12px;
+      font-family: ui-monospace, 'SFMono-Regular', Menlo, Monaco, Consolas, monospace;
+      padding: 2px 2px 2px 0;
+      margin: 0;
+      width: 170px;
+      min-width: 120px;
+      outline: none;
+      caret-color: var(--gold);
+    }
+    .omni-input::placeholder {
+      color: var(--ink-3);
+      font-size: 11px;
+      opacity: 0.8;
+    }
+    .omni-caret {
+      color: var(--gold);
+      font-size: 13px;
+      animation: caret-blink 1.1s step-end infinite;
+      margin-left: 2px;
+      flex-shrink: 0;
+      user-select: none;
+      opacity: 0.9;
+    }
+    @keyframes caret-blink {
+      0%, 100% { opacity: 0.9; }
+      50% { opacity: 0.15; }
+    }
+    .cmd-line {
+      font-size: 12px;
+      font-family: ui-monospace, 'SFMono-Regular', Menlo, Monaco, Consolas, monospace;
+      padding: 2px 4px;
+      display: flex;
+      gap: 6px;
+      align-items: baseline;
+      line-height: 1.5;
+    }
+    .cmd-prompt {
+      color: var(--ink-3);
+      user-select: none;
+      flex-shrink: 0;
+    }
+    .cmd-body {
+      color: var(--ink);
+      word-break: break-word;
+      min-width: 0;
+      flex: 1;
+    }
+    .cmd-body.gold { color: var(--gold); }
+    .cmd-body.err { color: #f87171; }
+    .cmd-body.hint { color: var(--ink-2); font-style: italic; }
+    .cmd-body.meta { color: var(--ink-3); }
+    .cmd-help {
+      margin-top: 10px;
+      font-size: 12px;
+    }
+    .cmd-help-row {
+      color: var(--ink-2);
+      padding: 3px 0;
+      border-bottom: 1px dashed var(--border);
+    }
+    .cmd-help-row .gold { color: var(--gold); }
+    .cmd-help-row:last-child { border-bottom: 0; }
+    .omni-feed {
+      max-height: 140px;
+      overflow-y: auto;
+      margin-top: 8px;
+      padding: 8px;
+      background: rgba(2,6,23,.55);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      backdrop-filter: blur(12px);
+      font-size: 12px;
+      display: none;
+    }
+    .omni-feed.has-lines { display: block; }
+    .omni-suggest {
+      max-height: 180px;
+      overflow-y: auto;
+      margin-top: 4px;
+      padding: 4px 6px;
+      background: rgba(2,6,23,.7);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      backdrop-filter: blur(12px);
+      display: none;
+    }
+    .omni-suggest.has-items { display: block; }
+    .omni-suggest-item {
+      padding: 3px 8px;
+      font-size: 12px;
+      color: var(--ink-2);
+      cursor: pointer;
+      border-radius: 4px;
+      transition: 100ms ease;
+      font-family: ui-monospace, monospace;
+    }
+    .omni-suggest-item:hover {
+      color: var(--gold);
+      background: rgba(245,200,66,.06);
+    }
+    .omni-suggest-item.gold { color: var(--gold); }
+    .omni-suggest-item.gold:hover { background: rgba(245,200,66,.12); }
     h1 {
       font-size: clamp(24px, 8vw, 42px);
       color: var(--gold);
@@ -239,6 +589,15 @@
       border: 1px solid var(--border);
       border-radius: var(--radius-sm);
       backdrop-filter: blur(10px);
+    }
+    html.lakers .ticker-wrap {
+      background: linear-gradient(180deg, rgba(10,4,18,.92), rgba(26,10,38,.82));
+      border-color: var(--lakers-gold-glow);
+      box-shadow: inset 0 0 16px rgba(85,37,131,.22), 0 0 14px rgba(253,185,39,.06);
+    }
+    html.lakers.night .ticker-wrap {
+      background: linear-gradient(180deg, rgba(4,1,9,.95), rgba(10,4,18,.88));
+      border-color: rgba(253,185,39,.28);
     }
     .ticker-track {
       display: flex;
@@ -277,10 +636,12 @@
       letter-spacing: 1px;
       margin-right: 6px;
     }
-    .ticker-item .value {
-      color: var(--ink);
+    html.lakers .ticker-item .label { color: var(--gold); }
+    html.lakers .ticker-item.gold .value { color: var(--gold); box-shadow: 0 0 10px var(--gold-glow); }
+    html.lakers .ticker-item .dot {
+      background: var(--gold);
+      box-shadow: 0 0 10px var(--gold-glow);
     }
-    .ticker-item.gold .value { color: var(--gold); }
 
     /* ---------- panel tabs ---------- */
     .panel-tabs {
@@ -585,11 +946,16 @@
     <div class="wrap">
       <header>
         <div class="brand">
-          <div class="glyph">æ</div>
+          <div class="glyph lakers">æ</div>
           <div>
             <div class="title">æææ.com</div>
             <div class="tagline">Open Intelligence · Private Authority · Sovereign Value</div>
           </div>
+        </div>
+        <div class="omnibox" id="omnibox">
+          <span class="prompt">&gt;_</span><span class="prompt-char">æ</span><span class="prompt-sep">://</span>
+          <input class="omni-input" id="omni-input" type="text" placeholder="command …  agents · brands · scan · manifest · toggle · _" autocomplete="off" spellcheck="false" />
+          <span class="omni-caret">▊</span>
         </div>
         <div class="nav">
           <button class="panel-tab active gold" data-target="hero-panel" data-label="Home">Home</button>
@@ -598,6 +964,7 @@
           <button class="panel-tab gold" data-target="brands-panel" data-label="Brands">Brands</button>
           <button class="panel-tab" data-target="runtime-panel" data-label="Runtime">Runtime</button>
           <button class="theme-btn" id="theme-toggle" type="button">Night</button>
+          <button class="theme-btn" id="lakers-toggle" type="button">Lakers</button>
         </div>
       </header>
 
@@ -639,28 +1006,18 @@
       <!-- panel wrap -->
       <div class="panel-wrap" id="panel-wrap">
 
-        <!-- hero: collapsible home -->
+        <!-- hero: collapsible home — command surface -->
         <div id="hero-panel" class="panel gold panel-collapse" data-panel="hero-panel">
           <h2>
             Home
             <button class="panel-toggle" data-target="hero-panel" aria-label="Collapse">−</button>
           </h2>
           <div class="panel-body">
-            <div class="tagline-line">AGENT-NATIVE INDEX · ANY ONTOLOGY COMPUTE</div>
-            <h1 class="glitch" data-text="æææ.com">æææ.com</h1>
-            <p class="lead">
-              <b>One principal.</b> A sovereign index for Hermes, private client,
-              local runtime, and <span class="gold">any ontology compute</span>.
-              Gold-on-void. Offline-first. Agent-default surfaces.
-            </p>
-            <div class="proc" style="margin-top:8px">
-              <span class="step gold">LEARN</span>
-              <span class="arrow">→</span>
-              <span class="step">BUILD</span>
-              <span class="arrow">→</span>
-              <span class="step">RUN</span>
-              <span class="arrow">→</span>
-              <span class="step">MOLT</span>
+            <div class="cmd-bar">
+              <div class="cmd-prompt-row"><span class="cmd-prompt">&gt;_æ://</span></div>
+            </div>
+            <div class="cmd-help" id="cmd-help">
+              <div class="cmd-help-row"><span>available commands — see omnibox or type <span class="gold">help</span></span></div>
             </div>
           </div>
         </div>
@@ -754,6 +1111,195 @@
         } catch (_) {}
       })();
       toggleBtn.addEventListener('click', () => applyTheme(!root.classList.contains('night')));
+
+      /* ---------- lakers theme ---------- */
+      const lakersBtn = document.getElementById('lakers-toggle');
+      const applyLakers = (on) => {
+        root.classList.toggle('lakers', on);
+        lakersBtn.textContent = on ? 'Lakers · on' : 'Lakers';
+        lakersBtn.classList.toggle('night', on);
+        try { localStorage.setItem('lakers', on ? 'on' : 'off'); } catch (_) {}
+      };
+      (() => {
+        try {
+          if (localStorage.getItem('lakers') === 'on') applyLakers(true);
+        } catch (_) {}
+      })();
+      lakersBtn.addEventListener('click', () => applyLakers(!root.classList.contains('lakers')));
+
+      /* ---------- omnibox ---------- */
+      const omnibox = document.getElementById('omnibox');
+      const omniInput = document.getElementById('omni-input');
+      const PROMPT = 'æ://';
+      const emptyLine = () => '<div class="cmd-line"><span class="cmd-prompt">&gt;_æ://</span><span class="cmd-body"></span></div>';
+      const resultLine = (text, kind) => `<div class="cmd-line"><span class="cmd-prompt">&gt;_æ://</span><span class="cmd-body ${kind || ''}">${text || ''}</span></div>`;
+
+      const registry = async () => {
+        try {
+          const r = await fetch('/api/cmd/registry');
+          if (r.ok) return (await r.json()).commands;
+        } catch (_) {}
+        return [];
+      };
+
+      const openPanel = (id) => {
+        const target = document.getElementById(id.slice('#'.length) || id);
+        if (!target) return false;
+        document.querySelectorAll('.panel-collapse').forEach(el => { el.style.display = 'none'; el.classList.remove('active-tab'); });
+        target.style.display = '';
+        target.classList.add('active-tab');
+        document.querySelectorAll('.panel-tab').forEach(btn => btn.classList.toggle('active', btn.dataset.target === id.slice('#'.length) || btn.dataset.target === id));
+        const body = target.querySelector('.panel-body');
+        const toggle = target.querySelector('.panel-toggle');
+        if (body && toggle && target.classList.contains('collapsed')) {
+          target.classList.remove('collapsed');
+          toggle.classList.remove('collapsed');
+          body.style.maxHeight = body.scrollHeight + 'px';
+        }
+        return true;
+      };
+
+      const feed = (lines) => {
+        let out = document.getElementById('omni-feed');
+        if (!out) {
+          out = document.createElement('div');
+          out.id = 'omni-feed';
+          out.className = 'omni-feed';
+          omnibox.parentNode.insertBefore(out, omnibox.nextSibling);
+        }
+        out.innerHTML = lines.map(l => resultLine(l[0], l[1] || '')).join('');
+        out.classList.toggle('has-lines', lines.length > 0);
+        out.scrollTop = out.scrollHeight;
+      };
+
+      const exec = async (raw) => {
+        const t = raw.trim().toLowerCase();
+        if (!t) return;
+        const tokens = t.split(/[\s/]+/);
+        const cmd = tokens[0];
+        const arg = tokens.slice(1).join(' ');
+        try {
+          const res = await fetch('/api/cmd', {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({ cmd: raw }),
+          });
+          const data = await res.json();
+          if (data.panel) {
+            openPanel(data.panel);
+            feed([[`opened ${data.panel}`, 'gold']]);
+          }
+          if (data.output && Array.isArray(data.output)) {
+            data.output.forEach(line => feed([[line, data.ok ? '' : 'err']]));
+          }
+          if (data.meta && data.meta.flash) {
+            if (syncBadge) syncBadge.textContent = data.meta.flash;
+          }
+          return data;
+        } catch (err) {
+          feed([[String(err), 'err']]);
+        }
+      };
+
+      const safeDump = (json) => {
+        try {
+          if (typeof json === 'object' && json !== null) {
+            const s = JSON.stringify(json, null, 1);
+            return s.length > 420 ? s.slice(0, 420) + ' …' : s;
+          }
+          return String(json);
+        } catch (_) { return String(json); }
+      };
+
+      const enter = (e) => {
+        if (e.key === 'Enter') {
+          const raw = omniInput.value;
+          if (omniInput.classList.contains('processing')) return;
+          omniInput.classList.add('processing');
+          try {
+            feed([[raw, '']] );
+            exec(raw).then(() => {
+              omniInput.value = '';
+              omniInput.classList.remove('processing');
+              setTimeout(() => omniInput.focus(), 0);
+            }).catch(() => {
+              omniInput.classList.remove('processing');
+            });
+          } catch (_) {
+            omniInput.classList.remove('processing');
+          }
+        }
+      };
+      omniInput.addEventListener('keydown', enter);
+      omniInput.addEventListener('focus', () => omnibox.classList.add('focused'));
+      omniInput.addEventListener('blur', () => omnibox.classList.remove('focused'));
+      omniInput.addEventListener('input', () => {
+        const out = document.getElementById('omni-feed');
+        if (out && omniInput.value.trim()) { out.innerHTML = ''; out.classList.remove('has-lines'); }
+      });
+
+      /* ---------- omni suggestions ---------- */ (async () => {
+        const items = await registry();
+        const keys = items.map(it => it.cmd);
+        omniInput.addEventListener('input', () => {
+          const v = omniInput.value.trim().toLowerCase();
+          const out = document.getElementById('omni-suggest');
+          if (!v || !out) return;
+          const matches = items.filter(it => it.cmd.startsWith(v) || it.label.toLowerCase().includes(v));
+          if (!matches.length) { if (out) out.remove(); return; }
+          if (!out) {
+            out = document.createElement('div');
+            out.id = 'omni-suggest';
+            out.className = 'omni-suggest';
+            omnibox.parentNode.insertBefore(out, omnibox.nextSibling);
+          }
+          out.innerHTML = matches.map(it =>
+            `<div class="omni-suggest-item ${it.gold ? 'gold' : ''}" data-k="${it.cmd}">${it.label}</div>`
+          ).join('');
+        });
+        document.addEventListener('click', (e) => {
+          const item = e.target.closest('.omni-suggest-item');
+          if (!item) { const out = document.getElementById('omni-suggest'); if (out) out.remove(); return; }
+          const k = item.dataset.k;
+          omniInput.value = k;
+          omniInput.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
+          const out = document.getElementById('omni-suggest');
+          if (out) out.remove();
+        });
+      })();
+
+      // focus omnibox once on load, then refocus after panel toggles
+      setTimeout(() => omniInput.focus(), 400);
+      document.addEventListener('click', (e) => {
+        if (e.target.closest('.panel-toggle') || e.target.closest('.panel-tab')) setTimeout(() => omniInput.focus(), 0);
+      });
+
+      // populate command help panel from backend registry
+      (async () => {
+        try {
+          const items = await registry();
+          const el = document.getElementById('cmd-help');
+          if (!el) return;
+          const groups: Record<string, Array<{cmd: string, label: string, gold: boolean}>> = {};
+          for (const it of items) {
+            const g = it.group || 'other';
+            if (!groups[g]) groups[g] = [];
+            groups[g].push(it);
+          }
+          const order = ['control', 'read', 'panel', 'meta'];
+          let html = '';
+          for (const g of order) {
+            const list = groups[g];
+            if (!list || !list.length) continue;
+            html += `<div class="cmd-help-row"><span class="gold">${g}</span></div>`;
+            for (const it of list) {
+              const cmdAttr = it.cmd.includes(' ') ? `"${it.cmd}"` : it.cmd;
+              html += `<div class="cmd-help-row"><span class="gold">${cmdAttr}</span> <span class="meta">· ${it.label}</span></div>`;
+            }
+          }
+          el.innerHTML = html;
+        } catch (_) {}
+      })();
 
       /* ---------- hostname from backend ---------- */
       (async () => {
