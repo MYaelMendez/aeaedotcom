@@ -4,19 +4,53 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>æææ.com — preview</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='30' font-size='32'>æ</text></svg>" />
+  <script>
+    (function(){
+      try {
+        const t = localStorage.getItem('aeaedotcom_preview_theme');
+        if (t === 'night') document.documentElement.classList.add('night');
+        else if (t === 'lakers') document.documentElement.classList.add('lakers');
+        else if (t === 'both') document.documentElement.classList.add('night','lakers');
+      } catch(_) {}
+    })();
+  </script>
   <style>
     :root {
-      void: #020617;
-      gold: #f5c842;
-      gold-glow: rgba(245,200,66,.28);
-      ink: #e5e7eb;
-      ink-2: #9ca3af;
-      ink-3: #6b7280;
-      blue: #2563eb;
-      neon: #10b981;
-      border: rgba(148,163,184,.18);
-      border-hot: rgba(245,200,66,.45);
+      --void: #020617;
+      --void-2: #0b1220;
+      --gold: #f5c842;
+      --gold-dim: #b58a1e;
+      --gold-glow: rgba(245,200,66,.28);
+      --blue: #2563eb;
+      --blue-glow: rgba(37,99,235,.35);
+      --neon: #10b981;
+      --neon-glow: rgba(16,185,129,.25);
+      --ink: #e5e7eb;
+      --ink-2: #9ca3af;
+      --ink-3: #6b7280;
+      --border: rgba(148,163,184,.18);
+      --border-hot: rgba(245,200,66,.45);
+      --glass: rgba(17,24,39,.72);
+      --glass-2: rgba(2,6,23,.45);
+      --radius: 14px;
+      --radius-sm: 10px;
+      --lakers-purple: #552583;
+      --lakers-purple-2: #3a1756;
+      --lakers-purple-glow: rgba(85,37,131,.35);
+      --lakers-gold: #fdb927;
+      --lakers-gold-dim: #b87a12;
+      --lakers-gold-glow: rgba(253,185,39,.32);
+      --mesh-0: rgba(90,140,255,.10);
+      --mesh-1: rgba(255,200,80,.08);
+      --mesh-2: rgba(85,37,131,.10);
+      --vig-0: rgba(2,6,23,.55);
+      --vig-1: rgba(245,200,66,.10);
+      --vig-2: rgba(212,164,31,.10);
+      --scan-0: rgba(245,200,66,.05);
+      --scan-1: rgba(212,164,31,.03);
     }
+    html.night { color-scheme: dark; }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html, body {
       height: 100%;
@@ -24,8 +58,77 @@
       color: var(--ink);
       font-family: ui-monospace, 'SFMono-Regular', Menlo, Monaco, Consolas, monospace;
       line-height: 1.5;
+      -webkit-app-region: drag;
+      user-select: none;
     }
-    .wrap { max-width: 1100px; margin: 0 auto; padding: 20px 16px 40px; }
+    /* ── Hermes desktop window chrome ── */
+    .window {
+      position: fixed; inset: 0;
+      display: flex; flex-direction: column;
+      -webkit-app-region: no-drag;
+      background: var(--void);
+    }
+    .titlebar {
+      display: flex; align-items: center; gap: 8px;
+      padding: 6px 12px;
+      -webkit-app-region: drag;
+      background: rgba(15,23,42,.85);
+      border-bottom: 1px solid var(--border);
+      min-height: 36px;
+    }
+    .titlebar .icon {
+      width: 14px; height: 14px; border-radius: 3px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dim));
+      color: var(--void); font-size: 9px; font-weight: 900;
+      display: grid; place-items: center; margin-right: 8px;
+      -webkit-app-region: no-drag;
+    }
+    .titlebar .name {
+      font-size: 12px; font-weight: 700; color: var(--ink);
+      -webkit-app-region: no-drag; letter-spacing: .04em;
+    }
+    .titlebar .buttons { margin-left: auto; display: flex; gap: 4px; }
+    .titlebar .btn {
+      width: 14px; height: 14px; border-radius: 4px;
+      border: none; background: transparent; cursor: pointer;
+      display: grid; place-items: center; color: var(--ink-2);
+      -webkit-app-region: no-drag; transition: background .15s;
+    }
+    .titlebar .btn:hover { background: rgba(255,255,255,.12); color: var(--ink); }
+    .titlebar .btn.close:hover { background: #ef4444; color: #fff; }
+    .content { flex: 1; display: flex; }
+    .nav {
+      width: 220px; min-width: 220px;
+      padding: 14px; background: var(--void-2);
+      border-right: 1px solid var(--border);
+      display: flex; flex-direction: column; gap: 8px;
+      -webkit-app-region: no-drag;
+    }
+    .nav .logo {
+      display: flex; align-items: center; gap: 8px;
+      padding: 6px 10px; border-radius: 8px; cursor: pointer;
+      -webkit-app-region: no-drag;
+    }
+    .nav .logo .glyph { width: 22px; height: 22px; border: 1px solid var(--gold); color: var(--gold);
+      display: grid; place-items: center; font-size: 12px; font-weight: 900; }
+    .nav .logo .txt { font-size: 11px; font-weight: 700; letter-spacing: .08em; color: var(--gold); }
+    .nav .section { font-size: 10px; letter-spacing: .1em; color: var(--ink-3); text-transform: uppercase; margin-top: 12px; padding: 0 8px; }
+    .nav a {
+      display: flex; flex-direction: column; align-items: flex-start; gap: 4px;
+      padding: 8px 10px; border-radius: 8px; text-decoration: none; color: var(--ink-2);
+      font-size: 12px; cursor: pointer; -webkit-app-region: no-drag; transition: background .15s;
+    }
+    .nav a:hover { background: rgba(245,200,66,.08); color: var(--ink); }
+    .nav a .lbl { font-weight: 600; color: var(--ink); }
+    .nav a .sub { font-size: 10px; color: var(--ink-3); }
+    .nav a .badge {
+      margin-left: auto; font-size: 9px; padding: 2px 6px; border-radius: 4px;
+      background: rgba(16,185,129,.2); color: var(--neon); font-weight: 700; letter-spacing: .04em;
+    }
+    .grid-view {
+      flex: 1; display: flex; flex-direction: column; gap: 10px; padding: 14px;
+      overflow-y: auto;
+    }
     header {
       display: flex;
       align-items: center;
@@ -42,38 +145,257 @@
       width: 32px; height: 32px; display: grid; place-items: center;
       border: 1px solid var(--gold); color: var(--gold);
       text-shadow: 0 0 14px var(--gold-glow); font-weight: 900;
-      border-radius: 8px; font-size: 18px;
+      border-radius: 8px; font-size: 18px; cursor: pointer;
+      transition: transform .15s;
     }
+    .glyph:hover { transform: scale(1.08); }
+    .glyph:active { transform: scale(.94); }
     .title {
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
       font-weight: 800; letter-spacing: .18em;
       color: var(--gold); text-shadow: 0 0 14px var(--gold-glow);
     }
-    .tagline { color: var(--ink-2); font-size: 11px; letter-spacing: .12em; opacity: .9; }
-    nav { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+    .theme-toggle { display: flex; gap: 4px; margin-left: auto; }
+    .theme-toggle button {
+      background: none; border: 1px solid var(--border); color: var(--ink-2);
+      padding: 4px 9px; border-radius: 8px; font-size: 10px;
+      font-family: inherit; cursor: pointer; letter-spacing: .06em;
+      transition: border-color .2s, color .2s;
+    }
+    .theme-toggle button:hover { border-color: var(--gold); color: var(--ink); }
+    .theme-toggle button.active { border-color: var(--gold); color: var(--gold); }
+    .theme-toggle .icon { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 3px; vertical-align: middle; }
+    .theme-toggle .night-btn .icon { background: #f5c842; }
+    .theme-toggle .lakers-btn .icon { background: #fdb927; }
+    nav { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; align-items: center; }
+    .nav-right { display: flex; gap: 6px; align-items: center; }
     nav a {
       color: var(--ink-2); border: 1px solid rgba(245,200,66,.2);
       padding: 6px 10px; border-radius: 10px; text-decoration: none;
       font-size: 12px; letter-spacing: .1em;
     }
     nav a:hover { border-color: var(--gold); color: var(--ink); }
-    .hero { background: rgba(17,24,39,.7); border: 1px solid rgba(245,200,66,.18); border-radius: 14px; padding: 14px; margin-bottom: 12px; }
-    .hero h1 { font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; font-weight: 900; letter-spacing: .16em; color: var(--gold); text-shadow: 0 0 14px var(--gold-glow); font-size: clamp(22px, 4vw, 34px); }
+    .theme-btn {
+      background: none; border: 1px solid var(--border); color: var(--ink-2);
+      padding: 5px 10px; border-radius: 10px; font-size: 11px;
+      font-family: inherit; cursor: pointer; letter-spacing: .08em;
+      transition: border-color .2s, color .2s;
+    }
+    .theme-btn:hover { border-color: var(--gold); color: var(--ink); }
+    .theme-btn.active { border-color: var(--gold); color: var(--gold); }
+    .theme-btn .icon { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 4px; vertical-align: middle; }
+    .theme-btn.night .icon { background: #f5c842; box-shadow: 0 0 6px rgba(245,200,66,.5); }
+    .theme-btn.lakers .icon { background: #fdb927; box-shadow: 0 0 6px rgba(253,185,39,.5); }
+    .hero {
+      background: rgba(17,24,39,.7); border: 1px solid rgba(245,200,66,.18);
+      border-radius: 14px; padding: 18px; margin-bottom: 14px; position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse at 20% 50%, var(--mesh-0) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 50%, var(--mesh-1) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 0%, var(--vig-1) 0%, transparent 60%);
+      pointer-events: none;
+      opacity: .6;
+    }
+    .hero-scroll {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+      overflow: hidden;
+      padding: 6px 0;
+      position: relative;
+    }
+    .hero-scroll-inner {
+      display: flex;
+      gap: 8px;
+      animation: ticker-scroll 30s linear infinite;
+      white-space: nowrap;
+    }
+    @keyframes ticker-scroll {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+    .hero-scroll-item {
+      display: inline-flex; align-items: center; gap: 6px;
+      color: var(--neon);
+      font-size: 11px;
+      letter-spacing: .08em;
+      padding: 2px 8px;
+      border: 1px solid rgba(16,185,129,.2);
+      border-radius: 999px;
+      background: rgba(16,185,129,.06);
+      white-space: nowrap;
+    }
+    .hero-scroll-item.gold {
+      color: var(--gold);
+      border-color: rgba(245,200,66,.25);
+      background: rgba(245,200,66,.06);
+    }
+    .hero-scroll-item.purple {
+      color: var(--lakers-gold);
+      border-color: rgba(253,185,39,.25);
+      background: rgba(253,185,39,.06);
+    }
+    .hero h1 {
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      font-weight: 900; letter-spacing: .16em; color: var(--gold);
+      text-shadow: 0 0 14px var(--gold-glow);
+      font-size: clamp(22px, 4vw, 34px);
+    }
     .hero p { color: var(--ink-2); margin-top: 6px; font-size: 13px; }
-    .pills { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
-    .pill { color: var(--ink-3); border: 1px solid rgba(245,200,66,.2); padding: 3px 8px; border-radius: 999px; font-size: 10px; letter-spacing: .1em; }
+    .pills { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
+    .pill {
+      color: var(--ink-3); border: 1px solid rgba(245,200,66,.2);
+      padding: 3px 8px; border-radius: 999px; font-size: 10px; letter-spacing: .1em;
+    }
     .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; margin-bottom: 12px; }
-    .card { background: rgba(17,24,39,.7); border: 1px solid rgba(245,200,66,.18); border-radius: 14px; padding: 12px; }
-    .card-title { font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; font-weight: 800; letter-spacing: .12em; color: var(--gold); text-shadow: 0 0 10px var(--gold-glow); }
+    .card {
+      background: rgba(17,24,39,.7); border: 1px solid rgba(245,200,66,.18);
+      border-radius: 14px; padding: 12px;
+    }
+    .school-banner {
+      background: rgba(17,24,39,.85); border: 1px solid var(--gold);
+      border-radius: 14px; padding: 16px 18px; margin-bottom: 14px;
+      box-shadow: 0 0 24px var(--gold-glow), 0 0 0 1px rgba(245,200,66,.10) inset;
+    }
+    .school-banner .card-title {
+      font-size: clamp(16px, 3vw, 22px);
+      text-shadow: 0 0 18px var(--gold-glow);
+    }
+    .school-banner .school-triple {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+    .school-banner .school-cell {
+      border-color: rgba(245,200,66,.22);
+      background: rgba(245,200,66,.04);
+    }
+    .school-banner .school-cell-name {
+      font-size: 11px;
+    }
+    .school-banner .school-cell-items {
+      font-size: 11.5px;
+    }
+    @media (max-width: 640px) {
+      .school-banner .school-triple { grid-template-columns: 1fr; }
+    }
+
+    .card-title {
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      font-weight: 800; letter-spacing: .12em; color: var(--gold);
+      text-shadow: 0 0 10px var(--gold-glow);
+      display: flex; align-items: center; justify-content: space-between; gap: 8px;
+    }
+    .card-title .card-toggle {
+      background: none; border: 1px solid rgba(245,200,66,.2); color: var(--ink-3);
+      padding: 0 6px; border-radius: 4px; font-size: 11px; cursor: pointer;
+      transition: border-color .15s, color .15s; line-height: 1;
+    }
+    .card-title .card-toggle:hover { border-color: var(--gold); color: var(--gold); }
+    .card-title .card-toggle.collapsed { transform: rotate(180deg); }
+    .card[data-collapsed="true"] .card-body { display: none; }
+    .card[data-collapsed="true"] .card-toggle { transform: rotate(180deg); }
+    .card-scroll {
+      display: flex; gap: 6px; margin-top: 8px; overflow: hidden;
+    }
+    .card-scroll-inner {
+      display: flex; gap: 6px; animation: card-tick 18s linear infinite; white-space: nowrap;
+    }
+    @keyframes card-tick {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+    .card-scroll-item {
+      display: inline-flex; align-items: center; gap: 4px;
+      color: var(--ink-3); border: 1px solid rgba(245,200,66,.12);
+      padding: 2px 6px; border-radius: 999px; font-size: 9px;
+      white-space: nowrap; background: rgba(245,200,66,.03);
+    }
+    .card-scroll-item.gold { color: var(--gold); border-color: rgba(245,200,66,.2); background: rgba(245,200,66,.04); }
+    .card-scroll-item.neon { color: var(--neon); border-color: rgba(16,185,129,.15); background: rgba(16,185,129,.03); }
+    .card-scroll-item.purple { color: var(--lakers-gold); border-color: rgba(253,185,39,.15); background: rgba(253,185,39,.03); }
+    .card-body { transition: all .2s; }
+    html.night .card-title .card-toggle { color: var(--ink-3); }
+    html.night .card-title .card-toggle:hover { color: var(--gold); border-color: var(--gold); }
+    html.lakers .card-title .card-toggle { border-color: rgba(253,185,39,.2); color: var(--lakers-gold); }
+    html.lakers .card-title .card-toggle:hover { border-color: var(--lakers-gold); color: #fff; }
+    .school-triple {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 8px;
+      margin-top: 8px;
+    }
+    .school-cell {
+      background: rgba(2,6,23,.5); border: 1px solid rgba(245,200,66,.12);
+      border-radius: 10px; padding: 8px;
+    }
+    .school-cell-name {
+      font-size: 10px; color: var(--gold); text-transform: uppercase;
+      letter-spacing: .1em; font-weight: 700; margin-bottom: 4px;
+    }
+    .school-cell-items { font-size: 11px; color: var(--ink-2); line-height: 1.7; }
+    .school-cell-items span { color: var(--neon); }
     .pill2 { color: var(--ink-3); border: 1px solid rgba(245,200,66,.2); padding: 3px 8px; border-radius: 999px; font-size: 10px; letter-spacing: .1em; margin-bottom: 8px; }
-    .terminal { background: rgba(11,18,32,.85); border: 1px solid rgba(245,200,66,.18); border-radius: 12px; padding: 10px; color: var(--ink-2); font-size: 12px; white-space: pre-wrap; word-break: break-word; }
+    .terminal {
+      background: rgba(11,18,32,.85); border: 1px solid rgba(245,200,66,.18);
+      border-radius: 12px; padding: 10px; color: var(--ink-2);
+      font-size: 12px; white-space: pre-wrap; word-break: break-word;
+    }
     .list { display: flex; flex-direction: column; gap: 6px; }
-    .list a { color: var(--ink); text-decoration: none; border: 1px solid rgba(245,200,66,.18); padding: 6px 10px; border-radius: 10px; font-size: 12px; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    .list a {
+      color: var(--ink); text-decoration: none; border: 1px solid rgba(245,200,66,.18);
+      padding: 6px 10px; border-radius: 10px; font-size: 12px;
+      display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    }
     .list a:hover { border-color: var(--gold); }
     .status2 { color: var(--ink-3); font-size: 11px; opacity: .85; }
-    footer { margin-top: 14px; color: var(--ink-3); font-size: 11px; letter-spacing: .1em; display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+    .third-card { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 12px; }
+    @media (max-width: 860px) { .third-card { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 520px) { .third-card { grid-template-columns: 1fr; } }
+    footer {
+      margin-top: 14px; color: var(--ink-3); font-size: 11px; letter-spacing: .1em;
+      display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap;
+    }
     .goldlink { color: var(--gold); text-decoration: none; }
     .goldlink:hover { text-shadow: 0 0 10px var(--gold-glow); }
+    .hermes-badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      color: var(--ink-3); font-size: 10px; letter-spacing: .08em;
+      border: 1px solid rgba(148,163,184,.15); padding: 2px 8px;
+      border-radius: 999px; margin-left: 6px;
+    }
+    .hermes-badge svg { color: var(--gold); flex-shrink: 0; }
+    .cg-link {
+      display: inline-flex; align-items: center; gap: 4px;
+      margin-left: 10px; font-size: 10px; color: var(--gold);
+      text-decoration: none; padding: 3px 8px; border: 1px solid var(--gold-dim);
+      border-radius: 6px; transition: all .15s;
+    }
+    .cg-link:hover { background: rgba(245,200,66,.1); border-color: var(--gold); box-shadow: 0 0 8px var(--gold-glow); }
+    .card-link {
+      display: block; text-decoration: none; cursor: pointer; color: inherit;
+      border: 1px solid rgba(245,200,66,.18); border-radius: 14px; padding: 12px;
+      transition: border-color .15s, box-shadow .15s, transform .1s;
+    }
+    .card-link:hover {
+      border-color: var(--gold);
+      box-shadow: 0 0 14px var(--gold-glow);
+      transform: translateY(-1px);
+    }
+    .card-link:active { transform: translateY(0); }
+    .referral-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      color: var(--gold); border: 1px solid var(--gold);
+      padding: 4px 12px; border-radius: 999px; font-size: 11px;
+      letter-spacing: .1em; font-weight: 700; text-decoration: none;
+      background: rgba(245,200,66,.07);
+      transition: background .15s, box-shadow .15s;
+    }
+    .referral-pill:hover {
+      background: rgba(245,200,66,.14);
+      box-shadow: 0 0 12px var(--gold-glow);
+    }
     @media (max-width: 640px) {
       .wrap { padding: 14px 10px 22px; }
       header { padding: 10px 10px; flex-direction: column; align-items: stretch; }
@@ -82,124 +404,815 @@
       .tagline { font-size: 9px; text-align: center; }
       nav { gap: 5px; width: 100%; justify-content: center; flex-wrap: wrap; margin-top: 6px; }
       nav a { padding: 5px 9px; font-size: 11px; }
-      .hero { text-align: center; padding: 13px; }
+      .hero { text-align: center; padding: 14px; }
       .hero h1 { letter-spacing: .12em; }
       .hero p { margin: 6px auto 0; text-align: center; }
       .pills { justify-content: center; }
       .grid { grid-template-columns: 1fr; gap: 9px; }
       .list a { font-size: 12px; }
+      .third-card { grid-template-columns: 1fr; }
       footer { font-size: 10px; justify-content: center; text-align: center; padding-top: 8px; }
     }
-  </style>
+    (function(){
+      try {
+        const t = localStorage.getItem('aeaedotcom_preview_theme');
+        if (t === 'night') document.documentElement.classList.add('night');
+        else if (t === 'lakers') document.documentElement.classList.add('lakers');
+        else if (t === 'both') document.documentElement.classList.add('night','lakers');
+      } catch(_) {}
+      document.querySelectorAll('.theme-btn').forEach(btn => {
+        btn.addEventListener('click', function(){
+          const mode = this.dataset.mode;
+          const html = document.documentElement;
+          if (mode === 'night') { html.classList.toggle('night'); }
+          else if (mode === 'lakers') { html.classList.toggle('lakers'); }
+          try {
+            const n = html.classList.contains('night') ? 1 : 0;
+            const l = html.classList.contains('lakers') ? 1 : 0;
+            localStorage.setItem('aeaedotcom_preview_theme', n && l ? 'both' : n ? 'night' : l ? 'lakers' : '');
+          } catch(_) {}
+          document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
+          if (html.classList.contains(mode)) this.classList.add('active');
+        });
+      });
+    })();
+    /* scheme overlay */
+    .scheme-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(2, 6, 23, 0.72);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+    .scheme-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .scheme-overlay-inner {
+      background: rgba(11, 18, 32, 0.92);
+      border: 1px solid var(--gold);
+      border-radius: 12px;
+      padding: 24px 28px;
+      min-width: 340px;
+      box-shadow: 0 0 32px var(--gold-glow), 0 0 0 1px rgba(245,200,66,0.15) inset;
+      font-family: ui-monospace, 'Cascadia Code', 'Fira Code', monospace;
+    }
+    .scheme-option {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 12px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s;
+      border: 1px solid transparent;
+    }
+    .scheme-option:hover {
+      background: rgba(245, 200, 66, 0.08);
+      border-color: rgba(245, 200, 66, 0.25);
+    }
+    .scheme-code {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 0.02em;
+      flex-shrink: 0;
+      min-width: 70px;
+    }
+    .scheme-desc {
+      color: var(--ink-2);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+    .omnibox-demo {
+      margin-left: 12px;
+      background: rgba(11, 18, 32, 0.6);
+      border: 1px solid var(--gold-dim);
+      border-radius: 6px;
+      color: var(--gold);
+      font-family: ui-monospace, 'Cascadia Code', monospace;
+      font-size: 12px;
+      padding: 3px 8px;
+      width: 140px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .omnibox-demo:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 8px var(--gold-glow);
+    }
+    .omnibox-demo::placeholder {
+      color: var(--ink-2);
+      opacity: 0.6;
+    }
+    /* mini omnibox — >_æ:// command surface */
+    .omnibox {
+      margin-top: 12px;
+      background: rgba(11, 18, 32, 0.75);
+      border: 1px solid rgba(245, 200, 66, 0.2);
+      border-radius: 10px;
+      padding: 8px 12px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .omnibox:focus-within {
+      border-color: var(--gold);
+      box-shadow: 0 0 12px var(--gold-glow);
+    }
+    .omnibox-prompt {
+      display: flex; align-items: center; gap: 4px;
+      color: var(--gold); font-family: ui-monospace, 'Cascadia Code', monospace;
+      font-size: 12px; letter-spacing: 0.04em;
+    }
+    .prompt-glyph {
+      color: var(--gold); font-weight: 700;
+      text-shadow: 0 0 6px var(--gold-glow);
+    }
+    .prompt-protocol {
+      color: var(--ink-3); opacity: 0.7;
+    }
+    .omnibox-input {
+      background: transparent; border: none; outline: none;
+      color: var(--ink); font-family: ui-monospace, 'Cascadia Code', monospace;
+      font-size: 13px; flex: 1; min-width: 120px; padding: 2px 0;
+    }
+    .omnibox-input::placeholder { color: var(--ink-3); opacity: 0.5; }
+    .omnibox-results {
+      margin-top: 8px; min-height: 20px;
+      color: var(--ink-2); font-size: 12px; line-height: 1.6;
+      font-family: ui-monospace, 'Cascadia Code', monospace;
+      white-space: pre-wrap; word-break: break-word;
+    }
+    .omnibox-results .result-line {
+      display: block; padding: 2px 0;
+      border-bottom: 1px solid rgba(245, 200, 66, 0.08);
+    }
+    .omnibox-results .result-line:last-child { border-bottom: none; }
+    .omnibox-results .highlight { color: var(--gold); }
+    .omnibox-results .dim { color: var(--ink-3); opacity: 0.7; }
+    .omnibox-chips {
+      margin-top: 8px; display: flex; gap: 6px; flex-wrap: wrap;
+    }
+    .omnibox-chip {
+      color: var(--ink-3); background: rgba(245, 200, 66, 0.06);
+      border: 1px solid rgba(245, 200, 66, 0.15);
+      padding: 2px 8px; border-radius: 999px; font-size: 10px;
+      font-family: ui-monospace, 'Cascadia Code', monospace;
+      cursor: pointer; letter-spacing: 0.06em; transition: all 0.15s;
+    }
+    .omnibox-chip:hover {
+      color: var(--gold); border-color: var(--gold);
+      background: rgba(245, 200, 66, 0.1);
+    }
+    .omnibox-empty {
+      color: var(--ink-3); opacity: 0.6; font-size: 11px;
+      font-style: italic; margin-top: 4px;
+    }
+
+    (function() {
+      // ── æ glyph → scheme overlay ──
+      const glyph = document.querySelector('.glyph');
+      const overlay = document.getElementById('schemeOverlay');
+      if (glyph && overlay) {
+        glyph.addEventListener('click', function(e) {
+          e.stopPropagation();
+          overlay.classList.toggle('open');
+        });
+        overlay.addEventListener('click', function(e) {
+          if (e.target === overlay) overlay.classList.remove('open');
+        });
+        document.querySelectorAll('.scheme-option').forEach(function(opt) {
+          opt.addEventListener('click', function() {
+            const scheme = this.dataset.scheme;
+            overlay.classList.remove('open');
+            const input = document.getElementById('omnibox-input');
+            if (input) { input.value = scheme; input.focus(); }
+          });
+        });
+      }
+
+      // ── card collapse ──
+      document.querySelectorAll('.card-toggle').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          const card = this.closest('.card, section.card, section.school-banner');
+          if (!card) return;
+          const collapsed = card.getAttribute('data-collapsed') === 'true';
+          card.setAttribute('data-collapsed', collapsed ? 'false' : 'true');
+          this.classList.toggle('collapsed', !collapsed);
+          this.textContent = collapsed ? '−' : '+';
+        });
+      });
+
+      // ── mini omnibox ──
+      const omnibox = document.getElementById('omnibox');
+      const input = document.getElementById('omnibox-input');
+      const results = document.getElementById('omnibox-results');
+      const chips = document.getElementById('omnibox-chips');
+
+      const commands = {
+        'status':    ['STATUS · æææ.com', 'SERVER: online · python · uvicorn', 'SCHOOL OF HERMES: 12 lessons ready', 'CONTRIBUTION GRAPH: tracking active', 'RUNTIME: 21 endpoints · api-grid'],
+        'scan':      ['SCAN · CV introspection', 'sv.Detections → composition-spec.json', 'real_digital_introspection.py', 'hyperframes cv-composition.ts', '→ renders machine state as structured data'],
+        'manifest':  ['MANIFEST · 21 routes', 'GET  /health              — server status', 'GET  /api/status          — site metadata', 'GET  /api/brands          — 14-brand registry', 'GET  /api/manifest        — route manifest', 'GET  /api/cmd             — execute omnibox command'],
+        'h://':      ['h:// — Host scheme', 'Local-sovereign default', 'Your machine\'s origin', '→ <span class="highlight">ãæ://root</span>'],
+        'H://':      ['H:// — Platform scheme', 'Shared substrate', 'Multi-principal coordination', '→ <span class="highlight">ãæ://platform</span>'],
+        '🪲://':     ['🪲:// — Wing scheme', 'Agentic flight layer', 'Autonomous coherence', '→ <span class="highlight">ãæ://wing</span>'],
+        'lesson 1':  ['LESSON 1 · What is Hermes Agent?', 'Hermes Agent: autonomous AI coding agent', 'Built by Nous Research', '→ <span class="goldlink">/school-of-hermes-guide</span>'],
+        'school':    ['SCHOOL OF HERMES · 12 LESSONS', 'Learn: 1-4 · Build: 5-8 · Run: 9-12', 'Capstone: æ://self — sovereign agent index', '→ <span class="goldlink">/school-of-hermes-guide</span>'],
+        'progress':  ['PROGRESS · contribution graph', '52 weeks × 7 days', 'Every lesson done = 1 green square', 'Stats: total · streak · longest', '→ <span class="goldlink">/contribution-graph</span>'],
+        'help':      ['HELP · æ:// command surface', 'status · scan · manifest · brands · help', 'h:// · H:// · 🪲:// · lesson 1 · school · progress', 'Type a command and press Enter'],
+      };
+
+      const chipSuggestions = ['status', 'scan', 'manifest', 'h://', 'H://', '🪲://', 'lesson 1', 'school', 'progress', 'help'];
+
+      function renderResults(lines) {
+        if (!results) return;
+        if (!lines || lines.length === 0) {
+          results.innerHTML = '<span class="omnibox-empty">æ → waiting for command…</span>';
+          return;
+        }
+        results.innerHTML = lines.map(function(l) {
+          return '<span class="result-line">' + l + '</span>';
+        }).join('');
+      }
+
+      function renderChips() {
+        if (!chips) return;
+        chips.innerHTML = chipSuggestions.map(function(c) {
+          return '<span class="omnibox-chip" data-cmd="' + c + '">' + c + '</span>';
+        }).join('');
+        chips.querySelectorAll('.omnibox-chip').forEach(function(chip) {
+          chip.addEventListener('click', function() {
+            input.value = this.dataset.cmd;
+            input.focus();
+            executeCommand(this.dataset.cmd);
+          });
+        });
+      }
+
+      function executeCommand(cmd) {
+        const trimmed = cmd.trim().toLowerCase();
+        if (!trimmed) { renderResults([]); return; }
+
+        // scheme shortcuts
+        if (trimmed === 'h://' || trimmed === 'h:/' || trimmed === 'h:') {
+          renderResults(commands['h://']);
+          return;
+        }
+        if (trimmed === 'H://' || trimmed === 'H:/' || trimmed === 'H:') {
+          renderResults(commands['H://']);
+          return;
+        }
+        if (trimmed === '🪲://' || trimmed === '🪲:/' || trimmed === '🪲:') {
+          renderResults(commands['🪲://']);
+          return;
+        }
+
+        // direct match
+        if (commands[trimmed]) {
+          renderResults(commands[trimmed]);
+          return;
+        }
+
+        // partial match
+        const match = Object.keys(commands).find(function(k) {
+          return k.includes(trimmed) || trimmed.includes(k);
+        });
+        if (match) { renderResults(commands[match]); return; }
+
+        renderResults(['æ → unknown command: ' + cmd, 'try: status · scan · manifest · help']);
+      }
+
+      if (input) {
+        input.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            executeCommand(input.value);
+          }
+        });
+        input.addEventListener('focus', function() {
+          if (this.value.trim()) executeCommand(this.value);
+        });
+      }
+
+      renderChips();
+      renderResults([]);
+    })();
+  </script>
 </head>
 <body>
-  <div class="wrap">
+  <div class="window">
+    <!-- Native titlebar -->
+    <div class="titlebar">
+      <div class="icon">æ</div>
+      <div class="name">æææ.com · glocal omnibox</div>
+      <div class="buttons">
+        <button class="btn" aria-label="Minimize">−</button>
+        <button class="btn" aria-label="Maximize">□</button>
+        <button class="btn close" aria-label="Close">✕</button>
+      </div>
+    </div>
+    <!-- Full window body -->
+    <div class="body">
     <header>
       <div class="brand">
-        <div class="glyph">æ</div>
+        <div class="glyph" title="æ — hamburger menu · omnibox affordance">æ</div>
+        <input class="omnibox-demo" id="omniboxDemo" placeholder="æ æ://" readonly />
         <div>
           <div class="title">æææ.com</div>
           <div class="tagline">Open Intelligence · Private Authority · Sovereign Value</div>
         </div>
       </div>
       <nav>
-        <a href="#index">Index</a>
-        <a href="#agents">Agents</a>
-        <a href="#brands">Brands</a>
-        <a href="#runtime">Runtime</a>
+        <a href="https://myaelmendez.github.io/" target="_blank">Live site</a>
+        <a href="https://myaelmendez.github.io/contribution-graph.html" target="_blank">Contribute</a>
+        <a href="https://myaelmendez.github.io/school-of-hermes-guide.html" target="_blank">Guide</a>
+        <span class="nav-right">
+          <button class="theme-btn night" data-mode="night" title="Toggle night mode">
+            <span class="icon"></span>Night
+          </button>
+          <button class="theme-btn lakers" data-mode="lakers" title="Toggle Lakers theme">
+            <span class="icon"></span>Lakers
+          </button>
+        </span>
       </nav>
     </header>
 
-    <section class="hero" id="index">
+    <section class="hero">
       <h1>ONE PRINCIPAL · ANY ONTOLOGY</h1>
-      <p>Agent-native origin. Human principal first. Local-sovereign default. This origin exposes code, data, tools, schemas, capabilities, and receipts.</p>
+      <p>Agent-native origin. Human principal first. Local-sovereign default. This origin exposes code, data, tools, schemas, capabilities, and receipts. Command surface: <span class="goldlink">&gt;_æ://</span></p>
+      <div class="hero-scroll">
+        <div class="hero-scroll-inner">
+          <span class="hero-scroll-item">● School of Hermes · 12 lessons</span>
+          <span class="hero-scroll-item gold">● Contribution graph · green squares</span>
+          <span class="hero-scroll-item purple">● Nous Portal · æ refers æ</span>
+          <span class="hero-scroll-item">● Supervision · roboflow/supervision</span>
+          <span class="hero-scroll-item gold">● X feed @yaelmendez · #schoolofhermes</span>
+          <span class="hero-scroll-item purple">● Glocal · two surfaces · one principal</span>
+          <span class="hero-scroll-item">● Multi-key API popup · add/edit/delete</span>
+          <span class="hero-scroll-item gold">● Hermes Agent · HTML/CSS · offline-first</span>
+        </div>
+      </div>
       <div class="pills">
         <span class="pill">● HUMAN://ROOT</span>
         <span class="pill">LOCAL-SOVEREIGN://default</span>
         <span class="pill">æææ://root</span>
+        <span class="pill">SCHOOL OF HERMES</span>
+        <span class="pill">CONTRIBUTION GRAPH</span>
+      </div>
+      <a class="referral-pill" href="https://portal.nousresearch.com/r/yael" target="_blank" title="Nous Portal — one subscription to rule all LLM providers">Æ REFERS Æ · Nous Portal</a>
+
+      <!-- Mini omnibox — tactile >_æ:// command surface -->
+      <div class="omnibox" id="omnibox">
+        <div class="omnibox-prompt">
+          <span class="prompt-glyph">&gt;_</span><span class="prompt-protocol">æ://</span>
+          <input
+            type="text"
+            id="omnibox-input"
+            class="omnibox-input"
+            placeholder="status · scan · manifest · brands · help · h:// · H:// · 🪲:// · lesson 1 · school · progress"
+            autocomplete="off"
+            spellcheck="false"
+            aria-label="æ:// command input"
+          />
+        </div>
+        <div class="omnibox-results" id="omnibox-results" aria-live="polite"></div>
+        <div class="omnibox-chips" id="omnibox-chips"></div>
       </div>
     </section>
 
-    <section class="grid" id="agents">
-      <div class="card">
-        <div class="card-title">COMMANDPROMPT.AI</div>
-        <div class="pill2">INTENT</div>
-        <div class="terminal">HUMAN://PRINCIPAL
+    <section class="card" data-collapsed="false">
+      <div class="card-title">ÆSTHETIK BOARDS · INDEX <button class="card-toggle" aria-label="Toggle">−</button></div>
+      <div class="card-body">
+      <div class="pill2" style="color: var(--gold); border-color: var(--gold);">ÆSTHETIK · offset stroke · 4 boards + logo + identity</div>
+      <div class="terminal">ÆSTHETIK identity presentation — 4 boards + logo + identity cards
+    Designed for ÆSTHETIK, æææ.com, and the hermescore distributed protocol.
+
+    BOARDS:
+    01 — Æ Logo: core identity mark
+    02 — æææ:// Board: agentic systems root index
+         37 nodes · 13 sections · 5 partner boards
+    03 — æææ:// Partners: æ.store · private · hermes
+    04 — Partners + Pipeline: capability pipeline
+    05 — 3 Principles: ethics · economics · engineering
+
+    LOGOS:
+    æ monogram · Æ ligature · text marks
+
+    MEDIA:
+    Social cards · hero image · presentation slide
+
+    → Live previews / ÆSTHETIK / Boards / Logos / Media</div>
+    <div class="card-scroll"><div class="card-scroll-inner">
+      <span class="card-scroll-item gold">æ — core mark</span>
+      <span class="card-scroll-item">æææ:// — root index</span>
+      <span class="card-scroll-item gold">37 nodes · 13 sections</span>
+      <span class="card-scroll-item">5 partner boards</span>
+      <span class="card-scroll-item gold">Æ ligature · text marks</span>
+      <span class="card-scroll-item">social cards · hero</span>
+      <span class="card-scroll-item gold">æ — core mark</span>
+      <span class="card-scroll-item">æææ:// — root index</span>
+      <span class="card-scroll-item gold">37 nodes · 13 sections</span>
+      <span class="card-scroll-item">5 partner boards</span>
+      <span class="card-scroll-item gold">Æ ligature · text marks</span>
+      <span class="card-scroll-item">social cards · hero</span>
+    </div></div>
+    </div></section>
+
+    <section class="school-banner" data-collapsed="false">
+      <div class="card-title">SCHOOL OF HERMES · 12 LESSONS <button class="card-toggle" aria-label="Toggle">−</button></div>
+      <div class="card-body">
+      <div class="pill2" style="color: var(--gold); border-color: var(--gold); margin-bottom: 10px;">LEARN · BUILD · RUN</div>
+      <div class="school-triple">
+        <div class="school-cell">
+          <div class="school-cell-name">Learn</div>
+          <div class="school-cell-items">
+            <span>1</span> What is Hermes Agent?<br>
+            <span>2</span> Installation & first run<br>
+            <span>3</span> First conversation<br>
+            <span>4</span> Configuration & skills
+          </div>
+        </div>
+        <div class="school-cell">
+          <div class="school-cell-name">Build</div>
+          <div class="school-cell-items">
+            <span>5</span> CLI & shell integration<br>
+            <span>6</span> Memory & context<br>
+            <span>7</span> Skills & toolbelt<br>
+            <span>8</span> Tools & toolset composition
+          </div>
+        </div>
+        <div class="school-cell">
+          <div class="school-cell-name">Run</div>
+          <div class="school-cell-items">
+            <span>9</span> Bot mode & automation<br>
+            <span>10</span> Messaging gateway<br>
+            <span>11</span> Local model integration<br>
+            <span>12</span> Production deployment
+          </div>
+        </div>
+      </div>
+      <div class="terminal" style="margin-top: 8px; border-color: var(--gold); color: var(--gold);">
+        Capstone: æ://self — a sovereign agent index, published<br>
+        → <span class="goldlink">/school-of-hermes-guide</span> · 36KB beginner's guide
+      </div>
+      <div class="card-scroll"><div class="card-scroll-inner">
+        <span class="card-scroll-item gold">LEARN · BUILD · RUN</span>
+        <span class="card-scroll-item">12 lessons · hermescore</span>
+        <span class="card-scroll-item gold">local-sovereign default</span>
+        <span class="card-scroll-item">#schoolofhermes</span>
+        <span class="card-scroll-item gold">one principal · agentic</span>
+        <span class="card-scroll-item">learn·build·run triad</span>
+        <span class="card-scroll-item gold">12 lessons · hermescore</span>
+        <span class="card-scroll-item">local-sovereign default</span>
+        <span class="card-scroll-item gold">#schoolofhermes</span>
+        <span class="card-scroll-item">one principal · agentic</span>
+        <span class="card-scroll-item gold">learn·build·run triad</span>
+        <span class="card-scroll-item">12 lessons · hermescore</span>
+      </div></div>
+      </div></section>
+
+    <section class="grid">
+      <a class="card-link" href="https://myaelmendez.github.io/" target="_blank" rel="noopener noreferrer">
+        <div class="card" data-collapsed="false">
+          <div class="card-title">COMMANDPROMPT.AI <button class="card-toggle" aria-label="Toggle">−</button></div>
+          <div class="card-body">
+          <div class="pill2">INTENT</div>
+          <div class="terminal">HUMAN://PRINCIPAL
 HERMES default agent
 OPENCLAW execution
 INTENT >_æ://
 AUTH://EXPLICIT
 LINEAGE://LIVE</div>
-      </div>
-      <div class="card">
-        <div class="card-title">PRIVATECLIENT.AI</div>
-        <div class="pill2">● PRIVATE</div>
-        <div class="terminal">ROOT OF TRUST: HUMAN PRINCIPAL
+          <div class="card-scroll"><div class="card-scroll-inner">
+            <span class="card-scroll-item">HUMAN://PRINCIPAL</span>
+            <span class="card-scroll-item gold">HERMES default</span>
+            <span class="card-scroll-item">OPENCLAW exec</span>
+            <span class="card-scroll-item gold">INTENT >_æ://</span>
+            <span class="card-scroll-item">AUTH://EXPLICIT</span>
+            <span class="card-scroll-item gold">LINEAGE://LIVE</span>
+            <span class="card-scroll-item">HUMAN://PRINCIPAL</span>
+            <span class="card-scroll-item gold">HERMES default</span>
+            <span class="card-scroll-item">OPENCLAW exec</span>
+            <span class="card-scroll-item gold">INTENT >_æ://</span>
+            <span class="card-scroll-item">AUTH://EXPLICIT</span>
+            <span class="card-scroll-item gold">LINEAGE://LIVE</span>
+          </div></div>
+          </div>
+        </div>
+      </a>
+      <a class="card-link" href="https://myaelmendez.github.io/" target="_blank" rel="noopener noreferrer">
+        <div class="card" data-collapsed="false">
+          <div class="card-title">PRIVATECLIENT.AI <button class="card-toggle" aria-label="Toggle">−</button></div>
+          <div class="card-body">
+          <div class="pill2">● PRIVATE</div>
+          <div class="terminal">ROOT OF TRUST: HUMAN PRINCIPAL
 IDENTITY ✓
 MEMORY ✓
 CONTEXT ✓
-KEYS ✓
+KEYS ✓ (multi-key popup)
 CAPITAL ✓
 AUTHORITY: ROOT</div>
-      </div>
-      <div class="card">
-        <div class="card-title">SOVÆREIGN</div>
-        <div class="pill2">SELF-CUSTODY</div>
-        <div class="terminal">PUBLIC >_æ://
+          <div class="card-scroll"><div class="card-scroll-inner">
+            <span class="card-scroll-item gold">ROOT OF TRUST</span>
+            <span class="card-scroll-item">IDENTITY ✓</span>
+            <span class="card-scroll-item gold">MEMORY ✓</span>
+            <span class="card-scroll-item">CONTEXT ✓</span>
+            <span class="card-scroll-item gold">KEYS ✓ popup</span>
+            <span class="card-scroll-item">CAPITAL ✓</span>
+            <span class="card-scroll-item gold">AUTHORITY: ROOT</span>
+            <span class="card-scroll-item gold">ROOT OF TRUST</span>
+            <span class="card-scroll-item">IDENTITY ✓</span>
+            <span class="card-scroll-item gold">MEMORY ✓</span>
+            <span class="card-scroll-item">CONTEXT ✓</span>
+            <span class="card-scroll-item gold">KEYS ✓ popup</span>
+          </div></div>
+          </div>
+        </div>
+      </a>
+      <a class="card-link" href="https://myaelmendez.github.io/" target="_blank" rel="noopener noreferrer">
+        <div class="card" data-collapsed="false">
+          <div class="card-title">SOVÆREIGN <button class="card-toggle" aria-label="Toggle">−</button></div>
+          <div class="card-body">
+          <div class="pill2">SELF-CUSTODY</div>
+          <div class="terminal">PUBLIC >_æ://
 PRIVATE >_æ://private_client
 SOVEREIGN >_soværeign://
 CUSTODY://VERIFIED
 HUMAN://PRINCIPAL</div>
-      </div>
-      <div class="card">
-        <div class="card-title">æææ OS</div>
-        <div class="pill2">ANY ONTOLOGY COMPUTE</div>
-        <div class="terminal">ONTOLOGY:// agentic neural biological economic organizational physical
+          <div class="card-scroll"><div class="card-scroll-inner">
+            <span class="card-scroll-item">PUBLIC >_æ://</span>
+            <span class="card-scroll-item gold">PRIVATE >_æ://private_client</span>
+            <span class="card-scroll-item">SOVEREIGN >_soværeign://</span>
+            <span class="card-scroll-item gold">CUSTODY://VERIFIED</span>
+            <span class="card-scroll-item">HUMAN://PRINCIPAL</span>
+            <span class="card-scroll-item">PUBLIC >_æ://</span>
+            <span class="card-scroll-item gold">PRIVATE >_æ://private_client</span>
+            <span class="card-scroll-item">SOVEREIGN >_soværeign://</span>
+            <span class="card-scroll-item gold">CUSTODY://VERIFIED</span>
+            <span class="card-scroll-item">HUMAN://PRINCIPAL</span>
+          </div></div>
+          </div>
+        </div>
+      </a>
+      <a class="card-link" href="https://myaelmendez.github.io/" target="_blank" rel="noopener noreferrer">
+        <div class="card" data-collapsed="false">
+          <div class="card-title">æææ OS <button class="card-toggle" aria-label="Toggle">−</button></div>
+          <div class="card-body">
+          <div class="pill2">ANY ONTOLOGY COMPUTE</div>
+          <div class="terminal">ONTOLOGY:// agentic neural biological economic organizational physical
 SHOULD? ethics
 VALUE? economics
 HOW? engineering
 RECEIPT? provenance</div>
-      </div>
+          <div class="card-scroll"><div class="card-scroll-inner">
+            <span class="card-scroll-item purple">agentic</span>
+            <span class="card-scroll-item gold">neural</span>
+            <span class="card-scroll-item purple">biological</span>
+            <span class="card-scroll-item gold">economic</span>
+            <span class="card-scroll-item purple">organizational</span>
+            <span class="card-scroll-item gold">physical</span>
+            <span class="card-scroll-item">SHOULD? ethics</span>
+            <span class="card-scroll-item">VALUE? economics</span>
+            <span class="card-scroll-item">HOW? engineering</span>
+            <span class="card-scroll-item">RECEIPT? provenance</span>
+            <span class="card-scroll-item purple">agentic</span>
+            <span class="card-scroll-item gold">neural</span>
+          </div></div>
+          </div>
+        </div>
+      </a>
     </section>
 
-    <section class="card" id="brands">
-      <div class="card-title">BRANDS / PROPERTIES</div>
+    <section class="card" data-collapsed="false">
+      <div class="card-title">BRANDS / PROPERTIES · 14 <button class="card-toggle" aria-label="Toggle">−</button></div>
+      <div class="card-body">
       <div class="list">
-        <a href="https://xn--6caaa.com/%C3%A6%3A" target="_blank">æ: <span class="status2">root</span></a>
-        <a href="https://xn--6caaa.com/y%C3%A6l" target="_blank">yæl <span class="status2">identity</span></a>
-        <a href="https://xn--6caaa.com/llm-store-1" target="_blank">LLM.store <span class="status2">intelligence</span></a>
-        <a href="https://xn--6caaa.com/privateclient-ai" target="_blank">privateclient.ai <span class="status2">custody</span></a>
-        <a href="https://xn--6caaa.com/molt-earth" target="_blank">molt.earth <span class="status2">evolve</span></a>
-        <a href="https://xn--6caaa.com/cli-llc" target="_blank">cli.llc <span class="status2">execute</span></a>
-        <a href="https://xn--6caaa.com/daollc-ai" target="_blank">daollc.ai <span class="status2">economy</span></a>
-        <a href="https://xn--6caaa.com/teologia-ai" target="_blank">teologia.ai <span class="status2">knowledge</span></a>
-        <a href="https://xn--6caaa.com/zacapa-ai" target="_blank">zacapa.ai <span class="status2">place</span></a>
-        <a href="https://xn--6caaa.com/enchiridion" target="_blank">enchiridion <span class="status2">canon</span></a>
-        <a href="https://xn--6caaa.com/neuromitosis" target="_blank">neuromitosis <span class="status2">distribute</span></a>
-        <a href="https://xn--6caaa.com/commandprompt" target="_blank">commandprompt <span class="status2">intent</span></a>
-        <a href="https://xn--6caaa.com/ioa" target="_blank">ioa <span class="status2">network</span></a>
-        <a href="https://xn--6caaa.com/consumer-redline-index" target="_blank">Consumer Redline Index <span class="status2">measure</span></a>
+        <a href="https://æææ.com/" target="_blank">æ: <span class="status2">root</span></a>
+        <a href="https://æææ.com/yæl" target="_blank">yæl <span class="status2">identity</span></a>
+        <a href="https://æææ.com/llm-store-1" target="_blank">LLM.store <span class="status2">intelligence</span></a>
+        <a href="https://æææ.com/privateclient-ai" target="_blank">privateclient.ai <span class="status2">custody</span></a>
+        <a href="https://æææ.com/molt-earth" target="_blank">molt.earth <span class="status2">evolve</span></a>
+        <a href="https://æææ.com/cli-llc" target="_blank">cli.llc <span class="status2">execute</span></a>
+        <a href="https://æææ.com/daollc-ai" target="_blank">daollc.ai <span class="status2">economy</span></a>
+        <a href="https://æææ.com/teologia-ai" target="_blank">teologia.ai <span class="status2">knowledge</span></a>
+        <a href="https://æææ.com/zacapa-ai" target="_blank">zacapa.ai <span class="status2">place</span></a>
+        <a href="https://æææ.com/enchiridion" target="_blank">enchiridion <span class="status2">canon</span></a>
+        <a href="https://æææ.com/neuromitosis" target="_blank">neuromitosis <span class="status2">distribute</span></a>
+        <a href="https://æææ.com/commandprompt" target="_blank">commandprompt <span class="status2">intent</span></a>
+        <a href="https://æææ.com/ioa" target="_blank">ioa <span class="status2">network</span></a>
+        <a href="https://æææ.com/consumer-redline-index" target="_blank">Consumer Redline Index <span class="status2">measure</span></a>
+      </div>
+      <div class="card-scroll"><div class="card-scroll-inner">
+        <span class="card-scroll-item gold">æ — root · 14 brands</span>
+        <span class="card-scroll-item">one principal · agentic</span>
+        <span class="card-scroll-item gold">LLM.store · intelligence</span>
+        <span class="card-scroll-item">privateclient · custody</span>
+        <span class="card-scroll-item gold">molt.earth · evolve</span>
+        <span class="card-scroll-item">cli.llc · execute</span>
+        <span class="card-scroll-item gold">daollc · economy</span>
+        <span class="card-scroll-item">teologia · knowledge</span>
+        <span class="card-scroll-item gold">æ — root · 14 brands</span>
+        <span class="card-scroll-item">one principal · agentic</span>
+        <span class="card-scroll-item gold">LLM.store · intelligence</span>
+        <span class="card-scroll-item">privateclient · custody</span>
+      </div></div>
+      </div></section>
+
+    <div class="third-card">
+      <div class="card" data-collapsed="false">
+        <div class="card-title">SUPERVISION <button class="card-toggle" aria-label="Toggle">−</button></div>
+        <div class="card-body">
+        <div class="pill2" style="color: var(--neon); border-color: var(--neon);">● ACTIVE · roboflow/supervision</div>
+        <div class="terminal">CV introspection engine
+sv.Detections → composition-spec.json
+real_digital_introspection.py
+hyperframes cv-composition.ts
+→ renders machine state as structured data</div>
+        <div class="card-scroll"><div class="card-scroll-inner">
+          <span class="card-scroll-item neon">CV introspection</span>
+          <span class="card-scroll-item">sv.Detections → json</span>
+          <span class="card-scroll-item neon">composition-spec</span>
+          <span class="card-scroll-item">real_digital_introspection</span>
+          <span class="card-scroll-item neon">hyperframes cv-composition</span>
+          <span class="card-scroll-item">machine state → data</span>
+          <span class="card-scroll-item neon">CV introspection</span>
+          <span class="card-scroll-item">sv.Detections → json</span>
+          <span class="card-scroll-item neon">composition-spec</span>
+          <span class="card-scroll-item">real_digital_introspection</span>
+          <span class="card-scroll-item neon">hyperframes cv-composition</span>
+          <span class="card-scroll-item">machine state → data</span>
+        </div></div>
+        </div>
+      </div>
+      <div class="card" data-collapsed="false">
+        <div class="card-title">CONTRIBUTION GRAPH <button class="card-toggle" aria-label="Toggle">−</button></div>
+        <div class="card-body">
+        <div class="pill2" style="color: var(--neon); border-color: var(--neon);">● GREEN SQUARES</div>
+        <div class="terminal">52 weeks × 7 days
+Every lesson done = 1 green square
+Stats: total · streak · longest
+LocalStorage · export JSON
+→ <span class="goldlink">/contribution-graph</span></div>
+        <div class="card-scroll"><div class="card-scroll-inner">
+          <span class="card-scroll-item neon">52 weeks × 7 days</span>
+          <span class="card-scroll-item">1 lesson = 1 square</span>
+          <span class="card-scroll-item neon">total · streak · longest</span>
+          <span class="card-scroll-item">localStorage · JSON</span>
+          <span class="card-scroll-item neon">#schoolofhermes</span>
+          <span class="card-scroll-item">52 weeks × 7 days</span>
+          <span class="card-scroll-item neon">1 lesson = 1 square</span>
+          <span class="card-scroll-item neon">total · streak · longest</span>
+          <span class="card-scroll-item">localStorage · JSON</span>
+          <span class="card-scroll-item neon">#schoolofhermes</span>
+        </div></div>
+        </div>
+      </div>
+      <div class="card" data-collapsed="false">
+        <div class="card-title">X FEED @yaelmendez <button class="card-toggle" aria-label="Toggle">−</button></div>
+        <div class="card-body">
+        <div class="pill2">#schoolofhermes</div>
+        <div class="terminal">Nitter cache + live refresh
+8 posts cached
+X ticker on homepage
+X feed panel
+→ #schoolofhermes · learn·build·run</div>
+        <div class="card-scroll"><div class="card-scroll-inner">
+          <span class="card-scroll-item">@yaelmendez · #schoolofhermes</span>
+          <span class="card-scroll-item gold">Nitter cache · 8 posts</span>
+          <span class="card-scroll-item">X ticker on homepage</span>
+          <span class="card-scroll-item gold">X feed panel</span>
+          <span class="card-scroll-item">learn·build·run</span>
+          <span class="card-scroll-item">@yaelmendez · #schoolofhermes</span>
+          <span class="card-scroll-item gold">Nitter cache · 8 posts</span>
+          <span class="card-scroll-item">X ticker on homepage</span>
+          <span class="card-scroll-item gold">X feed panel</span>
+          <span class="card-scroll-item">learn·build·run</span>
+        </div></div>
+        </div>
+      </div>
+      <div class="card" data-collapsed="false">
+        <div class="card-title">GLOCAL COORDINATION <button class="card-toggle" aria-label="Toggle">−</button></div>
+        <div class="card-body">
+        <div class="pill2">two surfaces · one principal</div>
+        <div class="terminal">æææ.com (local) ↔ myaelmendez.github.io (public)
+api-grid probes sitemap.xml
+GitHub Pages probes /api/status
+Cross-link: COMMAND SURFACE · >_æ://</div>
+        <div class="card-scroll"><div class="card-scroll-inner">
+          <span class="card-scroll-item gold">æææ.com (local)</span>
+          <span class="card-scroll-item">github.io (public)</span>
+          <span class="card-scroll-item gold">one principal · two surfaces</span>
+          <span class="card-scroll-item">api-grid → sitemap.xml</span>
+          <span class="card-scroll-item gold">pages → /api/status</span>
+          <span class="card-scroll-item">COMMAND SURFACE · >_æ://</span>
+          <span class="card-scroll-item gold">æææ.com (local)</span>
+          <span class="card-scroll-item">github.io (public)</span>
+          <span class="card-scroll-item gold">one principal · two surfaces</span>
+          <span class="card-scroll-item">api-grid → sitemap.xml</span>
+        </div></div>
+        </div>
+      </div>
+    </div>
+
+    <section class="card" data-collapsed="false">
+      <div class="card-title">RUNTIME · API SURFACE · 21 ENDPOINTS <button class="card-toggle" aria-label="Toggle">−</button></div>
+      <div class="card-body">
+      <div class="pill2" style="color: var(--gold); border-color: var(--gold);">● ONLINE · python · uvicorn</div>
+      <div class="terminal">ENDPOINTS:
+  GET  /health              — server status
+  GET  /api/status          — site metadata
+  GET  /api/brands          — 14-brand registry
+  GET  /api/brands/{key}    — single brand
+  GET  /api/root            — root of trust
+  GET  /api/receipt         — human-principal receipt
+  GET  /api/manifest        — route manifest (21 routes)
+  GET  /api/tech            — machine + supervision inventory
+  GET  /api/tech/introspection — digital introspection snapshot
+  POST /api/tech/introspect/scan — run CV scan now
+  GET  /api/cmd             — execute omnibox command
+  GET  /api/cmd/registry    — 44 commands
+  GET  /api/x-feed          — @yaelmendez X feed
+  GET  /api/api-keys        — multi-key store (add/edit/delete)
+  POST /api/api-keys        — add/update/delete API keys
+  GET  /api/jev/key         — Jev API key (backward compat)
+  GET  /api/referral        — Nous Portal referral + awareness
+  GET  /api/awareness       — system awareness payload
+  GET  /contribution-graph  — green square grid
+  GET  /school-of-hermes-guide — beginner's guide (36KB)
+  GET  /cv-annotation-demo  — CV annotation demo
+  GET  /index-panel         — æææ:// root hierarchy · 13 sections · 37 nodes</div>
+      <div class="card-scroll"><div class="card-scroll-inner">
+        <span class="card-scroll-item gold">21 endpoints · online</span>
+        <span class="card-scroll-item">/api/brands · 14 registry</span>
+        <span class="card-scroll-item gold">/api/cmd · 44 commands</span>
+        <span class="card-scroll-item">/api/x-feed · @yaelmendez</span>
+        <span class="card-scroll-item gold">/api/api-keys · multi-key</span>
+        <span class="card-scroll-item">/api/referral · Nous Portal</span>
+        <span class="card-scroll-item gold">/api/awareness · 12 fields</span>
+        <span class="card-scroll-item">/index-panel · 13 sections</span>
+        <span class="card-scroll-item gold">21 endpoints · online</span>
+        <span class="card-scroll-item">/api/brands · 14 registry</span>
+        <span class="card-scroll-item gold">/api/cmd · 44 commands</span>
+        <span class="card-scroll-item">/api/x-feed · @yaelmendez</span>
+      </div></div>
+      <div style="margin-top: 10px;">
+        <a class="goldlink" href="https://portal.nousresearch.com/r/yael" target="_blank">Nous Portal · one subscription to rule all LLM providers →</a>
       </div>
     </section>
 
-    <section class="card" id="runtime">
-      <div class="card-title">RUNTIME</div>
-      <div class="pill2" style="color: var(--gold); border-color: var(--gold);">● ONLINE</div>
-      <div class="terminal">SCHOOL OF HERMES:// ONLINE
-OCW:// curriculum available
-OSW:// contributor loop available
-ÆL:// >_æ:// invocation surface ready
-HOST YOUR HERMES-AGENT
-NOUS PORTAL · #cloudagent</div>
-      <div style="margin-top: 10px;">
-        <a class="goldlink" href="https://portal.nousresearch.com/r/yael" target="_blank">Nous Portal · referring →</a>
+    <section class="card">
+      <div class="card-title">CONTROLLER · local_agent <span class="badge">● ACTIVE</span></div>
+      <div class="card-body">
+        <div class="pill2" style="color: var(--gold); border-color: var(--gold);">● KÆNBÆN · TASK BOARD</div>
+        <div class="terminal">4 tasks · 4 deps · QR=THE_CHIP hash-chain
+  k001  probe Victus      [ blocked ]
+  k002  trace legion-go   [ done   ]
+  k003  combine            [ done   ]
+  k004  sign packet        [ done   ]</div>
+        <div class="card-scroll"><div class="card-scroll-inner">
+          <span class="card-scroll-item gold">k001  probe Victus      blocked</span>
+          <span class="card-scroll-item">k002  trace legion-go   done</span>
+          <span class="card-scroll-item">k003  combine            done</span>
+          <span class="card-scroll-item">k004  sign packet        done</span>
+        </div></div>
+        <div style="margin-top: 10px; font-size: 11px;">
+          <a class="goldlink" href="https://myaelmendez.github.io/local_agent" target="_blank">local_agent · sovereign · offline-first · QR=THE_CHIP →</a>
+        </div>
       </div>
     </section>
 
     <footer>
-      <span>æææ.com · local-sovereign default</span>
-      <span>Hermes Agent · HTML/CSS · offline-first</span>
+      <span>æææ.com · local-sovereign default · one principal · agentic coherence</span>
+      <span>Hermes Agent · HTML/CSS · offline-first · #schoolofhermes</span>
+      <span class="hermes-badge" title="Powered by Hermes Agent">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2a1 1 0 0 1 1 1v2a1 1 0 0 1-2 0V3a1 1 0 0 1 1-1Z" style="stroke-linecap:round;stroke-linejoin:round"/><path d="M5 4h14v16H5z" rx="2" style="stroke-linecap:round;stroke-linejoin:round"/><path d="M8 8h8M8 12h8M8 16h5" style="stroke-linecap:round;stroke-linejoin:round"/></svg>
+        Hermes Agent
+      </span>
     </footer>
+    <!-- scheme overlay -->
+    <div class="scheme-overlay" id="schemeOverlay">
+      <div class="scheme-overlay-inner">
+        <div class="scheme-option" data-scheme="h://">
+          <div class="scheme-code">h://</div>
+          <div class="scheme-desc">Host — local-sovereign default, your machine's origin</div>
+        </div>
+        <div class="scheme-option" data-scheme="H://">
+          <div class="scheme-code">H://</div>
+          <div class="scheme-desc">Platform — shared substrate, multi-principal coordination</div>
+        </div>
+        <div class="scheme-option" data-scheme="🪲://">
+          <div class="scheme-code">🪲://</div>
+          <div class="scheme-desc">Wing — agentic flight layer, autonomous coherence</div>
+        </div>
+      </div>
+    </div>
   </div>
 </body>
 </html>
