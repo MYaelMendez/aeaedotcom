@@ -25,12 +25,11 @@
       --glass-2: rgba(2,6,23,.45);
       --radius: 14px;
       --radius-sm: 10px;
-      --lakers-purple: #552583;
-      --lakers-purple-2: #3a1756;
-      --lakers-purple-glow: rgba(85,37,131,.35);
-      --lakers-gold: #fdb927;
-      --lakers-gold-dim: #b87a12;
-      --lakers-gold-glow: rgba(253,185,39,.32);
+      --ae-1: #f5c842;
+      --ae-1-dim: #b87a12;
+      --ae-1-glow: rgba(253,185,39,.32);
+      --ae-2: #f0d487;
+      --ae-3-glow: rgba(212,164,31,.32);
       --mesh-0: rgba(90,140,255,.10);
       --mesh-1: rgba(255,200,80,.08);
       --mesh-2: rgba(85,37,131,.10);
@@ -68,7 +67,7 @@
     }
     .titlebar .icon {
       width: 14px; height: 14px; border-radius: 3px;
-      background: linear-gradient(135deg, var(--gold), var(--gold-dim));
+      background: linear-gradient(135deg, var(--ae-1), var(--ae-2));
       color: var(--void); font-size: 9px; font-weight: 900;
       display: grid; place-items: center; margin-right: 8px;
       -webkit-app-region: no-drag;
@@ -156,7 +155,7 @@
     .theme-toggle button.active { border-color: var(--gold); color: var(--gold); }
     .theme-toggle .icon { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 3px; vertical-align: middle; }
     .theme-toggle .night-btn .icon { background: #f5c842; }
-    .theme-toggle .lakers-btn .icon { background: #fdb927; }
+    .theme-toggle .ae-btn .icon { background: #fdb927; }
     nav { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; align-items: center; }
     .nav-right { display: flex; gap: 6px; align-items: center; }
     nav a {
@@ -175,7 +174,7 @@
     .theme-btn.active { border-color: var(--gold); color: var(--gold); }
     .theme-btn .icon { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 4px; vertical-align: middle; }
     .theme-btn.night .icon { background: #f5c842; box-shadow: 0 0 6px rgba(245,200,66,.5); }
-    .theme-btn.lakers .icon { background: #fdb927; box-shadow: 0 0 6px rgba(253,185,39,.5); }
+    .theme-btn.ae .icon { background: #fdb927; box-shadow: 0 0 6px rgba(253,185,39,.5); }
     .hero {
       background: rgba(17,24,39,.7); border: 1px solid rgba(245,200,66,.18);
       border-radius: 14px; padding: 18px; margin-bottom: 14px; position: relative; overflow: hidden;
@@ -225,7 +224,7 @@
       background: rgba(245,200,66,.06);
     }
     .hero-scroll-item.purple {
-      color: var(--lakers-gold);
+      color: var(--ae-1);
       border-color: rgba(253,185,39,.25);
       background: rgba(253,185,39,.06);
     }
@@ -306,12 +305,12 @@
     }
     .card-scroll-item.gold { color: var(--gold); border-color: rgba(245,200,66,.2); background: rgba(245,200,66,.04); }
     .card-scroll-item.neon { color: var(--neon); border-color: rgba(16,185,129,.15); background: rgba(16,185,129,.03); }
-    .card-scroll-item.purple { color: var(--lakers-gold); border-color: rgba(253,185,39,.15); background: rgba(253,185,39,.03); }
+    .card-scroll-item.purple { color: var(--ae-1); border-color: rgba(253,185,39,.15); background: rgba(253,185,39,.03); }
     .card-body { transition: all .2s; }
     html.night .card-title .card-toggle { color: var(--ink-3); }
     html.night .card-title .card-toggle:hover { color: var(--gold); border-color: var(--gold); }
-    html.lakers .card-title .card-toggle { border-color: rgba(253,185,39,.2); color: var(--lakers-gold); }
-    html.lakers .card-title .card-toggle:hover { border-color: var(--lakers-gold); color: #fff; }
+    html.ae .card-title .card-toggle { border-color: rgba(253,185,39,.2); color: var(--ae-1); }
+    html.ae .card-title .card-toggle:hover { border-color: var(--ae-1); color: #fff; }
     .school-triple {
       display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 8px;
       margin-top: 8px;
@@ -407,19 +406,18 @@
       try {
         const t = localStorage.getItem('aeaedotcom_preview_theme');
         if (t === 'night') document.documentElement.classList.add('night');
-        else if (t === 'lakers') document.documentElement.classList.add('lakers');
-        else if (t === 'both') document.documentElement.classList.add('night','lakers');
+
       } catch(_) {}
       document.querySelectorAll('.theme-btn').forEach(btn => {
         btn.addEventListener('click', function(){
           const mode = this.dataset.mode;
           const html = document.documentElement;
           if (mode === 'night') { html.classList.toggle('night'); }
-          else if (mode === 'lakers') { html.classList.toggle('lakers'); }
+          else if (mode === 'ae') { html.classList.toggle('ae'); }
           try {
             const n = html.classList.contains('night') ? 1 : 0;
-            const l = html.classList.contains('lakers') ? 1 : 0;
-            localStorage.setItem('aeaedotcom_preview_theme', n && l ? 'both' : n ? 'night' : l ? 'lakers' : '');
+            const l = html.classList.contains('ae') ? 1 : 0;
+            localStorage.setItem('aeaedotcom_preview_theme', n && l ? 'both' : n ? 'night' : l ? 'ae' : '');
           } catch(_) {}
           document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
           if (html.classList.contains(mode)) this.classList.add('active');
@@ -726,10 +724,9 @@
         <a href="https://myaelmendez.github.io/contribution-graph.html" target="_blank">Contribute</a>
         <a href="https://myaelmendez.github.io/school-of-hermes-guide.html" target="_blank">Guide</a>
         <span class="nav-right">
-          <button class="theme-btn night" data-mode="night" title="Toggle night mode">
+          <button class="theme-btn ae active" data-mode="ae" title="Toggle æ theme (gold on void)">
             <span class="icon"></span>Night
           </button>
-          <button class="theme-btn lakers" data-mode="lakers" title="Toggle Lakers theme">
             <span class="icon"></span>Lakers
           </button>
         </span>
