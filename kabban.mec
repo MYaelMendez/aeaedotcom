@@ -1,0 +1,108 @@
+# KÆNBÆN — Knowledge Breadbasket · Mech bridge
+# Kund_temp
+# The task board is data. State transitions are formulas.
+# The runtime propagates state automatically. No imperative loops.
+#
+# Declare the board, then run the state machine.
+
+# ---------------------------------------------------------------
+# 1. DATA — the task board (kabban.json format)
+# ---------------------------------------------------------------
+
+# Board: ordered table of tasks
+#   | id | intent | assignee | status | parent | children | evidence | created | updated |
+#   | k001 | Probe Victus brain | vice | blocked | _ | k002 | probe: Victus responsive | 2026-10-08T19:13:06 |
+#   | k002 | Tracer glocal mesh | imperial | done | k001 | k003,k004 | trace: 3 hops | 2026-10-08T19:13:06 |
+#   | k003 | Combine trace+probe | reviewer | done | k002 | k004 | combine: single exploit | 2026-10-08T19:13:06 |
+#   | k004 | Signer merge vertices | imperial | done | k003 | _ | signed: hash-chained | 2026-10-08T19:13:06 |
+
+board :=
+  | id<string>  intent<string>  assignee<string>  status<string>  parent<string>  children<[string]>  evidence<string>  created<string>  updated<string> |
+  | k001        "Probe Victus brain"   "vice"        "blocked"      _             ["k002"]            "probe: Victus responsive"  "2026-10-08T19:13:06"  "2026-10-08T19:14:04" |
+  | k002        "Tracer glocal mesh"   "imperial"    "done"         "k001"        ["k003", "k004"]  "trace: 3 hops"             "2026-10-08T19:13:06"  "2026-10-08T19:13:54" |
+  | k003        "Combine trace+probe"  "reviewer"    "done"         "k002"        ["k004"]            "combine: single exploit"   "2026-10-08T19:13:06"  "2026-10-08T19:13:54" |
+  | k004        "Signer merge vertices" "imperial"    "done"         "k003"        []                  "signed: hash-chained"       "2026-10-08T19:13:06"  "2026-10-08T19:13:54" |
+
+# Dependency edges (kabban-deps.json format)
+edges := | child<string> | parent<string> | at<string> |
+  | k002 | k001 | "2026-10-08T19:13:18" |
+  | k003 | k002 | "2026-10-08T19:13:19" |
+  | k004 | k002 | "2026-10-08T19:13:19" |
+  | k004 | k003 | "2026-10-08T19:13:19" |
+
+# Child/grandchild map from the board
+children_of(id) := board[board.id == id].children[0]
+
+# Parent of a task
+parent_of(id) := board[board.id == id].parent[0]
+
+# ---------------------------------------------------------------
+# 2. STATE MACHINE — transitions are formulas, not loops
+# ---------------------------------------------------------------
+
+# Status kinds
+<task-status> := :todo | :dispatched | :running | :done | :blocked | :dormant
+
+# A single task state transition (pure, idempotent)
+advance(task) := task?
+  # blocked → dormant (dormant_reroute: blocked parent)
+  | :blocked =>
+    {
+      ...task,
+      "status" <- :dormant,
+      "dormant_since" <- now(),
+      "updated" <- now(),
+      "evidence" <- [...task.evidence, "dormant: rerouted via QR=THE_CHIP restart"],
+    }
+  # done → (nothing, idempotent)
+  | :done => task
+  # blocked → done (if evidence clears the block)
+  | :blocked =>
+    ...task,
+    "status" <- :done,
+    "updated" <- now(),
+    "evidence" <- [...task.evidence, "unblocked via QR kænbæn restart"],
+  | _:todo     => ...task, "status" <- :dispatched
+  | :dispatched => ...task, "status" <- :running
+  | :running    => ...task, "status" <- :done
+  .  # trailing period: end of function
+
+# ---------------------------------------------------------------
+# 3. DEPENDENCY GATING — a task only advances when its parents are done
+# ---------------------------------------------------------------
+
+# Waits for all parents to be done
+waits_for(task) := task.parent == _
+  ? false
+  : parent_of(task.parent) in [:done, :dispatched]
+
+# Gated advance: only apply advance if dependencies are ready
+advance_gated(task) := if waits_for(task) then advance(task) else task
+
+# ---------------------------------------------------------------
+# 4. EVENT LOG — traceable handoff events
+# ---------------------------------------------------------------
+
+# Emit a handoff event (traceable, hash-chained)
+event(task_id, event_name, actor) := {
+  "timestamp" <- now(),
+  "task_id" <- task_id,
+  "event" <- event_name,
+  "actor" <- actor,
+  "qr" <- sha256(canonical(task_id, event_name, actor)),
+}
+
+# ---------------------------------------------------------------
+# 5. QUERY HELPERS
+# ---------------------------------------------------------------
+
+# Ready-to-run: no parents, or all parents done
+ready(task) := task.parent == _
+  ? true
+  : parent_of(task.parent) == :done
+
+# All done
+all_done() := every(board.status == :done)
+
+# Merge evidence from all tasks
+evidence_chain() := board.evidence | [i in board] | _  # placeholder
