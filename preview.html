@@ -40,6 +40,254 @@
       --scan-1: rgba(212,164,31,.03);
     }
     html.night { color-scheme: dark; }
+    /* ── æ sovereign desktop theme: gold on void ── */
+    html.ae {
+      --void: #020617;
+      --void-2: #0b1220;
+      --gold: #f5c842;
+      --gold-dim: #b58a1e;
+      --gold-glow: rgba(245,200,66,.28);
+      --ae-1: #f5c842;
+      --ae-1-dim: #b58a12;
+      --ae-1-glow: rgba(253,185,39,.32);
+      --ae-2: #f0d487;
+      --ae-3-glow: rgba(212,164,31,.32);
+      --border: rgba(148,163,184,.18);
+      --glass: rgba(17,24,39,.72);
+      --glass-2: rgba(2,6,23,.45);
+      background: var(--void) !important;
+      color: var(--ink) !important;
+    }
+    html.ae .titlebar {
+      background: linear-gradient(180deg, rgba(15,23,42,.95), rgba(2,6,23,.85));
+      border-bottom-color: rgba(245,200,66,.25);
+    }
+    html.ae .titlebar .icon {
+      background: linear-gradient(135deg, var(--gold), var(--gold-dim));
+      box-shadow: 0 0 12px var(--gold-glow);
+    }
+    html.ae .titlebar .btn { color: var(--ink-2); }
+    html.ae .titlebar .btn:hover { background: rgba(245,200,66,.12); color: var(--gold); }
+    html.ae .titlebar .btn.close:hover { background: #ef4444; color: #fff; }
+    html.ae header {
+      border-bottom-color: var(--gold);
+      background: rgba(2,6,23,.85);
+    }
+    html.ae .glyph { border-color: var(--gold); color: var(--gold); }
+    html.ae .glyph:hover { border-color: var(--gold-dim); color: var(--gold); }
+    html.ae .title { color: var(--gold); text-shadow: 0 0 18px var(--gold-glow); }
+    html.ae .theme-toggle button { color: var(--ink-2); border-color: var(--border); }
+    html.ae .theme-toggle button:hover { border-color: var(--gold); color: var(--ink); }
+    html.ae .theme-toggle button.active { border-color: var(--gold); color: var(--gold); }
+    html.ae .theme-toggle .icon { background: #fdb927; box-shadow: 0 0 6px rgba(253,185,39,.5); }
+    html.ae .nav { background: var(--void-2); border-right-color: var(--border); }
+    html.ae .nav a { color: var(--ink-2); border-color: rgba(245,200,66,.1); }
+    html.ae .nav a:hover { background: rgba(245,200,66,.1); color: var(--gold); }
+    html.ae .nav a .lbl { color: var(--gold); }
+    html.ae .hero {
+      background: rgba(17,24,39,.75);
+      border-color: rgba(245,200,66,.2);
+      box-shadow: 0 0 24px var(--gold-glow), inset 0 0 30px rgba(245,200,66,.04);
+    }
+    html.ae .hero::before {
+      background:
+        radial-gradient(ellipse at 20% 50%, rgba(90,140,255,.12) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 50%, rgba(255,200,80,.10) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 0%, rgba(245,200,66,.12) 0%, transparent 60%);
+    }
+    html.ae .hero-scroll-item { color: var(--neon); border-color: rgba(16,185,129,.2); }
+    html.ae .hero-scroll-item.gold { color: var(--gold); border-color: rgba(245,200,66,.25); background: rgba(245,200,66,.07); }
+    html.ae .hero-scroll-item.purple { color: var(--ae-1); border-color: rgba(253,185,39,.25); background: rgba(253,185,39,.07); }
+    html.ae .pill { color: var(--ink-3); border-color: rgba(245,200,66,.2); }
+    html.ae .card {
+      background: rgba(17,24,39,.75);
+      border-color: rgba(245,200,66,.18);
+      box-shadow: 0 0 12px rgba(245,200,66,.06);
+    }
+    html.ae .card:hover { border-color: var(--gold); box-shadow: 0 0 16px var(--gold-glow); }
+    html.ae .card-title { color: var(--gold); text-shadow: 0 0 12px var(--gold-glow); }
+    html.ae .card-title .card-toggle { color: var(--ink-3); border-color: rgba(245,200,66,.2); }
+    html.ae .card-title .card-toggle:hover { border-color: var(--gold); color: var(--gold); }
+    html.ae .school-banner {
+      background: rgba(17,24,39,.85);
+      border-color: var(--gold);
+      box-shadow: 0 0 24px var(--gold-glow), 0 0 0 1px rgba(245,200,66,.10) inset;
+    }
+    html.ae .school-banner .card-title { color: var(--gold); }
+    html.ae .school-cell-name { color: var(--gold); }
+    html.ae .school-cell-items span { color: var(--neon); }
+    html.ae .terminal {
+      background: rgba(11,18,32,.85);
+      border-color: rgba(245,200,66,.18);
+      color: var(--ink-2);
+    }
+    html.ae .terminal.gold { color: var(--gold); border-color: var(--gold); }
+    html.ae .list a { color: var(--ink); border-color: rgba(245,200,66,.18); }
+    html.ae .list a:hover { border-color: var(--gold); }
+    html.ae .card-scroll-item.gold {
+      color: var(--gold); border-color: rgba(245,200,66,.2); background: rgba(245,200,66,.05);
+    }
+    html.ae .card-scroll-item.neon {
+      color: var(--neon); border-color: rgba(16,185,129,.15); background: rgba(16,185,129,.04);
+    }
+    html.ae .card-scroll-item.purple {
+      color: var(--ae-1); border-color: rgba(253,185,39,.15); background: rgba(253,185,39,.04);
+    }
+    html.ae .referral-pill {
+      color: var(--gold); border-color: var(--gold);
+      background: rgba(245,200,66,.07);
+    }
+    html.ae .referral-pill:hover {
+      background: rgba(245,200,66,.14);
+      box-shadow: 0 0 14px var(--gold-glow);
+    }
+    html.ae .footer { color: var(--ink-3); }
+    html.ae .hermes-badge { border-color: rgba(245,200,66,.15); color: var(--ink-3); }
+    html.ae .hermes-badge svg { color: var(--gold); }
+    html.ae .cg-link { color: var(--gold); border-color: rgba(245,200,66,.2); }
+    html.ae .cg-link:hover { background: rgba(245,200,66,.1); border-color: var(--gold); box-shadow: 0 0 10px var(--gold-glow); }
+    html.ae .status2 { color: var(--ink-3); }
+    html.ae .pill2 { color: var(--gold); border-color: var(--gold); }
+    html.ae .omnibox { border-color: rgba(245,200,66,.2); background: rgba(11,18,32,.75); }
+    html.ae .omnibox:focus-within { border-color: var(--gold); box-shadow: 0 0 12px var(--gold-glow); }
+    html.ae .prompt-glyph { color: var(--gold); text-shadow: 0 0 6px var(--gold-glow); }
+    html.ae .prompt-protocol { color: var(--ink-3); opacity: .7; }
+    html.ae .omnibox-input { color: var(--ink); }
+    html.ae .omnibox-input::placeholder { color: var(--ink-3); opacity: .5; }
+    html.ae .omnibox-results { color: var(--ink-2); }
+    html.ae .omnibox-results .highlight { color: var(--gold); }
+    html.ae .omnibox-results .dim { color: var(--ink-3); opacity: .7; }
+    html.ae .omnibox-chip { color: var(--ink-3); border-color: rgba(245,200,66,.15); background: rgba(245,200,66,.06); }
+    html.ae .omnibox-chip:hover { color: var(--gold); border-color: var(--gold); background: rgba(245,200,66,.1); }
+    html.ae .scheme-overlay { background: rgba(2,6,23,.72); border-color: var(--gold); }
+    html.ae .scheme-overlay-inner { border-color: var(--gold); background: rgba(11,18,32,.92); }
+    html.ae .scheme-code { color: var(--gold); }
+    html.ae .scheme-option:hover { background: rgba(245,200,66,.08); border-color: rgba(245,200,66,.25); }
+
+    /* ── æ sovereign desktop theme: gold on void ── */
+    html.ae {
+      --void: #020617;
+      --void-2: #0b1220;
+      --gold: #f5c842;
+      --gold-dim: #b58a1e;
+      --gold-glow: rgba(245,200,66,.28);
+      --ae-1: #f5c842;
+      --ae-1-dim: #b58a12;
+      --ae-1-glow: rgba(253,185,39,.32);
+      --ae-2: #f0d487;
+      --ae-3-glow: rgba(212,164,31,.32);
+      --border: rgba(148,163,184,.18);
+      --glass: rgba(17,24,39,.72);
+      --glass-2: rgba(2,6,23,.45);
+      background: var(--void) !important;
+      color: var(--ink) !important;
+    }
+    html.ae .titlebar {
+      background: linear-gradient(180deg, rgba(15,23,42,.95), rgba(2,6,23,.85));
+      border-bottom-color: rgba(245,200,66,.25);
+    }
+    html.ae .titlebar .icon {
+      background: linear-gradient(135deg, var(--gold), var(--gold-dim));
+      box-shadow: 0 0 12px var(--gold-glow);
+    }
+    html.ae .titlebar .btn { color: var(--ink-2); }
+    html.ae .titlebar .btn:hover { background: rgba(245,200,66,.12); color: var(--gold); }
+    html.ae .titlebar .btn.close:hover { background: #ef4444; color: #fff; }
+    html.ae header {
+      border-bottom-color: var(--gold);
+      background: rgba(2,6,23,.85);
+    }
+    html.ae .glyph { border-color: var(--gold); color: var(--gold); }
+    html.ae .glyph:hover { border-color: var(--gold-dim); color: var(--gold); }
+    html.ae .title { color: var(--gold); text-shadow: 0 0 18px var(--gold-glow); }
+    html.ae .theme-toggle button { color: var(--ink-2); border-color: var(--border); }
+    html.ae .theme-toggle button:hover { border-color: var(--gold); color: var(--ink); }
+    html.ae .theme-toggle button.active { border-color: var(--gold); color: var(--gold); }
+    html.ae .theme-toggle .icon { background: #fdb927; box-shadow: 0 0 6px rgba(253,185,39,.5); }
+    html.ae .nav { background: var(--void-2); border-right-color: var(--border); }
+    html.ae .nav a { color: var(--ink-2); border-color: rgba(245,200,66,.1); }
+    html.ae .nav a:hover { background: rgba(245,200,66,.1); color: var(--gold); }
+    html.ae .nav a .lbl { color: var(--gold); }
+    html.ae .hero {
+      background: rgba(17,24,39,.75);
+      border-color: rgba(245,200,66,.2);
+      box-shadow: 0 0 24px var(--gold-glow), inset 0 0 30px rgba(245,200,66,.04);
+    }
+    html.ae .hero::before {
+      background:
+        radial-gradient(ellipse at 20% 50%, rgba(90,140,255,.12) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 50%, rgba(255,200,80,.10) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 0%, rgba(245,200,66,.12) 0%, transparent 60%);
+    }
+    html.ae .hero-scroll-item { color: var(--neon); border-color: rgba(16,185,129,.2); }
+    html.ae .hero-scroll-item.gold { color: var(--gold); border-color: rgba(245,200,66,.25); background: rgba(245,200,66,.07); }
+    html.ae .hero-scroll-item.purple { color: var(--ae-1); border-color: rgba(253,185,39,.25); background: rgba(253,185,39,.07); }
+    html.ae .pill { color: var(--ink-3); border-color: rgba(245,200,66,.2); }
+    html.ae .card {
+      background: rgba(17,24,39,.75);
+      border-color: rgba(245,200,66,.18);
+      box-shadow: 0 0 12px rgba(245,200,66,.06);
+    }
+    html.ae .card:hover { border-color: var(--gold); box-shadow: 0 0 16px var(--gold-glow); }
+    html.ae .card-title { color: var(--gold); text-shadow: 0 0 12px var(--gold-glow); }
+    html.ae .card-title .card-toggle { color: var(--ink-3); border-color: rgba(245,200,66,.2); }
+    html.ae .card-title .card-toggle:hover { border-color: var(--gold); color: var(--gold); }
+    html.ae .school-banner {
+      background: rgba(17,24,39,.85);
+      border-color: var(--gold);
+      box-shadow: 0 0 24px var(--gold-glow), 0 0 0 1px rgba(245,200,66,.10) inset;
+    }
+    html.ae .school-banner .card-title { color: var(--gold); }
+    html.ae .school-cell-name { color: var(--gold); }
+    html.ae .school-cell-items span { color: var(--neon); }
+    html.ae .terminal {
+      background: rgba(11,18,32,.85);
+      border-color: rgba(245,200,66,.18);
+      color: var(--ink-2);
+    }
+    html.ae .terminal.gold { color: var(--gold); border-color: var(--gold); }
+    html.ae .list a { color: var(--ink); border-color: rgba(245,200,66,.18); }
+    html.ae .list a:hover { border-color: var(--gold); }
+    html.ae .card-scroll-item.gold {
+      color: var(--gold); border-color: rgba(245,200,66,.2); background: rgba(245,200,66,.05);
+    }
+    html.ae .card-scroll-item.neon {
+      color: var(--neon); border-color: rgba(16,185,129,.15); background: rgba(16,185,129,.04);
+    }
+    html.ae .card-scroll-item.purple {
+      color: var(--ae-1); border-color: rgba(253,185,39,.15); background: rgba(253,185,39,.04);
+    }
+    html.ae .referral-pill {
+      color: var(--gold); border-color: var(--gold);
+      background: rgba(245,200,66,.07);
+    }
+    html.ae .referral-pill:hover {
+      background: rgba(245,200,66,.14);
+      box-shadow: 0 0 14px var(--gold-glow);
+    }
+    html.ae .footer { color: var(--ink-3); }
+    html.ae .hermes-badge { border-color: rgba(245,200,66,.15); color: var(--ink-3); }
+    html.ae .hermes-badge svg { color: var(--gold); }
+    html.ae .cg-link { color: var(--gold); border-color: rgba(245,200,66,.2); }
+    html.ae .cg-link:hover { background: rgba(245,200,66,.1); border-color: var(--gold); box-shadow: 0 0 10px var(--gold-glow); }
+    html.ae .status2 { color: var(--ink-3); }
+    html.ae .pill2 { color: var(--gold); border-color: var(--gold); }
+    html.ae .omnibox { border-color: rgba(245,200,66,.2); background: rgba(11,18,32,.75); }
+    html.ae .omnibox:focus-within { border-color: var(--gold); box-shadow: 0 0 12px var(--gold-glow); }
+    html.ae .prompt-glyph { color: var(--gold); text-shadow: 0 0 6px var(--gold-glow); }
+    html.ae .prompt-protocol { color: var(--ink-3); opacity: .7; }
+    html.ae .omnibox-input { color: var(--ink); }
+    html.ae .omnibox-input::placeholder { color: var(--ink-3); opacity: .5; }
+    html.ae .omnibox-results { color: var(--ink-2); }
+    html.ae .omnibox-results .highlight { color: var(--gold); }
+    html.ae .omnibox-results .dim { color: var(--ink-3); opacity: .7; }
+    html.ae .omnibox-chip { color: var(--ink-3); border-color: rgba(245,200,66,.15); background: rgba(245,200,66,.06); }
+    html.ae .omnibox-chip:hover { color: var(--gold); border-color: var(--gold); background: rgba(245,200,66,.1); }
+    html.ae .scheme-overlay { background: rgba(2,6,23,.72); border-color: var(--gold); }
+    html.ae .scheme-overlay-inner { border-color: var(--gold); background: rgba(11,18,32,.92); }
+    html.ae .scheme-code { color: var(--gold); }
+    html.ae .scheme-option:hover { background: rgba(245,200,66,.08); border-color: rgba(245,200,66,.25); }
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html, body {
       height: 100%;
@@ -693,7 +941,6 @@
       renderResults([]);
     })();
 </style>
-</style>
 </head>
 <body>
 
@@ -725,10 +972,9 @@
         <a href="https://myaelmendez.github.io/school-of-hermes-guide.html" target="_blank">Guide</a>
         <span class="nav-right">
           <button class="theme-btn ae active" data-mode="ae" title="Toggle æ theme (gold on void)">
-            <span class="icon"></span>Night
+            <span class="icon"></span>æ
           </button>
-            <span class="icon"></span>Lakers
-          </button>
+        </span>
         </span>
       </nav>
     </header>
