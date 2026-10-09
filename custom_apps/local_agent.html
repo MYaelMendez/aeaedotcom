@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>local_agent · Offline-First</title>
+<style>
+  :root {
+    --void: #020617;
+    --void-2: #0b1220;
+    --gold: #f5c842;
+    --gold-dim: #b58a1e;
+    --ae-1: #f5c842;
+    --ae-1-dim: #b58a12;
+    --ae-1-glow: rgba(253,185,39,.32);
+    --ae-2: #f0d487;
+    --neon: #10b981;
+    --neon-glow: rgba(16,185,129,.25);
+    --ink: #e5e7eb;
+    --ink-2: #9ca3af;
+    --ink-3: #6b7280;
+    --border: rgba(148,163,184,.18);
+    --glass: rgba(17,24,39,.72);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    height: 100%; background: var(--void); color: var(--ink);
+    font-family: ui-monospace, 'SFMono-Regular', Menlo, Monaco, Consolas, monospace;
+    line-height: 1.5; -webkit-app-region: drag; user-select: none;
+  }
+  .window { position: fixed; inset: 0; display: flex; flex-direction: column; background: var(--void); -webkit-app-region: no-drag; }
+  .titlebar {
+    display: flex; align-items: center; gap: 8px; padding: 6px 12px;
+    -webkit-app-region: drag; background: rgba(15,23,42,.85); border-bottom: 1px solid var(--border); min-height: 36px;
+  }
+  .titlebar .icon {
+    width: 14px; height: 14px; border-radius: 3px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-dim));
+    color: var(--void); font-size: 9px; font-weight: 900; display: grid; place-items: center; margin-right: 8px;
+    -webkit-app-region: no-drag;
+  }
+  .titlebar .name { font-size: 12px; font-weight: 700; color: var(--ink); -webkit-app-region: no-drag; letter-spacing: .04em; }
+  .titlebar .buttons { margin-left: auto; display: flex; gap: 4px; }
+  .titlebar .btn {
+    width: 14px; height: 14px; border-radius: 4px; border: none; background: transparent; cursor: pointer;
+    display: grid; place-items: center; color: var(--ink-2); -webkit-app-region: no-drag; transition: background .15s;
+  }
+  .titlebar .btn:hover { background: rgba(255,255,255,.12); color: var(--ink); }
+  .titlebar .btn.close:hover { background: #ef4444; color: #fff; }
+  .content { flex: 1; display: flex; padding: 14px; gap: 14px; overflow: hidden; }
+  .sidebar {
+    width: 240px; min-width: 240px; display: flex; flex-direction: column; gap: 10px;
+  }
+  .panel {
+    background: rgba(17,24,39,.75); border: 1px solid rgba(245,200,66,.18); border-radius: 14px; padding: 14px;
+  }
+  .panel h2 { font-size: 11px; letter-spacing: .12em; color: var(--gold); text-transform: uppercase; font-weight: 700; }
+  .probe-row {
+    display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-radius: 8px; font-size: 12px;
+  }
+  .probe-row .status { font-weight: 700; letter-spacing: .04em; }
+  .probe-row .status.online { color: var(--neon); }
+  .probe-row .status.offline { color: #ef4444; }
+  .probe-row .status.probing { color: var(--gold); }
+  .engine-dot {
+    width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 4px;
+    box-shadow: 0 0 6px currentColor;
+  }
+  .engine-dot.cpu { color: var(--gold); }
+  .engine-dot.ollama { color: var(--neon); }
+  .main { flex: 1; display: flex; flex-direction: column; gap: 12px; overflow-y: auto; padding: 14px; }
+  .card {
+    background: rgba(17,24,39,.75); border: 1px solid rgba(245,200,66,.18); border-radius: 14px; padding: 14px;
+  }
+  .card h2 { font-size: 12px; letter-spacing: .1em; color: var(--gold); text-transform: uppercase; font-weight: 700; }
+  .code-block {
+    background: rgba(11,18,32,.85); border: 1px solid rgba(245,200,66,.18); border-radius: 8px;
+    padding: 10px 12px; font-size: 11px; color: var(--ink-2); line-height: 1.6; white-space: pre-wrap;
+  }
+  .badge {
+    font-size: 9px; padding: 2px 7px; border-radius: 999px; font-weight: 700; letter-spacing: .04em;
+  }
+  .badge-qr { background: rgba(245,200,66,.12); color: var(--gold); border: 1px solid rgba(245,200,66,.2); }
+  .badge-offline { background: rgba(16,185,129,.12); color: var(--neon); border: 1px solid rgba(16,185,129,.2); }
+  footer {
+    margin-top: 12px; padding: 8px 14px; font-size: 10px; color: var(--ink-3);
+    display: flex; justify-content: space-between; border-top: 1px solid var(--border);
+  }
+</style>
+</head>
+<body>
+<div class="window">
+  <div class="titlebar">
+    <div class="icon">æ</div>
+    <div class="name">local_agent · Offline-First</div>
+    <div class="buttons">
+      <button class="btn" aria-label="Minimize">−</button>
+      <button class="btn" aria-label="Maximize">□</button>
+      <button class="btn close" aria-label="Close">✕</button>
+    </div>
+  </div>
+  <div class="content">
+    <div class="sidebar">
+      <div class="panel">
+        <h2>Probe</h2>
+        <div class="probe-row">
+          <span class="status online" id="probeStatus">● ONLINE</span>
+          <span style="font-size:10px;color:var(--ink-2);">engine: cpu · brain: ollama cpu</span>
+        </div>
+        <div class="probe-row" style="margin-top:6px;">
+          <span class="engine-dot cpu" style="display:inline-block;"></span>
+          <span style="font-size:10px;color:var(--ink-2);">Ollama :11434 · llama3.2:3b · 2GB Q4_K_M</span>
+        </div>
+        <div class="probe-row" style="margin-top:6px;">
+          <span class="engine-dot ollama" style="display:inline-block;"></span>
+          <span style="font-size:10px;color:var(--ink-2);">context 131072 · offline-first</span>
+        </div>
+      </div>
+      <div class="panel">
+        <h2>QR = THE CHIP</h2>
+        <div style="font-size:11px;color:var(--ink-2);line-height:1.6;">
+          Each receipt carries a scannable QR with
+          <span style="color:var(--gold);font-weight:600;">SHA-256(id, verdict, evidence, uncertainty, trust)</span>.
+          Deterministic restart: the board re-emits the identical hash-chain.
+        </div>
+      </div>
+      <div class="panel">
+        <h2>Kænbæn Board</h2>
+        <div style="font-size:11px;color:var(--ink-2);line-height:1.6;">
+          4 tasks · 3 assignees · 5 dependency edges · dispatch cap = 1 · dormant reroute · 14+ handoff events
+        </div>
+      </div>
+    </div>
+    <div class="main">
+      <div class="card">
+        <h2>Manifest</h2>
+        <div class="code-block">
+$ kænbæn run local_agent
+probe → ONLINE (engine=cpu, brain=ollama)
+plan → queue
+run → dispatch (dependency gating)
+verify → receipt with trust=1.0 + qr
+manifest → receipt + hash_chain + offline:true
+status → node/role/engine/brain/offline/status/tasks/receipts/deps/events
+        </div>
+      </div>
+      <div class="card">
+        <h2>Recipes</h2>
+        <div class="code-block">
+# plan (offline)
+kænbæn run local_agent
+
+# run a task
+kænbæn run k001
+
+# start
+kænbæn start k001
+
+# done
+kænbæn done k001 --evidence "probe ok"
+
+# verify (re-emits identical QR)
+kænbæn verify k001
+
+# manifest (receipt + hash_chain)
+kænbæn manifest k001
+
+# QR-scan to resume
+kænbæn run <id>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
