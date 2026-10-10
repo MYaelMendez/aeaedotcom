@@ -1,0 +1,420 @@
+/**
+ * Dark Amber Theme — æææ.com · hermes-desktop
+ *
+ * Amber accents (#ffbf00 gold, #f59e0b amber) on deep charcoal (#0f0a05)
+ * for a cosmic amber-vortex look. Optimized for the hermes-desktop theme
+ * system (26 color tokens + customCSS).
+ */
+:root {
+  /* ── Chrome tokens (hermes-desktop standard) ── */
+  --dt-color-scheme: dark;
+  --dt-base-size: 13px;
+  --dt-line-height: 1.5;
+  --dt-letter-spacing: 0.01em;
+
+  /* ── Window chrome ── */
+  --wb-bg: #0f0a05;
+  --wb-screen-bg: #0b0904;
+  --wb-screen-border: rgba(255, 191, 0, 0.10);
+  --wb-titlebar-bg: #18120a;
+  --wb-titlebar-bg-active: #231a10;
+  --wb-titlebar-bg-focused: #2a1e14;
+  --wb-titlebar-border: rgba(255, 191, 0, 0.08);
+  --wb-titlebar-text: #d4b46a;
+  --wb-titlebar-text-active: #f0d487;
+  --wb-titlebar-icon: #f0d487;
+  --wb-titlebar-icon-active: #ffbf00;
+  --wb-minimize-bg: rgba(255, 191, 0, 0.10);
+  --wb-minimize-bg-hover: rgba(255, 191, 0, 0.18);
+  --wb-minimize-text: #d4b46a;
+  --wb-minimize-text-active: #ffbf00;
+  --wb-maximize-bg: rgba(255, 191, 0, 0.10);
+  --wb-maximize-bg-hover: rgba(255, 191, 0, 0.18);
+  --wb-maximize-text: #d4b46a;
+  --wb-maximize-text-active: #ffbf00;
+  --wb-close-bg: rgba(255, 100, 50, 0.10);
+  --wb-close-bg-hover: rgba(255, 100, 50, 0.18);
+  --wb-close-text: #d46a6a;
+  --wb-close-text-active: #ff7744;
+
+  /* ── Surface / card tokens ── */
+  --sb-bg: #0f0a05;
+  --sb-bg-hover: rgba(255, 191, 0, 0.06);
+  --sb-bg-active: rgba(255, 191, 0, 0.10);
+  --sb-text: #e8d5a3;
+  --sb-text-dim: #9a856a;
+  --sb-text-deemph: #6a5a4a;
+  --sb-border: rgba(255, 191, 0, 0.12);
+  --sb-border-hover: rgba(255, 191, 0, 0.22);
+  --sb-border-active: rgba(255, 191, 0, 0.32);
+
+  /* ── Amber accent tokens ── */
+  --ac-primary: #ffbf00;
+  --ac-primary-dim: rgba(255, 191, 0, 0.12);
+  --ac-primary-glow: rgba(255, 191, 0, 0.24);
+  --ac-amber: #f59e0b;
+  --ac-amber-dim: rgba(245, 158, 11, 0.12);
+  --ac-amber-glow: rgba(245, 158, 11, 0.20);
+  --ac-detail: #c9a44c;
+  --ac-muted: #8a7a5a;
+  --ac-soft: #1a140a;
+
+  /* ── Semantic tokens ── */
+  --st-text: #e8d5a3;
+  --st-text-dim: #9a856a;
+  --st-text-deemph: #6a5a4a;
+  --st-link: #ffbf00;
+  --st-link-hvr: #ffcc44;
+  --st-background: #0f0a05;
+  --st-background-elev: #0b0904;
+  --st-accent: #ffbf00;
+  --st-accent-dim: rgba(255, 191, 0, 0.12);
+  --st-accent-glow: rgba(255, 191, 0, 0.24);
+  --st-surface: #0f0a05;
+  --st-surface-elev: #14100a;
+  --st-surface-elev2: #0b0904;
+  --st-success: #8b9a4a;
+  --st-warning: #d4952a;
+  --st-error: #d46a6a;
+  --st-info: #6a9ab4;
+
+  /* ── Focus ring ── */
+  --fr-color: rgba(255, 191, 0, 0.50);
+  --fr-width: 2px;
+
+  /* ── Scrollbar ── */
+  --sc-track: transparent;
+  --sc-thumb: rgba(255, 191, 0, 0.22);
+  --sc-thumb-hover: rgba(255, 191, 0, 0.35);
+
+  /* ── Typography ── */
+  --ft-sans: "Segoe WPC", "Segoe UI", "Inter", system-ui, -apple-system, sans-serif;
+  --ft-mono: "JetBrains Mono", "Cascadia Code", "Consolas", monospace;
+
+  /* ── Border radius ── */
+  --bd-radius-sm: 6px;
+  --bd-radius: 10px;
+  --bd-radius-md: 14px;
+  --bd-radius-lg: 18px;
+
+  /* ── Shadow tokens ── */
+  --sh-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --sh-md: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --sh-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
+  --sh-glow: 0 0 16px var(--ac-primary-glow);
+}
+
+/* ── Dark amber theme: amber on deep charcoal ── */
+html.dark-amber {
+  --wb-bg: #0f0a05;
+  --wb-screen-bg: #0b0904;
+  --wb-titlebar-bg: #18120a;
+  --wb-titlebar-bg-active: #231a10;
+  --wb-titlebar-border: rgba(255, 191, 0, 0.08);
+  --wb-titlebar-text: #d4b46a;
+  --wb-titlebar-icon: #f0d487;
+  --wb-titlebar-icon-active: #ffbf00;
+  --wb-minimize-bg: rgba(255, 191, 0, 0.10);
+  --wb-minimize-bg-hover: rgba(255, 191, 0, 0.18);
+  --wb-minimize-text: #d4b46a;
+  --wb-minimize-text-active: #ffbf00;
+  --wb-maximize-bg: rgba(255, 191, 0, 0.10);
+  --wb-maximize-bg-hover: rgba(255, 191, 0, 0.18);
+  --wb-maximize-text: #d4b46a;
+  --wb-maximize-text-active: #ffbf00;
+  --wb-close-bg: rgba(255, 100, 50, 0.10);
+  --wb-close-bg-hover: rgba(255, 100, 50, 0.18);
+  --wb-close-text: #d46a6a;
+  --wb-close-text-active: #ff7744;
+  --sb-bg: #0f0a05;
+  --sb-bg-hover: rgba(255, 191, 0, 0.06);
+  --sb-bg-active: rgba(255, 191, 0, 0.10);
+  --sb-text: #e8d5a3;
+  --sb-text-dim: #9a856a;
+  --sb-text-deemph: #6a5a4a;
+  --sb-border: rgba(255, 191, 0, 0.12);
+  --sb-border-hover: rgba(255, 191, 0, 0.22);
+  --sb-border-active: rgba(255, 191, 0, 0.32);
+  --ac-primary: #ffbf00;
+  --ac-amber: #f59e0b;
+  --ac-detail: #c9a44c;
+  --ac-muted: #8a7a5a;
+  --st-text: #e8d5a3;
+  --st-text-dim: #9a856a;
+  --st-link: #ffbf00;
+  --st-link-hvr: #ffcc44;
+  --st-accent: #ffbf00;
+  --st-accent-dim: rgba(255, 191, 0, 0.12);
+  --st-surface: #0f0a05;
+  --st-surface-elev: #14100a;
+  --st-background: #0f0a05;
+  --fr-color: rgba(255, 191, 0, 0.50);
+}
+
+body.dark-amber {
+  background: var(--st-background);
+  color: var(--st-text);
+  font-family: var(--ft-sans);
+  font-size: var(--dt-base-size);
+  line-height: var(--dt-line-height);
+  -webkit-app-region: drag;
+}
+
+body.dark-amber .titlebar {
+  background: var(--wb-titlebar-bg);
+  border-bottom: 1px solid var(--wb-titlebar-border);
+}
+
+body.dark-amber .titlebar .icon {
+  background: linear-gradient(135deg, var(--ac-primary), var(--ac-amber));
+  color: var(--wb-titlebar-icon);
+  font-size: 10px;
+  font-weight: 900;
+  width: 18px;
+  height: 18px;
+  display: grid;
+  place-items: center;
+  border-radius: 4px;
+  margin-right: 10px;
+}
+
+body.dark-amber .titlebar .name {
+  color: var(--wb-titlebar-text);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+body.dark-amber .titlebar .btn {
+  color: var(--wb-titlebar-text);
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  font-size: 10px;
+}
+
+body.dark-amber .titlebar .btn:hover {
+  background: var(--wb-minimize-bg-hover);
+  color: var(--wb-titlebar-text-active);
+}
+
+body.dark-amber .titlebar .btn.close:hover {
+  background: var(--wb-close-bg-hover);
+  color: var(--wb-close-text-active);
+}
+
+body.dark-amber .card {
+  background: var(--sb-bg);
+  border: 1px solid var(--sb-border);
+  color: var(--sb-text);
+  border-radius: var(--bd-radius-md);
+  padding: 14px;
+}
+
+body.dark-amber .card:hover {
+  border-color: var(--sb-border-hover);
+  background: var(--sb-bg-hover);
+}
+
+body.dark-amber .card-title {
+  color: var(--ac-primary);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+body.dark-amber .card-title .badge {
+  color: var(--ac-amber);
+  border-color: var(--ac-amber);
+  background: var(--ac-primary-dim);
+}
+
+body.dark-amber .pill2 {
+  color: var(--sb-text-dim);
+  border-color: var(--sb-border);
+}
+
+body.dark-amber .pill2[style*="color: var(--gold)"] {
+  color: var(--ac-primary);
+  border-color: var(--ac-amber);
+}
+
+body.dark-amber .terminal {
+  background: var(--st-surface-elev);
+  border: 1px solid var(--sb-border);
+  color: var(--sb-text-dim);
+  font-family: var(--ft-mono);
+  font-size: 11px;
+  border-radius: var(--bd-radius-sm);
+  padding: 10px;
+  line-height: 1.6;
+}
+
+body.dark-amber .terminal .highlight {
+  color: var(--ac-amber);
+  font-weight: 600;
+}
+
+body.dark-amber .goldlink {
+  color: var(--ac-primary);
+}
+
+body.dark-amber .goldlink:hover {
+  color: var(--ac-primary-hvr);
+}
+
+body.dark-amber .hero {
+  background: var(--st-surface-elev);
+  border-color: var(--sb-border);
+  box-shadow: 0 0 24px var(--ac-primary-glow), inset 0 0 30px rgba(255, 191, 0, 0.04);
+}
+
+body.dark-amber .hero::before {
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(255, 191, 0, 0.10) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 50%, rgba(245, 158, 11, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 0%, rgba(255, 191, 0, 0.08) 0%, transparent 60%);
+}
+
+body.dark-amber .hero-scroll-item {
+  color: var(--st-text-dim);
+  border-color: rgba(255, 191, 0, 0.12);
+}
+
+body.dark-amber .hero-scroll-item.gold {
+  color: var(--ac-amber);
+  border-color: var(--ac-amber);
+  background: var(--ac-primary-dim);
+}
+
+body.dark-amber .hero-scroll-item.purple {
+  color: var(--ac-detail);
+  border-color: var(--ac-detail);
+}
+
+body.dark-amber footer {
+  color: var(--sb-text-deemph);
+  border-top-color: var(--sb-border);
+}
+
+body.dark-amber .hermes-badge {
+  border-color: var(--sb-border);
+  color: var(--sb-text-deemph);
+}
+
+body.dark-amber .hermes-badge svg {
+  color: var(--ac-primary);
+}
+
+/* ── Custom Apps card ── */
+body.dark-amber .custom-apps-card {
+  background: var(--sb-bg);
+  border: 1px solid var(--sb-border);
+  border-radius: var(--bd-radius-md);
+  padding: 14px;
+}
+
+body.dark-amber .custom-apps-card:hover {
+  border-color: var(--sb-border-hover);
+  background: var(--sb-bg-hover);
+}
+
+body.dark-amber .custom-apps-card .card-title {
+  color: var(--ac-primary);
+}
+
+/* ── Omnibox ── */
+body.dark-amber .omnibox {
+  background: var(--st-surface);
+  border: 1px solid var(--sb-border);
+  border-radius: var(--bd-radius);
+  color: var(--st-text);
+}
+
+body.dark-amber .omnibox:focus-within {
+  border-color: var(--ac-amber);
+  box-shadow: 0 0 12px var(--ac-primary-glow);
+}
+
+body.dark-amber .omnibox-input {
+  color: var(--st-text);
+}
+
+body.dark-amber .omnibox-input::placeholder {
+  color: var(--sb-text-deemph);
+}
+
+body.dark-amber .omnibox-results {
+  color: var(--sb-text);
+}
+
+body.dark-amber .omnibox-results .highlight {
+  color: var(--ac-amber);
+}
+
+body.dark-amber .omnibox-results .goldlink {
+  color: var(--ac-primary);
+}
+
+body.dark-amber .omnibox-chip {
+  color: var(--sb-text-dim);
+  border-color: var(--sb-border);
+  background: var(--sb-bg);
+}
+
+body.dark-amber .omnibox-chip:hover {
+  color: var(--ac-primary);
+  border-color: var(--ac-amber);
+  background: var(--ac-primary-dim);
+}
+
+/* ── Scheme overlay ── */
+body.dark-amber .scheme-overlay {
+  background: rgba(15, 10, 5, 0.95);
+  border: 1px solid var(--ac-amber);
+}
+
+body.dark-amber .scheme-overlay-inner {
+  border: 1px solid var(--ac-amber);
+  background: rgba(15, 10, 5, 0.95);
+}
+
+body.dark-amber .scheme-code {
+  color: var(--ac-primary);
+}
+
+body.dark-amber .scheme-option:hover {
+  background: var(--ac-primary-dim);
+  border-color: var(--ac-amber);
+}
+
+/* ── Scrollbar ── */
+body.dark-amber ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+body.dark-amber ::-webkit-scrollbar-track {
+  background: var(--sc-track);
+}
+
+body.dark-amber ::-webkit-scrollbar-thumb {
+  background: var(--sc-thumb);
+  border-radius: 4px;
+}
+
+body.dark-amber ::-webkit-scrollbar-thumb:hover {
+  background: var(--sc-thumb-hover);
+}
+
+/* ── Focus ring ── */
+body.dark-amber :focus-visible {
+  outline: var(--fr-width) solid var(--fr-color);
+  outline-offset: 2px;
+}

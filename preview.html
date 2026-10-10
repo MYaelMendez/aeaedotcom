@@ -1,9 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark-amber">
 <head>
 <meta charset="utf-8" />
 <title>GLOCAL · æææ.com</title>
+<link rel="stylesheet" href="amber-theme.css" />
 <style>
+/* ── Amber theme: dark-amber overlay ── */
+@import url('amber-theme.css') screen;
 
 
 :root {
@@ -105,7 +108,40 @@
       box-shadow: 0 0 12px rgba(245,200,66,.06);
     }
     html.ae .card:hover { border-color: var(--gold); box-shadow: 0 0 16px var(--gold-glow); }
-    html.ae .card-title { color: var(--gold); text-shadow: 0 0 12px var(--gold-glow); }
+    html.ae .card-title { color: var(--gold); text-shadow: 0 0 12px var(--gold-glow); 
+    /* ── Custom Apps card ── */
+    .custom-apps-card {
+      background: var(--sb-bg);
+      border: 1px solid var(--sb-border);
+      border-radius: var(--bd-radius-md);
+      padding: 14px;
+    }
+    .custom-apps-card:hover {
+      border-color: var(--sb-border-hover);
+      background: var(--sb-bg-hover);
+    }
+    .custom-apps-card .card-title {
+      color: var(--ac-primary);
+    }
+    .custom-apps-card .card-body {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .custom-apps-card .launch-links {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+    .custom-apps-card .launch-links a {
+      color: var(--ac-primary);
+      font-size: 12px;
+    }
+    .custom-apps-card .launch-links a:hover {
+      color: var(--ac-primary-hvr);
+      text-decoration: underline;
+    }}
     html.ae .card-title .card-toggle { color: var(--ink-3); border-color: rgba(245,200,66,.2); }
     html.ae .card-title .card-toggle:hover { border-color: var(--gold); color: var(--gold); }
     html.ae .school-banner {
@@ -1427,7 +1463,7 @@ Cross-link: COMMAND SURFACE · >_æ://</div>
       </div>
     </section>
 
-    <section class="card" data-collapsed="false">
+    <section class="card custom-apps-card" data-collapsed="false">
       <div class="card-title">CUSTOM APPS · æææ.com <span class="badge">● ACTIVE</span></div>
       <div class="card-body">
         <div class="pill2" style="color: var(--gold); border-color: var(--gold);">ENTERPRISE · OFFLINE-FIRST · QR=THE_CHIP</div>
@@ -1444,8 +1480,10 @@ Cross-link: COMMAND SURFACE · >_æ://</div>
           <span class="card-scroll-item">WebLLM · optional LLM inference</span>
         </div></div>
         <div style="margin-top: 10px; display: flex; gap: 8px;">
-          <a class="goldlink" href="custom_apps/kabban-board.html" target="_blank">🪺 Launch kænbæn board →</a>
-          <a class="goldlink" href="custom_apps/local_agent.html" target="_blank">🪺 Launch local_agent →</a>
+          <div class="launch-links">
+            <a class="goldlink" href="custom_apps/kabban-board.html" target="_blank">🪺 Launch kænbæn board →</a>
+            <a class="goldlink" href="custom_apps/local_agent.html" target="_blank">🪺 Launch local_agent →</a>
+          </div>
         </div>
       </div>
     </section>
@@ -1475,7 +1513,9 @@ Cross-link: COMMAND SURFACE · >_æ://</div>
         </div>
       </div>
     </div>
+    </div>
   </div>
+</div>
 
 </body>
 </html>
