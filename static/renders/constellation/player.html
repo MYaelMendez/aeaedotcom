@@ -135,23 +135,49 @@
   </div>
 </div>
 <script>
-  const video = document.getElementById('video');
-  const playBtn = document.getElementById('play-btn');
-  const overlay = document.getElementById('play-overlay');
-  const stateBadge = document.getElementById('state-badge');
-  const statFps = document.getElementById('stat-fps');
-  const statFrames = document.getElementById('stat-frames');
-  const statDuration = document.getElementById('stat-duration');
-  const statCodec = document.getElementById('stat-codec');
-  const statVideos = document.getElementById('stat-videos');
-  const seekSlider = document.getElementById('seek-slider');
-  const timeDisplay = document.getElementById('time-display');
-  const playlistBtns = document.querySelectorAll('.playlist button');
+  (() => {
+    const video = document.getElementById('video');
+    const playBtn = document.getElementById('play-btn');
+    const overlay = document.getElementById('play-overlay');
+    const stateBadge = document.getElementById('state-badge');
+    const statFps = document.getElementById('stat-fps');
+    const statFrames = document.getElementById('stat-frames');
+    const statDuration = document.getElementById('stat-duration');
+    const statCodec = document.getElementById('stat-codec');
+    const statVideos = document.getElementById('stat-videos');
+    const seekSlider = document.getElementById('seek-slider');
+    const timeDisplay = document.getElementById('time-display');
+    const playlistBtns = document.querySelectorAll('.playlist button');
+    let playing = false;
+    let frameCount = 0;
 
-  let playing = false;
-  let fps = 0;
-  let frameCount = 0;
-  let lastTime = 0;
+    // Resolve source paths relative to player.html location so they work
+    // both from the repo root and from a subdirectory.
+    const resolveSrc = (p) => {
+      const h = location.href.split('#')[0].split('?')[0];
+      const path = h.replace(/[?#].*$/, '');
+      const idx = path.lastIndexOf('/static/renders/constellation/player.html');
+      const base = idx !== -1 ? path.substring(0, idx) : '';
+      return base + p;
+    };
+    const setSource = (name) => {
+      const src = name === 'local_agent' ? 'local_agent.mp4' : name === 'brand' ? 'brand.mp4' : 'pending';
+      const source = video.querySelector('source');
+      if (source) source.remove();
+      const s = document.createElement('source');
+      s.src = resolveSrc(src);
+      s.type = 'video/mp4';
+      video.appendChild(s);
+      video.load();
+      video.play().catch(() => {});
+      playlistBtns.forEach(b => b.classList.remove('active'));
+      const active = document.querySelector(`.playlist button[data-video="${name}"]`);
+      if (active) active.classList.add('active');
+      playing = true;
+      stateBadge.className = 'state-badge on';
+      stateBadge.textContent = 'ONLINE';
+      overlay.style.display = 'none';
+    };
 
   video.addEventListener('loadedmetadata', () => {
     document.querySelector('.stat-row .val').textContent = video.duration || 0;
@@ -222,33 +248,43 @@
     return m + ':' + String(sec).padStart(2, '0');
   }
 
-  // Probe state: ONLINE / OFFLINE / PROBING
-  playlistBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      playlistBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      const v = btn.dataset.video;
-      const src = v === 'local_agent' ? 'local_agent.mp4' : v === 'brand' ? 'brand.mp4' : 'pending';
-      video.src = src;
-      video.load();
-      video.play().catch(() => {});
-      playing = true;
-      stateBadge.className = 'state-badge on';
-      stateBadge.textContent = 'ONLINE';
-      overlay.style.display = 'none';
-    });
-  });
+  // Resolve source paths relative to player.html location.
+  const resolveSrc = (p) => {
+    const h = location.href.split('#')[0].split('?')[0];
+    const path = h.replace(/[?#].*$/, '');
+    const idx = path.lastIndexOf('/static/renders/constellation/player.html');
+    const base = idx !== -1 ? path.substring(0, idx) : '';
+    return base + p;
+  };
+  const setSource = (name) => {
+    const src = name === 'local_agent' ? 'local_agent.mp4' : name === 'brand' ? 'brand.mp4' : 'pending';
+    const source = video.querySelector('source');
+    if (source) source.remove();
+    const s = document.createElement('source');
+    s.src = resolveSrc(src);
+    s.type = 'video/mp4';
+    video.appendChild(s);
+    video.load();
+    video.play().catch(() => {});
+    playlistBtns.forEach(b => b.classList.remove('active'));
+    const active = document.querySelector(`.playlist button[data-video="${name}"]`);
+    if (active) active.classList.add('active');
+    playing = true;
+    stateBadge.className = 'state-badge on';
+    stateBadge.textContent = 'ONLINE';
+    overlay.style.display = 'none';
+  };
 
-  // Pre-flight probe: does the video file exist?
-  fetch('local_agent.mp4', { method: 'HEAD' })
-    .then(r => {
-      if (r.ok) { video.load(); stateBadge.className = 'state-badge on'; stateBadge.textContent = 'ONLINE'; }
-      else throw new Error('bad');
-    })
-    .catch(() => {
-      stateBadge.className = 'state-badge off';
-      stateBadge.textContent = 'OFFLINE';
+  // Probe state: ONLINE / OFFLINE / PROBING
+    playlistBtns.forEach(btn => {
+      btn.addEventListener('click', () => setSource(btn.dataset.video));
     });
+
+    // Pre-flight probe: does the video file exist?
+    fetch(resolveSrc('local_agent.mp4'), { method: 'HEAD' })
+      .then(r => { if (r.ok) setSource('local_agent'); else throw new Error('missing'); })
+      .catch(() => { stateBadge.className = 'state-badge off'; stateBadge.textContent = 'OFFLINE'; });
+  })();
 </script>
 </body>
 </html>
