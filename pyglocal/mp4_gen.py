@@ -13,12 +13,13 @@ Usage:
 from __future__ import annotations
 
 import json
+import math
+import shutil
+import subprocess
+import sys
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
-import subprocess
-import sys
-import shutil
 
 from PIL import Image, ImageDraw
 
@@ -62,25 +63,41 @@ def probe() -> dict[str, Any]:
 
 
 def build_frames(count: int = 120, size: tuple[int, int] = (1920, 1080)) -> list[dict[str, Any]]:
-    """Probe-verified: draw constellation frames on disk as PNGs."""
+    """Probe-verified: draw animated constellation frames on disk as PNGs."""
     gold = (245, 200, 66)
+    glow = (253, 185, 39)
     frames = []
     for i in range(count):
-        angle = i * 0.05
-        radius = 80 + (i % 4) * 25
-        x = int(size[0] / 2 + radius * (0.5 if i % 2 == 0 else -0.5))
-        y = int(size[1] / 2 + radius * 0.6)
-        frames.append({"frame": i, "x": x, "y": y, "gold": gold})
+        t = i / 30.0
+        # 4 nodes orbiting with different phases
+        nodes = [
+            {"phase": 0.0, "radius": 220, "speed": 1.0, "size": 14},
+            {"phase": 1.3, "radius": 290, "speed": 0.7, "size": 10},
+            {"phase": 2.6, "radius": 360, "speed": 0.5, "size": 18},
+            {"phase": 3.9, "radius": 250, "speed": 0.9, "size": 12},
+        ]
+        row = []
+        for n in nodes:
+            a = n["phase"] + t * n["speed"] + (i % 3) * 0.2
+            r = n["radius"] + 30 * (0.5 + 0.5 * math.sin(t * 2 + n["phase"]))
+            x = int(size[0] / 2 + r * math.cos(a))
+            y = int(size[1] / 2 + r * 0.65 * math.sin(a))
+            row.append({"x": x, "y": y, "size": n["size"], "time": t})
+        frames.append({"frame": i, "nodes": row, "time": t})
     return frames
 
 
 def _png_frames(frames: list[dict[str, Any]], outdir: Path):
-    """Draw constellation artifact PNGs onto disk (probe-verified)."""
+    """Draw animated constellation artifact PNGs onto disk (probe-verified)."""
     outdir.mkdir(parents=True, exist_ok=True)
     for i, f in enumerate(frames):
         img = Image.new("RGB", (1920, 1080), (2, 6, 23))
         d = ImageDraw.Draw(img)
-        d.ellipse([f["x"] - 12, f["y"] - 12, f["x"] + 12, f["y"] + 12], fill=(245, 200, 66))
+        for n in f["nodes"]:
+            d.ellipse(
+                [n["x"] - n["size"], n["y"] - n["size"], n["x"] + n["size"], n["y"] + n["size"]],
+                fill=(245, 200, 66) if i % 2 == 0 else (253, 185, 39),
+            )
         img.save(outdir / ("f{:04d}.png".format(i)))
 
 
