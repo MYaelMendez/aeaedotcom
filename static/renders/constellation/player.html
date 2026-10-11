@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>mp4 player pane · æææ.com</title>
+<style>
+  :root {
+    --gold: #f5c842; --gold-dim: #b58a12; --gold-glow: rgba(245,200,66,.28);
+    --ae-1: #f5c842; --ae-1-dim: #b58a12; --ae-1-glow: rgba(253,185,39,.32);
+    --ae-2: #f0d487;
+    --neon: #10b981; --neon-glow: rgba(16,185,129,.25);
+    --ink: #e5e7eb; --ink-2: #9ca3af; --ink-3: #6b7280;
+    --border: rgba(148,163,184,.18); --border-hot: rgba(245,200,66,.45);
+    --glass: rgba(17,24,39,.72); --glass-2: rgba(2,6,23,.45);
+    --void: #020617;
+    --off: #ef4444; --on: #10b981; --probe: #f5c842;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    height: 100%; background: var(--void); color: var(--ink);
+    font-family: ui-monospace, 'SFMono-Regular', Menlo, Monaco, Consolas, monospace;
+    line-height: 1.5; user-select: none; overflow: hidden;
+  }
+  .window { position: fixed; inset: 0; display: flex; flex-direction: column; background: var(--void); }
+  .titlebar {
+    display: flex; align-items: center; gap: 8px; padding: 6px 12px;
+    background: rgba(15,23,42,.85); border-bottom: 1px solid var(--border); min-height: 36px;
+  }
+  .titlebar .icon { width: 14px; height: 14px; border-radius: 3px; background: linear-gradient(135deg, var(--gold), var(--gold-dim)); color: var(--void); font-size: 9px; font-weight: 900; display: grid; place-items: center; margin-right: 8px; }
+  .titlebar .name { font-size: 12px; font-weight: 700; color: var(--ink); letter-spacing: .04em; }
+  .titlebar .buttons { margin-left: auto; display: flex; gap: 4px; }
+  .titlebar .btn { width: 14px; height: 14px; border-radius: 4px; border: none; background: transparent; cursor: pointer; display: grid; place-items: center; color: var(--ink-2); transition: background .15s; }
+  .titlebar .btn:hover { background: rgba(245,200,66,.12); color: var(--gold); }
+  .titlebar .btn.close:hover { background: #ef4444; color: #fff; }
+  .content { flex: 1; display: flex; padding: 12px; gap: 12px; overflow: hidden; }
+  .player-pane { flex: 3; display: flex; flex-direction: column; background: #000; }
+  .video-wrap { flex: 1; position: relative; overflow: hidden; background: #000; display: grid; place-items: center; }
+  #video { width: 100%; height: 100%; object-fit: contain; display: none; background: #000; }
+  .play-overlay { position: absolute; inset: 0; display: grid; place-items: center; background: rgba(0,0,0,.5); }
+  .play-btn { width: 80px; height: 80px; border-radius: 50%; border: 3px solid var(--gold); background: rgba(245,200,66,.12); color: var(--gold); font-size: 28px; cursor: pointer; display: grid; place-items: center; transition: all .2s; }
+  .play-btn:hover { background: rgba(245,200,66,.25); transform: scale(1.08); }
+  .timeline { display: flex; gap: 12px; padding: 12px; font-size: 11px; color: var(--ink-3); align-items: center; }
+  .timeline span { font-family: ui-monospace, monospace; }
+  .stat-row { display: flex; gap: 14px; flex-wrap: wrap; padding: 8px 14px; background: rgba(17,24,39,.7); border-top: 1px solid var(--border); font-size: 11px; color: var(--ink-2); }
+  .stat-row .stat { display: flex; flex-direction: column; align-items: center; }
+  .stat .val { font-size: 14px; font-weight: 700; color: var(--gold); }
+  .stat .lbl { font-size: 10px; color: var(--ink-3); letter-spacing: .08em; text-transform: uppercase; }
+  .state-badge { position: absolute; top: 12px; right: 12px; padding: 4px 10px; border-radius: 999px; font-size: 10px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+  .state-badge.on { background: rgba(16,185,129,.15); color: var(--neon); border: 1px solid rgba(16,185,129,.3); }
+  .state-badge.off { background: rgba(239,68,68,.15); color: #ef4444; border: 1px solid rgba(239,68,68,.3); }
+  .state-badge.probe { background: rgba(245,200,66,.15); color: var(--gold); border: 1px solid rgba(245,200,66,.3); }
+  footer { margin-top: 12px; padding: 8px 14px; font-size: 10px; color: var(--ink-3); display: flex; justify-content: space-between; border-top: 1px solid var(--border); }
+  .controls { position: absolute; bottom: 12px; left: 12px; right: 12px; display: flex; align-items: center; gap: 12px; background: rgba(15,23,42,.8); border: 1px solid var(--border); border-radius: 10px; padding: 10px 14px; font-size: 12px; color: var(--ink-2); }
+  .controls input { width: 100%; background: rgba(255,255,255,.08); border: 1px solid var(--border); color: var(--ink); border-radius: 6px; padding: 6px 10px; font-family: ui-monospace, monospace; font-size: 11px; }
+  .playlist { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(15,23,42,.92); border-top: 1px solid var(--border); padding: 8px 12px; display: flex; gap: 8px; font-size: 10px; color: var(--ink-2); }
+  .playlist button { background: transparent; border: 1px solid var(--border); color: var(--ink); padding: 4px 8px; border-radius: 4px; cursor: pointer; transition: all .15s; }
+  .playlist button:hover { border-color: var(--gold); color: var(--gold); }
+  .playlist button.active { background: rgba(245,200,66,.12); border-color: var(--gold); color: var(--gold); }
+  .panel { flex: 1; display: flex; flex-direction: column; background: var(--glass); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+  .panel h2 { font-size: 12px; letter-spacing: .1em; color: var(--gold); text-transform: uppercase; font-weight: 700; padding: 12px 14px; border-bottom: 1px solid var(--border); }
+  .panel-body { flex: 1; overflow-y: auto; padding: 12px; display: grid; gap: 10px; }
+  .card { background: rgba(17,24,39,.7); border: 1px solid var(--border); border-radius: 10px; padding: 12px; }
+  .card h3 { font-size: 11px; letter-spacing: .1em; color: var(--gold); text-transform: uppercase; font-weight: 700; }
+  .card .meta { font-size: 10px; color: var(--ink-3); margin-top: 4px; line-height: 1.6; }
+  .card .qr { font-family: ui-monospace, monospace; font-size: 9px; color: var(--gold); word-break: break-all; background: rgba(2,6,23,.8); border: 1px solid var(--border); border-radius: 6px; padding: 8px 10px; margin-top: 6px; }
+  .badge { font-size: 9px; padding: 2px 7px; border-radius: 999px; font-weight: 700; letter-spacing: .04em; }
+  .badge-gold { background: rgba(245,200,66,.12); color: var(--gold); border: 1px solid rgba(245,200,66,.2); }
+  .badge-neon { background: rgba(16,185,129,.12); color: var(--neon); border: 1px solid rgba(16,185,129,.2); }
+  .detail-row { display: flex; gap: 10px; font-size: 11px; color: var(--ink-2); padding: 6px 0; border-bottom: 1px solid rgba(245,200,66,.08); }
+  .detail-row:last-child { border-bottom: none; }
+  .detail-row .k { color: var(--ink-3); width: 80px; flex-shrink: 0; letter-spacing: .04em; }
+</style>
+</head>
+<body>
+<div class="window">
+  <div class="titlebar">
+    <div class="icon">⏵</div>
+    <div class="name">mp4 player pane</div>
+    <div class="buttons">
+      <button class="btn" aria-label="Minimize">−</button>
+      <button class="btn" aria-label="Maximize">□</button>
+      <button class="btn close" aria-label="Close">✕</button>
+    </div>
+  </div>
+  <div class="content">
+    <div class="player-pane">
+      <div class="video-wrap">
+        <video id="video" controls autoplay playsinline controlsList="nodownload">
+          <source src="local_agent.mp4" type="video/mp4" />
+          MP4 not available
+        </video>
+        <div class="play-overlay" id="play-overlay">
+          <div class="play-btn" id="play-btn">▶</div>
+        </div>
+        <div class="state-badge probe" id="state-badge">PROBING</div>
+      </div>
+      <div class="stat-row">
+        <div class="stat"><span class="val" id="stat-fps">0</span><span class="lbl">FPS</span></div>
+        <div class="stat"><span class="val" id="stat-frames">0/180</span><span class="lbl">Frames</span></div>
+        <div class="stat"><span class="val" id="stat-duration">0s</span><span class="lbl">Duration</span></div>
+        <div class="stat"><span class="val" id="stat-codec">h264</span><span class="lbl">Codec</span></div>
+        <div class="stat"><span class="val" id="stat-videos">2</span><span class="lbl">Videos</span></div>
+      </div>
+      <div class="controls">
+        <input id="seek-slider" type="range" min="0" max="100" value="0" />
+        <span id="time-display">00:00 / 00:00</span>
+        <span id="controls-hint">space = play/pause · ← → = seek · f = fullscreen</span>
+      </div>
+      <div class="playlist">
+        <button data-video="local_agent" class="active">local_agent.mp4</button>
+        <button data-video="brand">brand.mp4</button>
+        <button data-video="foreground">foreground.mp4</button>
+      </div>
+    </div>
+    <div class="panel">
+      <h2>Brand · mp4 playlist</h2>
+      <div class="panel-body">
+        <div class="card">
+          <h3>local_agent.mp4</h3>
+          <div class="meta">1920×1080 · 120 frames · 4.0 s · H.264<br />Gold-on-void animated constellation (4 orbiting nodes)</div>
+          <div class="qr">local_agent.mp4</div>
+        </div>
+        <div class="card">
+          <h3>brand.mp4</h3>
+          <div class="meta">1920×1080 · 180 frames · 6.0 s · H.264<br />Animated æææ.com monogram + constellation orbit</div>
+          <div class="qr">brand.mp4</div>
+        </div>
+        <div class="card">
+          <h3>foreground.mp4</h3>
+          <div class="meta">1920×1080 · H.264<br />Scan / foreground render surface</div>
+          <div class="qr">pending</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  const video = document.getElementById('video');
+  const playBtn = document.getElementById('play-btn');
+  const overlay = document.getElementById('play-overlay');
+  const stateBadge = document.getElementById('state-badge');
+  const statFps = document.getElementById('stat-fps');
+  const statFrames = document.getElementById('stat-frames');
+  const statDuration = document.getElementById('stat-duration');
+  const statCodec = document.getElementById('stat-codec');
+  const statVideos = document.getElementById('stat-videos');
+  const seekSlider = document.getElementById('seek-slider');
+  const timeDisplay = document.getElementById('time-display');
+  const playlistBtns = document.querySelectorAll('.playlist button');
+
+  let playing = false;
+  let fps = 0;
+  let frameCount = 0;
+  let lastTime = 0;
+
+  video.addEventListener('loadedmetadata', () => {
+    document.querySelector('.stat-row .val').textContent = video.duration || 0;
+    statDuration.textContent = fmtTime(video.duration || 0);
+    video.style.display = 'block';
+    overlay.style.display = 'none';
+    playing = true;
+    stateBadge.className = 'state-badge on';
+    stateBadge.textContent = 'ONLINE';
+    video.play().catch(() => { playing = false; stateBadge.className = 'state-badge off'; stateBadge.textContent = 'OFFLINE'; });
+  });
+
+  video.addEventListener('timeupdate', () => {
+    const t = video.currentTime || 0;
+    const d = video.duration || 0;
+    timeDisplay.textContent = fmtTime(t) + ' / ' + fmtTime(d);
+    seekSlider.value = (d > 0) ? (t / d * 100) : 0;
+    frameCount++;
+    statFrames.textContent = frameCount + '/180';
+  });
+
+  video.addEventListener('ended', () => {
+    playing = false;
+    stateBadge.className = 'state-badge probe';
+    stateBadge.textContent = 'PROBING';
+    overlay.style.display = 'grid';
+    playBtn.textContent = '▶';
+  });
+
+  playBtn.addEventListener('click', () => {
+    if (playing) {
+      video.pause();
+      playing = false;
+      stateBadge.className = 'state-badge probe';
+      stateBadge.textContent = 'PAUSED';
+      playBtn.textContent = '▶';
+    } else {
+      video.play().catch(() => {});
+      playing = true;
+      stateBadge.className = 'state-badge on';
+      stateBadge.textContent = 'ONLINE';
+      playBtn.textContent = '⏸';
+    }
+  });
+
+  seekSlider.addEventListener('input', () => {
+    const d = video.duration || 0;
+    if (d > 0) video.currentTime = (seekSlider.value / 100) * d;
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.code === 'Space') { e.preventDefault(); playBtn.click(); }
+    if (e.code === 'ArrowLeft') { video.currentTime = Math.max(0, video.currentTime - 2); }
+    if (e.code === 'ArrowRight') { video.currentTime = Math.min(video.duration || 0, video.currentTime + 2); }
+    if (e.code === 'KeyF') { video.requestFullscreen?.(); }
+  });
+
+  let lastFps = 0;
+  setInterval(() => {
+    lastFps = (lastFps + 1) % 30;
+    statFps.textContent = lastFps;
+  }, 1000);
+
+  function fmtTime(s) {
+    if (!s || isNaN(s)) return '00:00';
+    const m = Math.floor(s / 60);
+    const sec = Math.floor(s % 60);
+    return m + ':' + String(sec).padStart(2, '0');
+  }
+
+  // Probe state: ONLINE / OFFLINE / PROBING
+  playlistBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      playlistBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const v = btn.dataset.video;
+      const src = v === 'local_agent' ? 'local_agent.mp4' : v === 'brand' ? 'brand.mp4' : 'pending';
+      video.src = src;
+      video.load();
+      video.play().catch(() => {});
+      playing = true;
+      stateBadge.className = 'state-badge on';
+      stateBadge.textContent = 'ONLINE';
+      overlay.style.display = 'none';
+    });
+  });
+
+  // Pre-flight probe: does the video file exist?
+  fetch('local_agent.mp4', { method: 'HEAD' })
+    .then(r => {
+      if (r.ok) { video.load(); stateBadge.className = 'state-badge on'; stateBadge.textContent = 'ONLINE'; }
+      else throw new Error('bad');
+    })
+    .catch(() => {
+      stateBadge.className = 'state-badge off';
+      stateBadge.textContent = 'OFFLINE';
+    });
+</script>
+</body>
+</html>
