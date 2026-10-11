@@ -846,8 +846,392 @@
       color: var(--ink-3); opacity: 0.6; font-size: 11px;
       font-style: italic; margin-top: 4px;
     }
+  </style>
 
-    (function() {
+</head>
+<body>
+
+<div class="window">
+    <!-- Native titlebar -->
+    <div class="titlebar">
+      <div class="icon">æ</div>
+      <div class="name">æææ.com · glocal omnibox</div>
+      <div class="buttons">
+        <button class="btn" aria-label="Minimize">−</button>
+        <button class="btn" aria-label="Maximize">□</button>
+        <button class="btn close" aria-label="Close">✕</button>
+      </div>
+    </div>
+    <!-- Full window body -->
+    <div class="body">
+    <header>
+      <div class="brand">
+        <div class="glyph" title="æ — hamburger menu · omnibox affordance">æ</div>
+        <input class="omnibox-demo" id="omniboxDemo" placeholder="æ æ://" readonly />
+        <div>
+          <div class="title">æææ.com</div>
+          <div class="tagline">Open Intelligence · Private Authority · Sovereign Value</div>
+        </div>
+      </div>
+      <nav>
+        <a href="https://myaelmendez.github.io/" target="_blank">Live site</a>
+        <a href="http://127.0.0.1:4226/webgpu" target="_blank" style="color:var(--gold);border-color:var(--gold);">WebGPU</a>
+        <a href="https://myaelmendez.github.io/contribution-graph.html" target="_blank">Contribute</a>
+        <a href="https://myaelmendez.github.io/school-of-hermes-guide.html" target="_blank">Guide</a>
+        <a href="custom_apps/README.md" target="_blank">Custom Apps</a>
+        <span class="nav-right">
+          <button class="theme-btn ae active" data-mode="ae" title="Toggle æ theme (gold on void)">
+            <span class="icon"></span>æ
+          </button>
+        </span>
+        </span>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <h1>ONE PRINCIPAL · ANY ONTOLOGY</h1>
+      <p>Agent-native origin. Human principal first. Local-sovereign default. This origin exposes code, data, tools, schemas, capabilities, and receipts. Command surface: <span class="goldlink">&gt;_æ://</span></p>
+      <div class="hero-scroll">
+        <div class="hero-scroll-inner">
+          <span class="hero-scroll-item">● School of Hermes · 12 lessons</span>
+          <span class="hero-scroll-item gold">● Contribution graph · green squares</span>
+          <span class="hero-scroll-item purple">● Nous Portal · æ refers æ</span>
+          <span class="hero-scroll-item">● Supervision · roboflow/supervision</span>
+          <span class="hero-scroll-item gold">● X feed @yaelmendez · #schoolofhermes</span>
+          <span class="hero-scroll-item purple">● Glocal · two surfaces · one principal</span>
+          <span class="hero-scroll-item">● Multi-key API popup · add/edit/delete</span>
+          <span class="hero-scroll-item gold">● Hermes Agent · HTML/CSS · offline-first</span>
+        </div>
+      </div>
+      <div class="pills">
+        <span class="pill">● HUMAN://ROOT</span>
+        <span class="pill">LOCAL-SOVEREIGN://default</span>
+        <span class="pill">æææ://root</span>
+        <span class="pill">SCHOOL OF HERMES</span>
+        <span class="pill">CONTRIBUTION GRAPH</span>
+      </div>
+      <a class="referral-pill" href="https://portal.nousresearch.com/r/yael" target="_blank" title="Nous Portal — one subscription to rule all LLM providers">Æ REFERS Æ · Nous Portal</a>
+
+      <!-- Mini omnibox — tactile >_æ:// command surface -->
+      <div class="omnibox" id="omnibox">
+        <div class="omnibox-prompt">
+          <span class="prompt-glyph">&gt;_</span><span class="prompt-protocol">æ://</span>
+          <input
+            type="text"
+            id="omnibox-input"
+            class="omnibox-input"
+            placeholder="status · scan · manifest · brands · help · h:// · H:// · 🪲:// · lesson 1 · school · progress"
+            autocomplete="off"
+            spellcheck="false"
+            aria-label="æ:// command input"
+          />
+        </div>
+        <div class="omnibox-results" id="omnibox-results" aria-live="polite"></div>
+        <div class="omnibox-chips" id="omnibox-chips"></div>
+      </div>
+    </section>
+
+    <section class="card" data-collapsed="false">
+      <div class="card-title">ÆSTHETIK BOARDS · INDEX <button class="card-toggle" aria-label="Toggle">−</button></div>
+      <div class="card-body">
+      <div class="pill2" style="color: var(--gold); border-color: var(--gold);">ÆSTHETIK · offset stroke · 4 boards + logo + identity</div>
+      <div class="terminal">ÆSTHETIK identity presentation — 4 boards + logo + identity cards
+    Designed for ÆSTHETIK, æææ.com, and the hermescore distributed protocol.
+
+    BOARDS:
+    01 — Æ Logo: core identity mark
+    02 — æææ:// Board: agentic systems root index
+         37 nodes · 13 sections · 5 partner boards
+    03 — æææ:// Partners: æ.store · private · hermes
+    04 — Partners + Pipeline: capability pipeline
+    05 — 3 Principles: ethics · economics · engineering
+
+    LOGOS:
+    æ monogram · Æ ligature · text marks
+
+    MEDIA:
+    Social cards · hero image · presentation slide
+
+    → Live previews / ÆSTHETIK / Boards / Logos / Media</div>
+    <div class="card-scroll" data-subject="boards"><div class="card-scroll-inner"></div></div>
+    </div></section>
+
+    <section class="school-banner" data-collapsed="false">
+      <div class="card-title">SCHOOL OF HERMES · 12 LESSONS <button class="card-toggle" aria-label="Toggle">−</button></div>
+      <div class="card-body">
+      <div class="pill2" style="color: var(--gold); border-color: var(--gold); margin-bottom: 10px;">LEARN · BUILD · RUN</div>
+      <div class="school-triple">
+        <div class="school-cell">
+          <div class="school-cell-name">Learn</div>
+          <div class="school-cell-items">
+            <span>1</span> What is Hermes Agent?<br>
+            <span>2</span> Installation & first run<br>
+            <span>3</span> First conversation<br>
+            <span>4</span> Configuration & skills
+          </div>
+        </div>
+        <div class="school-cell">
+          <div class="school-cell-name">Build</div>
+          <div class="school-cell-items">
+            <span>5</span> CLI & shell integration<br>
+            <span>6</span> Memory & context<br>
+            <span>7</span> Skills & toolbelt<br>
+            <span>8</span> Tools & toolset composition
+          </div>
+        </div>
+        <div class="school-cell">
+          <div class="school-cell-name">Run</div>
+          <div class="school-cell-items">
+            <span>9</span> Bot mode & automation<br>
+            <span>10</span> Messaging gateway<br>
+            <span>11</span> Local model integration<br>
+            <span>12</span> Production deployment
+          </div>
+        </div>
+      </div>
+      <div class="terminal" style="margin-top: 8px; border-color: var(--gold); color: var(--gold);">
+        Capstone: æ://self — a sovereign agent index, published<br>
+        → <span class="goldlink">/school-of-hermes-guide</span> · 36KB beginner's guide
+      </div>
+      <div class="card-scroll" data-subject="school"><div class="card-scroll-inner"></div></div>
+      </div></section>
+
+    <section class="grid">
+      <a class="card-link" href="https://myaelmendez.github.io/" target="_blank" rel="noopener noreferrer">
+        <div class="card" data-collapsed="false">
+          <div class="card-title">COMMANDPROMPT.AI <button class="card-toggle" aria-label="Toggle">−</button></div>
+          <div class="card-body">
+          <div class="pill2">INTENT</div>
+          <div class="terminal">HUMAN://PRINCIPAL
+HERMES default agent
+OPENCLAW execution
+INTENT >_æ://
+AUTH://EXPLICIT
+LINEAGE://LIVE</div>
+          <div class="card-scroll" data-subject="commandprompt"><div class="card-scroll-inner"></div></div>
+          </div>
+        </div>
+      </a>
+      <a class="card-link" href="https://myaelmendez.github.io/" target="_blank" rel="noopener noreferrer">
+        <div class="card" data-collapsed="false">
+          <div class="card-title">PRIVATECLIENT.AI <button class="card-toggle" aria-label="Toggle">−</button></div>
+          <div class="card-body">
+          <div class="pill2">● PRIVATE</div>
+          <div class="terminal">ROOT OF TRUST: HUMAN PRINCIPAL
+IDENTITY ✓
+MEMORY ✓
+CONTEXT ✓
+KEYS ✓ (multi-key popup)
+CAPITAL ✓
+AUTHORITY: ROOT</div>
+          <div class="card-scroll" data-subject="privateclient"><div class="card-scroll-inner"></div></div>
+          </div>
+        </div>
+      </a>
+      <a class="card-link" href="https://myaelmendez.github.io/" target="_blank" rel="noopener noreferrer">
+        <div class="card" data-collapsed="false">
+          <div class="card-title">SOVÆREIGN <button class="card-toggle" aria-label="Toggle">−</button></div>
+          <div class="card-body">
+          <div class="pill2">SELF-CUSTODY</div>
+          <div class="terminal">PUBLIC >_æ://
+PRIVATE >_æ://private_client
+SOVEREIGN >_soværeign://
+CUSTODY://VERIFIED
+HUMAN://PRINCIPAL</div>
+          <div class="card-scroll" data-subject="sovaereign"><div class="card-scroll-inner"></div></div>
+          </div>
+        </div>
+      </a>
+      <a class="card-link" href="https://myaelmendez.github.io/" target="_blank" rel="noopener noreferrer">
+        <div class="card" data-collapsed="false">
+          <div class="card-title">æææ OS <button class="card-toggle" aria-label="Toggle">−</button></div>
+          <div class="card-body">
+          <div class="pill2">ANY ONTOLOGY COMPUTE</div>
+          <div class="terminal">ONTOLOGY:// agentic neural biological economic organizational physical
+SHOULD? ethics
+VALUE? economics
+HOW? engineering
+RECEIPT? provenance</div>
+          <div class="card-scroll" data-subject="os"><div class="card-scroll-inner"></div></div>
+          </div>
+        </div>
+      </a>
+    </section>
+
+    <section class="card" data-collapsed="false">
+      <div class="card-title">BRANDS / PROPERTIES · 14 <button class="card-toggle" aria-label="Toggle">−</button></div>
+      <div class="card-body">
+      <div class="list">
+        <a href="https://æææ.com/" target="_blank">æ: <span class="status2">root</span></a>
+        <a href="https://æææ.com/yæl" target="_blank">yæl <span class="status2">identity</span></a>
+        <a href="https://æææ.com/llm-store-1" target="_blank">LLM.store <span class="status2">intelligence</span></a>
+        <a href="https://æææ.com/privateclient-ai" target="_blank">privateclient.ai <span class="status2">custody</span></a>
+        <a href="https://æææ.com/molt-earth" target="_blank">molt.earth <span class="status2">evolve</span></a>
+        <a href="https://æææ.com/cli-llc" target="_blank">cli.llc <span class="status2">execute</span></a>
+        <a href="https://æææ.com/daollc-ai" target="_blank">daollc.ai <span class="status2">economy</span></a>
+        <a href="https://æææ.com/teologia-ai" target="_blank">teologia.ai <span class="status2">knowledge</span></a>
+        <a href="https://æææ.com/zacapa-ai" target="_blank">zacapa.ai <span class="status2">place</span></a>
+        <a href="https://æææ.com/enchiridion" target="_blank">enchiridion <span class="status2">canon</span></a>
+        <a href="https://æææ.com/neuromitosis" target="_blank">neuromitosis <span class="status2">distribute</span></a>
+        <a href="https://æææ.com/commandprompt" target="_blank">commandprompt <span class="status2">intent</span></a>
+        <a href="https://æææ.com/ioa" target="_blank">ioa <span class="status2">network</span></a>
+        <a href="https://æææ.com/consumer-redline-index" target="_blank">Consumer Redline Index <span class="status2">measure</span></a>
+      </div>
+      <div class="card-scroll" data-subject="brands"><div class="card-scroll-inner"></div></div>
+      </div></section>
+
+    <div class="third-card">
+      <div class="card" data-collapsed="false">
+        <div class="card-title">SUPERVISION <button class="card-toggle" aria-label="Toggle">−</button></div>
+        <div class="card-body">
+        <div class="pill2" style="color: var(--neon); border-color: var(--neon);">● ACTIVE · roboflow/supervision</div>
+        <div class="terminal">CV introspection engine
+sv.Detections → composition-spec.json
+real_digital_introspection.py
+hyperframes cv-composition.ts
+→ renders machine state as structured data</div>
+        <div class="card-scroll" data-subject="supervision"><div class="card-scroll-inner"></div></div>
+        </div>
+      </div>
+      <div class="card" data-collapsed="false">
+        <div class="card-title">CONTRIBUTION GRAPH <button class="card-toggle" aria-label="Toggle">−</button></div>
+        <div class="card-body">
+        <div class="pill2" style="color: var(--neon); border-color: var(--neon);">● GREEN SQUARES</div>
+        <div class="terminal">52 weeks × 7 days
+Every lesson done = 1 green square
+Stats: total · streak · longest
+LocalStorage · export JSON
+→ <span class="goldlink">/contribution-graph</span></div>
+        <div class="card-scroll" data-subject="contribution"><div class="card-scroll-inner"></div></div>
+        </div>
+      </div>
+      <div class="card" data-collapsed="false">
+        <div class="card-title">X FEED @yaelmendez <button class="card-toggle" aria-label="Toggle">−</button></div>
+        <div class="card-body">
+        <div class="pill2">#schoolofhermes</div>
+        <div class="terminal">Nitter cache + live refresh
+8 posts cached
+X ticker on homepage
+X feed panel
+→ #schoolofhermes · learn·build·run</div>
+        <div class="card-scroll" data-subject="xfeed"><div class="card-scroll-inner"></div></div>
+        </div>
+      </div>
+      <div class="card" data-collapsed="false">
+        <div class="card-title">GLOCAL COORDINATION <button class="card-toggle" aria-label="Toggle">−</button></div>
+        <div class="card-body">
+        <div class="pill2">two surfaces · one principal</div>
+        <div class="terminal">æææ.com (local) ↔ myaelmendez.github.io (public)
+api-grid probes sitemap.xml
+GitHub Pages probes /api/status
+Cross-link: COMMAND SURFACE · >_æ://</div>
+        <div class="card-scroll" data-subject="glocal"><div class="card-scroll-inner"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <section class="card" data-collapsed="false">
+      <div class="card-title">RUNTIME · API SURFACE · 22 ENDPOINTS <button class="card-toggle" aria-label="Toggle">−</button></div>
+      <div class="card-body">
+      <div class="pill2" style="color: var(--gold); border-color: var(--gold);">● ONLINE · python · uvicorn</div>
+      <div class="terminal">ENDPOINTS:
+  GET  /health              — server status
+  GET  /api/status          — site metadata
+  GET  /api/brands          — 14-brand registry
+  GET  /api/brands/{key}    — single brand
+  GET  /api/root            — root of trust
+  GET  /api/receipt         — human-principal receipt
+  GET  /api/manifest        — route manifest (22 routes)
+  GET  /api/tech            — machine + supervision inventory
+  GET  /api/tech/introspection — digital introspection snapshot
+  POST /api/tech/introspect/scan — run CV scan now
+  GET  /api/cmd             — execute omnibox command
+  GET  /api/cmd/registry    — 44 commands
+  GET  /api/x-feed          — @yaelmendez X feed
+  GET  /api/api-keys        — multi-key store (add/edit/delete)
+  POST /api/api-keys        — add/update/delete API keys
+  GET  /api/jev/key         — Jev API key (backward compat)
+  GET  /api/referral        — Nous Portal referral + awareness
+  GET  /api/awareness       — system awareness payload
+  GET  /contribution-graph  — green square grid
+  GET  /school-of-hermes-guide — beginner's guide (36KB)
+  GET  /cv-annotation-demo  — CV annotation demo
+  GET  /index-panel         — æææ:// root hierarchy · 13 sections · 37 nodes
+  GET  /webgpu             — GPU compute demo · WGSL · particle field + matmul</div>
+      <div class="card-scroll" data-subject="runtime"><div class="card-scroll-inner"></div></div>
+      <div style="margin-top: 10px;">
+        <a class="goldlink" href="https://portal.nousresearch.com/r/yael" target="_blank">Nous Portal · one subscription to rule all LLM providers →</a>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="card-title">CONTROLLER · local_agent <span class="badge">● ACTIVE</span></div>
+      <div class="card-body">
+        <div class="pill2" style="color: var(--gold); border-color: var(--gold);">● KÆNBÆN · TASK BOARD</div>
+        <div class="terminal">4 tasks · 4 deps · QR=THE_CHIP hash-chain
+  k001  probe Victus      [ blocked ]
+  k002  trace legion-go   [ done   ]
+  k003  combine            [ done   ]
+  k004  sign packet        [ done   ]</div>
+        <div class="card-scroll" data-subject="runtime"><div class="card-scroll-inner"></div></div>
+        <div style="margin-top: 10px; font-size: 11px;">
+          <a class="goldlink" href="https://myaelmendez.github.io/local_agent" target="_blank">local_agent · sovereign · offline-first · QR=THE_CHIP →</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="card custom-apps-card" data-collapsed="false">
+      <div class="card-title">CUSTOM APPS · æææ.com <span class="badge">● ACTIVE</span></div>
+      <div class="card-body">
+        <div class="pill2" style="color: var(--gold); border-color: var(--gold);">ENTERPRISE · OFFLINE-FIRST · QR=THE_CHIP</div>
+        <div class="terminal">
+          • <span class="highlight">kabban</span> — 4-task enterprise board (imperial · vice · reviewer), 5 dependency edges, dispatch cap = 1, dormant reroute<br>
+          • <span class="highlight">local_agent</span> — offline-first agent node (Ollama CPU, llama3.2:3b), QR=THE_CHIP hash-chain, kænbæn board<br>
+          • <span class="highlight">WebGPU</span> — optional GPU surface for the local runtime<br>
+          • <span class="highlight">WebLLM</span> — optional LLM inference on the local web runtime
+        </div>
+        <div class="card-scroll" data-subject="runtime"><div class="card-scroll-inner"></div></div>
+        <div style="margin-top: 10px; display: flex; gap: 8px;">
+          <div class="launch-links">
+            <a class="goldlink" href="custom_apps/kabban-board.html" target="_blank">🪺 Launch kænbæn board →</a>
+            <a class="goldlink" href="custom_apps/local_agent.html" target="_blank">🪺 Launch local_agent →</a>
+            <a class="goldlink" href="static/renders/constellation/player.html" target="_blank">▶ Launch constellation video →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <span>æææ.com · local-sovereign default · one principal · agentic coherence</span>
+      <span>Hermes Agent · HTML/CSS · offline-first · #schoolofhermes</span>
+      <span class="hermes-badge" title="Powered by Hermes Agent">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2a1 1 0 0 1 1 1v2a1 1 0 0 1-2 0V3a1 1 0 0 1 1-1Z" style="stroke-linecap:round;stroke-linejoin:round"/><path d="M5 4h14v16H5z" rx="2" style="stroke-linecap:round;stroke-linejoin:round"/><path d="M8 8h8M8 12h8M8 16h5" style="stroke-linecap:round;stroke-linejoin:round"/></svg>
+        Hermes Agent
+      </span>
+    </footer>
+    <!-- scheme overlay -->
+    <div class="scheme-overlay" id="schemeOverlay">
+      <div class="scheme-overlay-inner">
+        <div class="scheme-option" data-scheme="h://">
+          <div class="scheme-code">h://</div>
+          <div class="scheme-desc">Host — local-sovereign default, your machine's origin</div>
+        </div>
+        <div class="scheme-option" data-scheme="H://">
+          <div class="scheme-code">H://</div>
+          <div class="scheme-desc">Platform — shared substrate, multi-principal coordination</div>
+        </div>
+        <div class="scheme-option" data-scheme="🪲://">
+          <div class="scheme-code">🪲://</div>
+          <div class="scheme-desc">Wing — agentic flight layer, autonomous coherence</div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
       // ── æ glyph → scheme overlay ──
       const glyph = document.querySelector('.glyph');
       const overlay = document.getElementById('schemeOverlay');
@@ -881,6 +1265,32 @@
           this.textContent = collapsed ? '−' : '+';
         });
       });
+
+      // ── per-card tickers rendered from real curriculum data ──
+      const TICKER_DATA = {
+        boards: ['\u00e6 \u2014 core mark','\u00e6\u00e6\u00e6:// \u2014 37 nodes','13 sections','\u00c6 ligature','5 partner boards','social cards \u00b7 hero','01 \u00c6 Logo','02 \u00e6\u00e6\u00e6:// Board','03 Partners','04 Pipeline','05 3 Principles'],
+        school: ['L1 \u00b7 What is Hermes Agent?','L2 \u00b7 Installation','L3 \u00b7 First conversation','L4 \u00b7 Configuration & skills','L5 \u00b7 The CLI','L6 \u00b7 Memory','L7 \u00b7 Skills','L8 \u00b7 Tools & Toolsets','L9 \u00b7 Bot Mode','L10 \u00b7 Messaging Gateway','L11 \u00b7 Local models','L12 \u00b7 Production deployment'],
+        commandprompt: ['HUMAN://PRINCIPAL','h:// Hermes Agent default','OPENCLAW execution','INTENT >_\u00e6://','AUTH://EXPLICIT','LINEAGE://LIVE'],
+        privateclient: ['ROOT OF TRUST','IDENTITY \u2713','MEMORY \u2713','CONTEXT \u2713','KEYS \u2713 multi-key popup','CAPITAL \u2713','AUTHORITY: ROOT'],
+        sovaereign: ['PUBLIC >_\u00e6://','PRIVATE >_\u00e6://private_client','SOVEREIGN >_sov\u00e6reign://','CUSTODY://VERIFIED','HUMAN://PRINCIPAL'],
+        os: ['agentic','neural','biological','economic','organizational','physical','SHOULD? ethics','VALUE? economics','HOW? engineering','RECEIPT? provenance'],
+        brands: ['\u00e6 \u00b7 root','y\u00e6l \u00b7 identity','LLM.store \u00b7 intelligence','privateclient.ai \u00b7 custody','molt.earth \u00b7 evolve','cli.llc \u00b7 execute','daollc.ai \u00b7 economy','teologia.ai \u00b7 knowledge','zacapa.ai \u00b7 place','enchiridion \u00b7 canon','neuromitosis \u00b7 distribute','commandprompt \u00b7 intent','ioa \u00b7 network','Consumer Redline Index \u00b7 measure'],
+        supervision: ['roboflow/supervision ACTIVE','sv.Detections \u2192 composition-spec.json','real_digital_introspection.py','hyperframes cv-composition.ts','machine state \u2192 structured data'],
+        contribution: ['52 weeks \u00d7 7 days','1 lesson = 1 green square','total \u00b7 streak \u00b7 longest','localStorage key schoolofhermes_contributions','/contribution-graph'],
+        xfeed: ['@yaelmendez \u00b7 #schoolofhermes','Nitter cache \u00b7 8 posts','xrefresh command','learn\u00b7build\u00b7run','sovereign local-first'],
+        glocal: ['\u00e6\u00e6\u00e6.com \u2194 myaelmendez.github.io','two surfaces \u00b7 one principal','api-grid probes sitemap.xml','pages probes /api/status','COMMAND SURFACE \u00b7 >_\u00e6://'],
+        runtime: ['22 endpoints','/api/brands \u00b7 14 registry','/api/cmd \u00b7 44 commands','/api/referral \u00b7 Nous Portal','/api/awareness \u00b7 12 fields','/index-panel \u00b7 13 sections','/school-of-hermes-guide','/contribution-graph','/webgpu \u00b7 WGSL GPU compute']
+      };
+      function renderCardTickers() {
+        document.querySelectorAll('.card-scroll[data-subject]').forEach(function(el) {
+          const items = TICKER_DATA[el.getAttribute('data-subject')];
+          const inner = el.querySelector('.card-scroll-inner');
+          if (!items || !inner) return;
+          inner.innerHTML = items.concat(items).map(function(t, i) {
+            return '<span class="card-scroll-item' + (i % 2 ? ' gold' : '') + '">' + t + '</span>';
+          }).join('');
+        });
+      }
 
       // ── mini omnibox ──
       const omnibox = document.getElementById('omnibox');
@@ -976,546 +1386,12 @@
         });
       }
 
+      renderCardTickers();
+
+
       renderChips();
       renderResults([]);
     })();
-</style>
-</head>
-<body>
-
-<div class="window">
-    <!-- Native titlebar -->
-    <div class="titlebar">
-      <div class="icon">æ</div>
-      <div class="name">æææ.com · glocal omnibox</div>
-      <div class="buttons">
-        <button class="btn" aria-label="Minimize">−</button>
-        <button class="btn" aria-label="Maximize">□</button>
-        <button class="btn close" aria-label="Close">✕</button>
-      </div>
-    </div>
-    <!-- Full window body -->
-    <div class="body">
-    <header>
-      <div class="brand">
-        <div class="glyph" title="æ — hamburger menu · omnibox affordance">æ</div>
-        <input class="omnibox-demo" id="omniboxDemo" placeholder="æ æ://" readonly />
-        <div>
-          <div class="title">æææ.com</div>
-          <div class="tagline">Open Intelligence · Private Authority · Sovereign Value</div>
-        </div>
-      </div>
-      <nav>
-        <a href="https://myaelmendez.github.io/" target="_blank">Live site</a>
-        <a href="https://myaelmendez.github.io/contribution-graph.html" target="_blank">Contribute</a>
-        <a href="https://myaelmendez.github.io/school-of-hermes-guide.html" target="_blank">Guide</a>
-        <a href="custom_apps/README.md" target="_blank">Custom Apps</a>
-        <span class="nav-right">
-          <button class="theme-btn ae active" data-mode="ae" title="Toggle æ theme (gold on void)">
-            <span class="icon"></span>æ
-          </button>
-        </span>
-        </span>
-      </nav>
-    </header>
-
-    <section class="hero">
-      <h1>ONE PRINCIPAL · ANY ONTOLOGY</h1>
-      <p>Agent-native origin. Human principal first. Local-sovereign default. This origin exposes code, data, tools, schemas, capabilities, and receipts. Command surface: <span class="goldlink">&gt;_æ://</span></p>
-      <div class="hero-scroll">
-        <div class="hero-scroll-inner">
-          <span class="hero-scroll-item">● School of Hermes · 12 lessons</span>
-          <span class="hero-scroll-item gold">● Contribution graph · green squares</span>
-          <span class="hero-scroll-item purple">● Nous Portal · æ refers æ</span>
-          <span class="hero-scroll-item">● Supervision · roboflow/supervision</span>
-          <span class="hero-scroll-item gold">● X feed @yaelmendez · #schoolofhermes</span>
-          <span class="hero-scroll-item purple">● Glocal · two surfaces · one principal</span>
-          <span class="hero-scroll-item">● Multi-key API popup · add/edit/delete</span>
-          <span class="hero-scroll-item gold">● Hermes Agent · HTML/CSS · offline-first</span>
-        </div>
-      </div>
-      <div class="pills">
-        <span class="pill">● HUMAN://ROOT</span>
-        <span class="pill">LOCAL-SOVEREIGN://default</span>
-        <span class="pill">æææ://root</span>
-        <span class="pill">SCHOOL OF HERMES</span>
-        <span class="pill">CONTRIBUTION GRAPH</span>
-      </div>
-      <a class="referral-pill" href="https://portal.nousresearch.com/r/yael" target="_blank" title="Nous Portal — one subscription to rule all LLM providers">Æ REFERS Æ · Nous Portal</a>
-
-      <!-- Mini omnibox — tactile >_æ:// command surface -->
-      <div class="omnibox" id="omnibox">
-        <div class="omnibox-prompt">
-          <span class="prompt-glyph">&gt;_</span><span class="prompt-protocol">æ://</span>
-          <input
-            type="text"
-            id="omnibox-input"
-            class="omnibox-input"
-            placeholder="status · scan · manifest · brands · help · h:// · H:// · 🪲:// · lesson 1 · school · progress"
-            autocomplete="off"
-            spellcheck="false"
-            aria-label="æ:// command input"
-          />
-        </div>
-        <div class="omnibox-results" id="omnibox-results" aria-live="polite"></div>
-        <div class="omnibox-chips" id="omnibox-chips"></div>
-      </div>
-    </section>
-
-    <section class="card" data-collapsed="false">
-      <div class="card-title">ÆSTHETIK BOARDS · INDEX <button class="card-toggle" aria-label="Toggle">−</button></div>
-      <div class="card-body">
-      <div class="pill2" style="color: var(--gold); border-color: var(--gold);">ÆSTHETIK · offset stroke · 4 boards + logo + identity</div>
-      <div class="terminal">ÆSTHETIK identity presentation — 4 boards + logo + identity cards
-    Designed for ÆSTHETIK, æææ.com, and the hermescore distributed protocol.
-
-    BOARDS:
-    01 — Æ Logo: core identity mark
-    02 — æææ:// Board: agentic systems root index
-         37 nodes · 13 sections · 5 partner boards
-    03 — æææ:// Partners: æ.store · private · hermes
-    04 — Partners + Pipeline: capability pipeline
-    05 — 3 Principles: ethics · economics · engineering
-
-    LOGOS:
-    æ monogram · Æ ligature · text marks
-
-    MEDIA:
-    Social cards · hero image · presentation slide
-
-    → Live previews / ÆSTHETIK / Boards / Logos / Media</div>
-    <div class="card-scroll"><div class="card-scroll-inner">
-      <span class="card-scroll-item gold">æ — core mark</span>
-      <span class="card-scroll-item">æææ:// — root index</span>
-      <span class="card-scroll-item gold">37 nodes · 13 sections</span>
-      <span class="card-scroll-item">5 partner boards</span>
-      <span class="card-scroll-item gold">Æ ligature · text marks</span>
-      <span class="card-scroll-item">social cards · hero</span>
-      <span class="card-scroll-item gold">æ — core mark</span>
-      <span class="card-scroll-item">æææ:// — root index</span>
-      <span class="card-scroll-item gold">37 nodes · 13 sections</span>
-      <span class="card-scroll-item">5 partner boards</span>
-      <span class="card-scroll-item gold">Æ ligature · text marks</span>
-      <span class="card-scroll-item">social cards · hero</span>
-    </div></div>
-    </div></section>
-
-    <section class="school-banner" data-collapsed="false">
-      <div class="card-title">SCHOOL OF HERMES · 12 LESSONS <button class="card-toggle" aria-label="Toggle">−</button></div>
-      <div class="card-body">
-      <div class="pill2" style="color: var(--gold); border-color: var(--gold); margin-bottom: 10px;">LEARN · BUILD · RUN</div>
-      <div class="school-triple">
-        <div class="school-cell">
-          <div class="school-cell-name">Learn</div>
-          <div class="school-cell-items">
-            <span>1</span> What is Hermes Agent?<br>
-            <span>2</span> Installation & first run<br>
-            <span>3</span> First conversation<br>
-            <span>4</span> Configuration & skills
-          </div>
-        </div>
-        <div class="school-cell">
-          <div class="school-cell-name">Build</div>
-          <div class="school-cell-items">
-            <span>5</span> CLI & shell integration<br>
-            <span>6</span> Memory & context<br>
-            <span>7</span> Skills & toolbelt<br>
-            <span>8</span> Tools & toolset composition
-          </div>
-        </div>
-        <div class="school-cell">
-          <div class="school-cell-name">Run</div>
-          <div class="school-cell-items">
-            <span>9</span> Bot mode & automation<br>
-            <span>10</span> Messaging gateway<br>
-            <span>11</span> Local model integration<br>
-            <span>12</span> Production deployment
-          </div>
-        </div>
-      </div>
-      <div class="terminal" style="margin-top: 8px; border-color: var(--gold); color: var(--gold);">
-        Capstone: æ://self — a sovereign agent index, published<br>
-        → <span class="goldlink">/school-of-hermes-guide</span> · 36KB beginner's guide
-      </div>
-      <div class="card-scroll"><div class="card-scroll-inner">
-        <span class="card-scroll-item gold">LEARN · BUILD · RUN</span>
-        <span class="card-scroll-item">12 lessons · hermescore</span>
-        <span class="card-scroll-item gold">local-sovereign default</span>
-        <span class="card-scroll-item">#schoolofhermes</span>
-        <span class="card-scroll-item gold">one principal · agentic</span>
-        <span class="card-scroll-item">learn·build·run triad</span>
-        <span class="card-scroll-item gold">12 lessons · hermescore</span>
-        <span class="card-scroll-item">local-sovereign default</span>
-        <span class="card-scroll-item gold">#schoolofhermes</span>
-        <span class="card-scroll-item">one principal · agentic</span>
-        <span class="card-scroll-item gold">learn·build·run triad</span>
-        <span class="card-scroll-item">12 lessons · hermescore</span>
-      </div></div>
-      </div></section>
-
-    <section class="grid">
-      <a class="card-link" href="https://myaelmendez.github.io/" target="_blank" rel="noopener noreferrer">
-        <div class="card" data-collapsed="false">
-          <div class="card-title">COMMANDPROMPT.AI <button class="card-toggle" aria-label="Toggle">−</button></div>
-          <div class="card-body">
-          <div class="pill2">INTENT</div>
-          <div class="terminal">HUMAN://PRINCIPAL
-HERMES default agent
-OPENCLAW execution
-INTENT >_æ://
-AUTH://EXPLICIT
-LINEAGE://LIVE</div>
-          <div class="card-scroll"><div class="card-scroll-inner">
-            <span class="card-scroll-item">HUMAN://PRINCIPAL</span>
-            <span class="card-scroll-item gold">HERMES default</span>
-            <span class="card-scroll-item">OPENCLAW exec</span>
-            <span class="card-scroll-item gold">INTENT >_æ://</span>
-            <span class="card-scroll-item">AUTH://EXPLICIT</span>
-            <span class="card-scroll-item gold">LINEAGE://LIVE</span>
-            <span class="card-scroll-item">HUMAN://PRINCIPAL</span>
-            <span class="card-scroll-item gold">HERMES default</span>
-            <span class="card-scroll-item">OPENCLAW exec</span>
-            <span class="card-scroll-item gold">INTENT >_æ://</span>
-            <span class="card-scroll-item">AUTH://EXPLICIT</span>
-            <span class="card-scroll-item gold">LINEAGE://LIVE</span>
-          </div></div>
-          </div>
-        </div>
-      </a>
-      <a class="card-link" href="https://myaelmendez.github.io/" target="_blank" rel="noopener noreferrer">
-        <div class="card" data-collapsed="false">
-          <div class="card-title">PRIVATECLIENT.AI <button class="card-toggle" aria-label="Toggle">−</button></div>
-          <div class="card-body">
-          <div class="pill2">● PRIVATE</div>
-          <div class="terminal">ROOT OF TRUST: HUMAN PRINCIPAL
-IDENTITY ✓
-MEMORY ✓
-CONTEXT ✓
-KEYS ✓ (multi-key popup)
-CAPITAL ✓
-AUTHORITY: ROOT</div>
-          <div class="card-scroll"><div class="card-scroll-inner">
-            <span class="card-scroll-item gold">ROOT OF TRUST</span>
-            <span class="card-scroll-item">IDENTITY ✓</span>
-            <span class="card-scroll-item gold">MEMORY ✓</span>
-            <span class="card-scroll-item">CONTEXT ✓</span>
-            <span class="card-scroll-item gold">KEYS ✓ popup</span>
-            <span class="card-scroll-item">CAPITAL ✓</span>
-            <span class="card-scroll-item gold">AUTHORITY: ROOT</span>
-            <span class="card-scroll-item gold">ROOT OF TRUST</span>
-            <span class="card-scroll-item">IDENTITY ✓</span>
-            <span class="card-scroll-item gold">MEMORY ✓</span>
-            <span class="card-scroll-item">CONTEXT ✓</span>
-            <span class="card-scroll-item gold">KEYS ✓ popup</span>
-          </div></div>
-          </div>
-        </div>
-      </a>
-      <a class="card-link" href="https://myaelmendez.github.io/" target="_blank" rel="noopener noreferrer">
-        <div class="card" data-collapsed="false">
-          <div class="card-title">SOVÆREIGN <button class="card-toggle" aria-label="Toggle">−</button></div>
-          <div class="card-body">
-          <div class="pill2">SELF-CUSTODY</div>
-          <div class="terminal">PUBLIC >_æ://
-PRIVATE >_æ://private_client
-SOVEREIGN >_soværeign://
-CUSTODY://VERIFIED
-HUMAN://PRINCIPAL</div>
-          <div class="card-scroll"><div class="card-scroll-inner">
-            <span class="card-scroll-item">PUBLIC >_æ://</span>
-            <span class="card-scroll-item gold">PRIVATE >_æ://private_client</span>
-            <span class="card-scroll-item">SOVEREIGN >_soværeign://</span>
-            <span class="card-scroll-item gold">CUSTODY://VERIFIED</span>
-            <span class="card-scroll-item">HUMAN://PRINCIPAL</span>
-            <span class="card-scroll-item">PUBLIC >_æ://</span>
-            <span class="card-scroll-item gold">PRIVATE >_æ://private_client</span>
-            <span class="card-scroll-item">SOVEREIGN >_soværeign://</span>
-            <span class="card-scroll-item gold">CUSTODY://VERIFIED</span>
-            <span class="card-scroll-item">HUMAN://PRINCIPAL</span>
-          </div></div>
-          </div>
-        </div>
-      </a>
-      <a class="card-link" href="https://myaelmendez.github.io/" target="_blank" rel="noopener noreferrer">
-        <div class="card" data-collapsed="false">
-          <div class="card-title">æææ OS <button class="card-toggle" aria-label="Toggle">−</button></div>
-          <div class="card-body">
-          <div class="pill2">ANY ONTOLOGY COMPUTE</div>
-          <div class="terminal">ONTOLOGY:// agentic neural biological economic organizational physical
-SHOULD? ethics
-VALUE? economics
-HOW? engineering
-RECEIPT? provenance</div>
-          <div class="card-scroll"><div class="card-scroll-inner">
-            <span class="card-scroll-item purple">agentic</span>
-            <span class="card-scroll-item gold">neural</span>
-            <span class="card-scroll-item purple">biological</span>
-            <span class="card-scroll-item gold">economic</span>
-            <span class="card-scroll-item purple">organizational</span>
-            <span class="card-scroll-item gold">physical</span>
-            <span class="card-scroll-item">SHOULD? ethics</span>
-            <span class="card-scroll-item">VALUE? economics</span>
-            <span class="card-scroll-item">HOW? engineering</span>
-            <span class="card-scroll-item">RECEIPT? provenance</span>
-            <span class="card-scroll-item purple">agentic</span>
-            <span class="card-scroll-item gold">neural</span>
-          </div></div>
-          </div>
-        </div>
-      </a>
-    </section>
-
-    <section class="card" data-collapsed="false">
-      <div class="card-title">BRANDS / PROPERTIES · 14 <button class="card-toggle" aria-label="Toggle">−</button></div>
-      <div class="card-body">
-      <div class="list">
-        <a href="https://æææ.com/" target="_blank">æ: <span class="status2">root</span></a>
-        <a href="https://æææ.com/yæl" target="_blank">yæl <span class="status2">identity</span></a>
-        <a href="https://æææ.com/llm-store-1" target="_blank">LLM.store <span class="status2">intelligence</span></a>
-        <a href="https://æææ.com/privateclient-ai" target="_blank">privateclient.ai <span class="status2">custody</span></a>
-        <a href="https://æææ.com/molt-earth" target="_blank">molt.earth <span class="status2">evolve</span></a>
-        <a href="https://æææ.com/cli-llc" target="_blank">cli.llc <span class="status2">execute</span></a>
-        <a href="https://æææ.com/daollc-ai" target="_blank">daollc.ai <span class="status2">economy</span></a>
-        <a href="https://æææ.com/teologia-ai" target="_blank">teologia.ai <span class="status2">knowledge</span></a>
-        <a href="https://æææ.com/zacapa-ai" target="_blank">zacapa.ai <span class="status2">place</span></a>
-        <a href="https://æææ.com/enchiridion" target="_blank">enchiridion <span class="status2">canon</span></a>
-        <a href="https://æææ.com/neuromitosis" target="_blank">neuromitosis <span class="status2">distribute</span></a>
-        <a href="https://æææ.com/commandprompt" target="_blank">commandprompt <span class="status2">intent</span></a>
-        <a href="https://æææ.com/ioa" target="_blank">ioa <span class="status2">network</span></a>
-        <a href="https://æææ.com/consumer-redline-index" target="_blank">Consumer Redline Index <span class="status2">measure</span></a>
-      </div>
-      <div class="card-scroll"><div class="card-scroll-inner">
-        <span class="card-scroll-item gold">æ — root · 14 brands</span>
-        <span class="card-scroll-item">one principal · agentic</span>
-        <span class="card-scroll-item gold">LLM.store · intelligence</span>
-        <span class="card-scroll-item">privateclient · custody</span>
-        <span class="card-scroll-item gold">molt.earth · evolve</span>
-        <span class="card-scroll-item">cli.llc · execute</span>
-        <span class="card-scroll-item gold">daollc · economy</span>
-        <span class="card-scroll-item">teologia · knowledge</span>
-        <span class="card-scroll-item gold">æ — root · 14 brands</span>
-        <span class="card-scroll-item">one principal · agentic</span>
-        <span class="card-scroll-item gold">LLM.store · intelligence</span>
-        <span class="card-scroll-item">privateclient · custody</span>
-      </div></div>
-      </div></section>
-
-    <div class="third-card">
-      <div class="card" data-collapsed="false">
-        <div class="card-title">SUPERVISION <button class="card-toggle" aria-label="Toggle">−</button></div>
-        <div class="card-body">
-        <div class="pill2" style="color: var(--neon); border-color: var(--neon);">● ACTIVE · roboflow/supervision</div>
-        <div class="terminal">CV introspection engine
-sv.Detections → composition-spec.json
-real_digital_introspection.py
-hyperframes cv-composition.ts
-→ renders machine state as structured data</div>
-        <div class="card-scroll"><div class="card-scroll-inner">
-          <span class="card-scroll-item neon">CV introspection</span>
-          <span class="card-scroll-item">sv.Detections → json</span>
-          <span class="card-scroll-item neon">composition-spec</span>
-          <span class="card-scroll-item">real_digital_introspection</span>
-          <span class="card-scroll-item neon">hyperframes cv-composition</span>
-          <span class="card-scroll-item">machine state → data</span>
-          <span class="card-scroll-item neon">CV introspection</span>
-          <span class="card-scroll-item">sv.Detections → json</span>
-          <span class="card-scroll-item neon">composition-spec</span>
-          <span class="card-scroll-item">real_digital_introspection</span>
-          <span class="card-scroll-item neon">hyperframes cv-composition</span>
-          <span class="card-scroll-item">machine state → data</span>
-        </div></div>
-        </div>
-      </div>
-      <div class="card" data-collapsed="false">
-        <div class="card-title">CONTRIBUTION GRAPH <button class="card-toggle" aria-label="Toggle">−</button></div>
-        <div class="card-body">
-        <div class="pill2" style="color: var(--neon); border-color: var(--neon);">● GREEN SQUARES</div>
-        <div class="terminal">52 weeks × 7 days
-Every lesson done = 1 green square
-Stats: total · streak · longest
-LocalStorage · export JSON
-→ <span class="goldlink">/contribution-graph</span></div>
-        <div class="card-scroll"><div class="card-scroll-inner">
-          <span class="card-scroll-item neon">52 weeks × 7 days</span>
-          <span class="card-scroll-item">1 lesson = 1 square</span>
-          <span class="card-scroll-item neon">total · streak · longest</span>
-          <span class="card-scroll-item">localStorage · JSON</span>
-          <span class="card-scroll-item neon">#schoolofhermes</span>
-          <span class="card-scroll-item">52 weeks × 7 days</span>
-          <span class="card-scroll-item neon">1 lesson = 1 square</span>
-          <span class="card-scroll-item neon">total · streak · longest</span>
-          <span class="card-scroll-item">localStorage · JSON</span>
-          <span class="card-scroll-item neon">#schoolofhermes</span>
-        </div></div>
-        </div>
-      </div>
-      <div class="card" data-collapsed="false">
-        <div class="card-title">X FEED @yaelmendez <button class="card-toggle" aria-label="Toggle">−</button></div>
-        <div class="card-body">
-        <div class="pill2">#schoolofhermes</div>
-        <div class="terminal">Nitter cache + live refresh
-8 posts cached
-X ticker on homepage
-X feed panel
-→ #schoolofhermes · learn·build·run</div>
-        <div class="card-scroll"><div class="card-scroll-inner">
-          <span class="card-scroll-item">@yaelmendez · #schoolofhermes</span>
-          <span class="card-scroll-item gold">Nitter cache · 8 posts</span>
-          <span class="card-scroll-item">X ticker on homepage</span>
-          <span class="card-scroll-item gold">X feed panel</span>
-          <span class="card-scroll-item">learn·build·run</span>
-          <span class="card-scroll-item">@yaelmendez · #schoolofhermes</span>
-          <span class="card-scroll-item gold">Nitter cache · 8 posts</span>
-          <span class="card-scroll-item">X ticker on homepage</span>
-          <span class="card-scroll-item gold">X feed panel</span>
-          <span class="card-scroll-item">learn·build·run</span>
-        </div></div>
-        </div>
-      </div>
-      <div class="card" data-collapsed="false">
-        <div class="card-title">GLOCAL COORDINATION <button class="card-toggle" aria-label="Toggle">−</button></div>
-        <div class="card-body">
-        <div class="pill2">two surfaces · one principal</div>
-        <div class="terminal">æææ.com (local) ↔ myaelmendez.github.io (public)
-api-grid probes sitemap.xml
-GitHub Pages probes /api/status
-Cross-link: COMMAND SURFACE · >_æ://</div>
-        <div class="card-scroll"><div class="card-scroll-inner">
-          <span class="card-scroll-item gold">æææ.com (local)</span>
-          <span class="card-scroll-item">github.io (public)</span>
-          <span class="card-scroll-item gold">one principal · two surfaces</span>
-          <span class="card-scroll-item">api-grid → sitemap.xml</span>
-          <span class="card-scroll-item gold">pages → /api/status</span>
-          <span class="card-scroll-item">COMMAND SURFACE · >_æ://</span>
-          <span class="card-scroll-item gold">æææ.com (local)</span>
-          <span class="card-scroll-item">github.io (public)</span>
-          <span class="card-scroll-item gold">one principal · two surfaces</span>
-          <span class="card-scroll-item">api-grid → sitemap.xml</span>
-        </div></div>
-        </div>
-      </div>
-    </div>
-
-    <section class="card" data-collapsed="false">
-      <div class="card-title">RUNTIME · API SURFACE · 21 ENDPOINTS <button class="card-toggle" aria-label="Toggle">−</button></div>
-      <div class="card-body">
-      <div class="pill2" style="color: var(--gold); border-color: var(--gold);">● ONLINE · python · uvicorn</div>
-      <div class="terminal">ENDPOINTS:
-  GET  /health              — server status
-  GET  /api/status          — site metadata
-  GET  /api/brands          — 14-brand registry
-  GET  /api/brands/{key}    — single brand
-  GET  /api/root            — root of trust
-  GET  /api/receipt         — human-principal receipt
-  GET  /api/manifest        — route manifest (21 routes)
-  GET  /api/tech            — machine + supervision inventory
-  GET  /api/tech/introspection — digital introspection snapshot
-  POST /api/tech/introspect/scan — run CV scan now
-  GET  /api/cmd             — execute omnibox command
-  GET  /api/cmd/registry    — 44 commands
-  GET  /api/x-feed          — @yaelmendez X feed
-  GET  /api/api-keys        — multi-key store (add/edit/delete)
-  POST /api/api-keys        — add/update/delete API keys
-  GET  /api/jev/key         — Jev API key (backward compat)
-  GET  /api/referral        — Nous Portal referral + awareness
-  GET  /api/awareness       — system awareness payload
-  GET  /contribution-graph  — green square grid
-  GET  /school-of-hermes-guide — beginner's guide (36KB)
-  GET  /cv-annotation-demo  — CV annotation demo
-  GET  /index-panel         — æææ:// root hierarchy · 13 sections · 37 nodes</div>
-      <div class="card-scroll"><div class="card-scroll-inner">
-        <span class="card-scroll-item gold">21 endpoints · online</span>
-        <span class="card-scroll-item">/api/brands · 14 registry</span>
-        <span class="card-scroll-item gold">/api/cmd · 44 commands</span>
-        <span class="card-scroll-item">/api/x-feed · @yaelmendez</span>
-        <span class="card-scroll-item gold">/api/api-keys · multi-key</span>
-        <span class="card-scroll-item">/api/referral · Nous Portal</span>
-        <span class="card-scroll-item gold">/api/awareness · 12 fields</span>
-        <span class="card-scroll-item">/index-panel · 13 sections</span>
-        <span class="card-scroll-item gold">21 endpoints · online</span>
-        <span class="card-scroll-item">/api/brands · 14 registry</span>
-        <span class="card-scroll-item gold">/api/cmd · 44 commands</span>
-        <span class="card-scroll-item">/api/x-feed · @yaelmendez</span>
-      </div></div>
-      <div style="margin-top: 10px;">
-        <a class="goldlink" href="https://portal.nousresearch.com/r/yael" target="_blank">Nous Portal · one subscription to rule all LLM providers →</a>
-      </div>
-    </section>
-
-    <section class="card">
-      <div class="card-title">CONTROLLER · local_agent <span class="badge">● ACTIVE</span></div>
-      <div class="card-body">
-        <div class="pill2" style="color: var(--gold); border-color: var(--gold);">● KÆNBÆN · TASK BOARD</div>
-        <div class="terminal">4 tasks · 4 deps · QR=THE_CHIP hash-chain
-  k001  probe Victus      [ blocked ]
-  k002  trace legion-go   [ done   ]
-  k003  combine            [ done   ]
-  k004  sign packet        [ done   ]</div>
-        <div class="card-scroll"><div class="card-scroll-inner">
-          <span class="card-scroll-item gold">k001  probe Victus      blocked</span>
-          <span class="card-scroll-item">k002  trace legion-go   done</span>
-          <span class="card-scroll-item">k003  combine            done</span>
-          <span class="card-scroll-item">k004  sign packet        done</span>
-        </div></div>
-        <div style="margin-top: 10px; font-size: 11px;">
-          <a class="goldlink" href="https://myaelmendez.github.io/local_agent" target="_blank">local_agent · sovereign · offline-first · QR=THE_CHIP →</a>
-        </div>
-      </div>
-    </section>
-
-    <section class="card custom-apps-card" data-collapsed="false">
-      <div class="card-title">CUSTOM APPS · æææ.com <span class="badge">● ACTIVE</span></div>
-      <div class="card-body">
-        <div class="pill2" style="color: var(--gold); border-color: var(--gold);">ENTERPRISE · OFFLINE-FIRST · QR=THE_CHIP</div>
-        <div class="terminal">
-          • <span class="highlight">kabban</span> — 4-task enterprise board (imperial · vice · reviewer), 5 dependency edges, dispatch cap = 1, dormant reroute<br>
-          • <span class="highlight">local_agent</span> — offline-first agent node (Ollama CPU, llama3.2:3b), QR=THE_CHIP hash-chain, kænbæn board<br>
-          • <span class="highlight">WebGPU</span> — optional GPU surface for the local runtime<br>
-          • <span class="highlight">WebLLM</span> — optional LLM inference on the local web runtime
-        </div>
-        <div class="card-scroll"><div class="card-scroll-inner">
-          <span class="card-scroll-item gold">kabban · enterprise task board</span>
-          <span class="card-scroll-item">local_agent · offline-first node</span>
-          <span class="card-scroll-item gold">WebGPU · optional GPU surface</span>
-          <span class="card-scroll-item">WebLLM · optional LLM inference</span>
-        </div></div>
-        <div style="margin-top: 10px; display: flex; gap: 8px;">
-          <div class="launch-links">
-            <a class="goldlink" href="custom_apps/kabban-board.html" target="_blank">🪺 Launch kænbæn board →</a>
-            <a class="goldlink" href="custom_apps/local_agent.html" target="_blank">🪺 Launch local_agent →</a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <footer>
-      <span>æææ.com · local-sovereign default · one principal · agentic coherence</span>
-      <span>Hermes Agent · HTML/CSS · offline-first · #schoolofhermes</span>
-      <span class="hermes-badge" title="Powered by Hermes Agent">
-        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2a1 1 0 0 1 1 1v2a1 1 0 0 1-2 0V3a1 1 0 0 1 1-1Z" style="stroke-linecap:round;stroke-linejoin:round"/><path d="M5 4h14v16H5z" rx="2" style="stroke-linecap:round;stroke-linejoin:round"/><path d="M8 8h8M8 12h8M8 16h5" style="stroke-linecap:round;stroke-linejoin:round"/></svg>
-        Hermes Agent
-      </span>
-    </footer>
-    <!-- scheme overlay -->
-    <div class="scheme-overlay" id="schemeOverlay">
-      <div class="scheme-overlay-inner">
-        <div class="scheme-option" data-scheme="h://">
-          <div class="scheme-code">h://</div>
-          <div class="scheme-desc">Host — local-sovereign default, your machine's origin</div>
-        </div>
-        <div class="scheme-option" data-scheme="H://">
-          <div class="scheme-code">H://</div>
-          <div class="scheme-desc">Platform — shared substrate, multi-principal coordination</div>
-        </div>
-        <div class="scheme-option" data-scheme="🪲://">
-          <div class="scheme-code">🪲://</div>
-          <div class="scheme-desc">Wing — agentic flight layer, autonomous coherence</div>
-        </div>
-      </div>
-    </div>
-    </div>
-  </div>
-</div>
-
+</script>
 </body>
 </html>
