@@ -22,11 +22,27 @@ Dashboard for the local_agent node on IMperial.
 - Kænbæn board: 4 tasks · 3 assignees · 5 dependency edges
 - Run recipes: plan → run → verify → manifest
 
-## Engine
+## FleetWave
 
-- Ollama CPU: llama3.2:3b (3.2B Q4_K_M, 2GB, context 131072)
-- Local LLM plugin auto-detects Ollama on :11434
-- Boots: >_æ| → >_h → >_n → >_$ → >_:$ → >:_localagent
+All-in-one Fleet QR for the glocal constellation.
+
+- **fleetwave.html** — FleetWave UI (nodes registry, QR carry, dispatch)
+- **fleetwave_standalone.html** — Standalone Fleetwave (same content)
+- **fleet.json** — Fleet registry — 4 nodes with device/model caps
+- Protocol:  · MoD x MoA x MoM (device x agent x model)
+- QR = THE_CHIP — deterministic hash-chain restart
+
+## FleetWave
+
+All-in-one Fleet QR for the glocal constellation.
+
+- **fleetwave.html** — FleetWave UI (nodes registry, QR carry, dispatch)
+- **fleetwave_standalone.html** — Standalone Fleetwave (same content)
+- **fleet.json** — Fleet registry — 4 nodes with device/model caps
+- Protocol: `+æ://fleet` · MoD x MoA x MoM (device x agent x model)
+- QR = THE_CHIP — deterministic hash-chain restart
+
+## Engine
 
 ## QR = THE_CHIP
 

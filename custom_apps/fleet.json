@@ -1,0 +1,58 @@
+{
+  "$schema": "https://myaelmendez.github.io/schemas/surface-manifest-v1.json",
+  "name": "FLEET · Fleetwave",
+  "version": "1.0.0",
+  "description": "MoD x MoA x MoM all-in-one QR carrier for the glocal constellation",
+  "operator": "Yael Mendez",
+  "base_url": "https://myaelmendez.github.io",
+  "nodes": [
+    {
+      "id": "victus",
+      "name": "Victus",
+      "role": "engineering-computer",
+      "device": "Lenovo 83E1 (IMperial)",
+      "model": "llama3.2:3b",
+      "scratch": "/c/Users/yaelm/AppData/Local/hermes/cache/scratch",
+      "local": true,
+      "offers": ["ae://fleet?host=IMperial&mesh=pc://mesh/&models=llama3.2:3b&role=command-deck"]
+    },
+    {
+      "id": "legion-go",
+      "name": "Legion Go",
+      "role": "dash/cockpit",
+      "device": "Lenovo Legion Go",
+      "model": "llama3.2:3b",
+      "scratch": "/mnt/d/legion-go/data",
+      "local": true,
+      "offers": ["ae://fleet?host=LegionGo&mesh=pc://mesh/&models=llama3.2:3b&role=dash"]
+    },
+    {
+      "id": "victus-brain",
+      "name": "Victus Brain",
+      "role": "model-brain",
+      "device": "Victus (CUDA)",
+      "model": "llama3.2:3b",
+      "scratch": "/c/Users/yaelm/AppData/Local/hermes/cache/scratch",
+      "local": true,
+      "offers": ["ae://fleet?host=VictusBrain&mesh=pc://mesh/&models=llama3.2:3b&role=brain"]
+    },
+    {
+      "id": "imperial-deck",
+      "name": "IMperial Command Deck",
+      "role": "command-deck",
+      "device": "Lenovo 83E1 (IMperial)",
+      "model": "llama3.2:3b",
+      "scratch": "/c/Users/yaelm/AppData/Local/hermes/cache/scratch",
+      "local": true,
+      "offers": ["ae://fleet?host=IMperial&mesh=pc://mesh/&models=llama3.2:3b&role=command-deck&fleet=local"]
+    }
+  ],
+  "protocol": "+æ://fleet",
+  "protocol_routes": [
+    "ae://fleet?host=<name>&mesh=pc://mesh/&models=<csv>&role=<role>",
+    "ae://fleet?host=<name>&mesh=pc://mesh/&models=<csv>&role=<role>&fleet=local"
+  ],
+  "dispatch": "+æ://route <task>",
+  "qr_type": "æQR",
+  "qr_format": "ae:1:image/png;base64,<b64url>"
+}

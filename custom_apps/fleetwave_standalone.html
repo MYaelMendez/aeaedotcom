@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>FleetWave · all-in-one QR</title>
+<style>
+  :root {
+    --void: #020617;
+    --void-2: #0b1220;
+    --gold: #f5c842;
+    --gold-dim: #b58a1e;
+    --ae-1: #f5c842;
+    --ae-1-dim: #b58a12;
+    --ae-1-glow: rgba(253,185,39,.32);
+    --ae-2: #f0d487;
+    --neon: #10b981;
+    --neon-glow: rgba(16,185,129,.25);
+    --ink: #e5e7eb;
+    --ink-2: #9ca3af;
+    --ink-3: #6b7280;
+    --border: rgba(148,163,184,.18);
+    --glass: rgba(17,24,39,.72);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    height: 100%; background: var(--void); color: var(--ink);
+    font-family: ui-monospace, 'SFMono-Regular', Menlo, Monaco, Consolas, monospace;
+    line-height: 1.5; -webkit-app-region: drag; user-select: none;
+  }
+  .window { position: fixed; inset: 0; display: flex; flex-direction: column; background: var(--void); -webkit-app-region: no-drag; }
+  .titlebar {
+    display: flex; align-items: center; gap: 8px; padding: 6px 12px;
+    -webkit-app-region: drag; background: rgba(15,23,42,.85); border-bottom: 1px solid var(--border); min-height: 36px;
+  }
+  .titlebar .icon {
+    width: 14px; height: 14px; border-radius: 3px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-dim));
+    color: var(--void); font-size: 9px; font-weight: 900; display: grid; place-items: center; margin-right: 8px;
+    -webkit-app-region: no-drag;
+  }
+  .titlebar .name { font-size: 12px; font-weight: 700; color: var(--ink); -webkit-app-region: no-drag; letter-spacing: .04em; }
+  .titlebar .buttons { margin-left: auto; display: flex; gap: 4px; }
+  .titlebar .btn {
+    width: 14px; height: 14px; border-radius: 4px; border: none; background: transparent; cursor: pointer;
+    display: grid; place-items: center; color: var(--ink-2); -webkit-app-region: no-drag; transition: background .15s;
+  }
+  .titlebar .btn:hover { background: rgba(255,255,255,.12); color: var(--ink); }
+  .titlebar .btn.close:hover { background: #ef4444; color: #fff; }
+  .content { flex: 1; display: flex; padding: 14px; gap: 14px; overflow: hidden; }
+  .sidebar {
+    width: 240px; min-width: 240px; display: flex; flex-direction: column; gap: 10px;
+  }
+  .panel {
+    background: rgba(17,24,39,.75); border: 1px solid rgba(245,200,66,.18);
+    border-radius: 14px; padding: 14px;
+  }
+  .panel h2 {
+    font-size: 11px; letter-spacing: .12em; color: var(--gold); text-transform: uppercase; font-weight: 700;
+  }
+  .node-row {
+    display: flex; align-items: center; gap: 8px; padding: 8px 10px;
+    border-radius: 8px; cursor: pointer; transition: background .15s;
+  }
+  .node-row:hover { background: rgba(245,200,66,.06); }
+  .node-row .id { font-size: 10px; font-weight: 700; color: var(--gold); letter-spacing: .08em; min-width: 44px; }
+  .node-row .name { font-size: 12px; color: var(--ink); flex: 1; }
+  .node-row .cap { font-size: 10px; color: var(--ink-3); }
+  .badge {
+    font-size: 9px; padding: 2px 7px; border-radius: 999px; font-weight: 700; letter-spacing: .04em;
+  }
+  .badge-gold { background: rgba(245,200,66,.12); color: var(--gold); border: 1px solid rgba(245,200,66,.2); }
+  .badge-neon { background: rgba(16,185,129,.12); color: var(--neon); border: 1px solid rgba(16,185,129,.2); }
+  .main { flex: 1; display: flex; flex-direction: column; gap: 12px; overflow-y: auto; padding: 14px; }
+  .card {
+    background: rgba(17,24,39,.75); border: 1px solid rgba(245,200,66,.18);
+    border-radius: 14px; padding: 14px;
+  }
+  .card h2 { font-size: 12px; letter-spacing: .1em; color: var(--gold); text-transform: uppercase; font-weight: 700; }
+  .code-block {
+    background: rgba(11,18,32,.85); border: 1px solid rgba(245,200,66,.18);
+    border-radius: 8px; padding: 10px 12px; font-size: 11px;
+    color: var(--ink-2); line-height: 1.6; white-space: pre-wrap;
+  }
+  .protocol-box {
+    background: rgba(245,200,66,.06); border: 1px dashed rgba(245,200,66,.25);
+    border-radius: 8px; padding: 10px 12px; font-size: 11px; color: var(--ink-2);
+  }
+  .protocol-box .protocol { color: var(--gold); font-weight: 700; }
+  .qr-sim {
+    display: flex; align-items: center; gap: 12px; padding: 12px;
+    background: rgba(17,24,39,.75); border: 1px solid rgba(245,200,66,.18);
+    border-radius: 14px;
+  }
+  .qr-sim .label { font-size: 11px; color: var(--ink-3); letter-spacing: .08em; text-transform: uppercase; }
+  .qr-sim .code { font-family: ui-monospace, monospace; font-size: 13px; color: var(--gold); white-space: nowrap; }
+  .qr-sim .details { font-size: 10px; color: var(--ink-3); }
+  footer {
+    margin-top: 12px; padding: 8px 14px; font-size: 10px; color: var(--ink-3);
+    display: flex; justify-content: space-between; border-top: 1px solid var(--border);
+  }
+</style>
+</head>
+<body>
+<div class="window">
+  <div class="titlebar">
+    <div class="icon">æ</div>
+    <div class="name">FleetWave · all-in-one QR</div>
+    <div class="buttons">
+      <button class="btn" aria-label="Minimize">−</button>
+      <button class="btn" aria-label="Maximize">□</button>
+      <button class="btn close" aria-label="Close">✕</button>
+    </div>
+  </div>
+  <div class="content">
+    <div class="sidebar">
+      <div class="panel">
+        <h2>Fleet Protocol</h2>
+        <div class="protocol-box">
+          <span class="protocol">+æ://fleet offer</span><br />
+          <span style="font-size:10px;">ae://fleet?host=IMperial&mesh=pc://mesh/&models=llama3.2:3b&role=command-deck</span>
+        </div>
+        <div style="margin-top:8px;font-size:11px;color:var(--ink-2);">
+          Dispatch: <span class="protocol">+æ://route &lt;task&gt;</span>
+        </div>
+      </div>
+      <div class="panel">
+        <h2>Nodes</h2>
+        <div class="node-row">
+          <span class="id">victus</span>
+          <span class="name">Victus · engineering-computer</span>
+          <span class="cap">llama3.2:3b</span>
+        </div>
+        <div class="node-row">
+          <span class="id">legion-go</span>
+          <span class="name">Legion Go · dash/cockpit</span>
+          <span class="cap">llama3.2:3b</span>
+        </div>
+        <div class="node-row">
+          <span class="id">victus-brain</span>
+          <span class="name">Victus Brain · model-brain</span>
+          <span class="cap">llama3.2:3b</span>
+        </div>
+        <div class="node-row">
+          <span class="id">imperial-deck</span>
+          <span class="name">IMperial Command Deck · command-deck</span>
+          <span class="cap">llama3.2:3b · fleet=local</span>
+        </div>
+      </div>
+      <div class="panel">
+        <h2>QR = THE CHIP</h2>
+        <div style="font-size:11px;color:var(--ink-2);line-height:1.6;">
+          Each receipt carries a scannable QR with<br />
+          <span style="color:var(--gold);font-weight:700;">SHA-256(id, verdict, evidence, uncertainty, trust)</span>.<br />
+          Restart re-emits the identical hash-chain.
+        </div>
+      </div>
+    </div>
+    <div class="main">
+      <div class="card">
+        <h2>QR Carry</h2>
+        <div class="qr-sim">
+          <span class="label">All-in-one Fleet QR</span>
+          <span class="code">ae://fleet?host=IMperial&mesh=pc://mesh/&amp;models=llama3.2:3b,llama3.2:3b&role=command-deck,fleet=local</span>
+          <span class="details">host=IMperial · role=command-deck · fleet=local</span>
+        </div>
+      </div>
+      <div class="card">
+        <h2>FleetWave Protocol</h2>
+        <div class="protocol-box">
+          <span class="protocol">+æ://fleet offer</span><br />
+          <span style="font-size:10px;">Scans across devices: Victus (engineering-computer) · Legion Go (dash) · Victus Brain (model-brain) · IMperial (command-deck)<br />
+          MoD × MoA × MoM — device mixture × agent mixture × model mixture</span>
+        </div>
+      </div>
+      <div class="card">
+        <h2>Dispatch</h2>
+        <div class="code-block">
+# dispatch across the fleet
++æ://route &lt;task&gt;
+k001 probe Victus
+k002 trace legion-go
+k003 combine &amp; animate
+k004 sign packet
+        </div>
+      </div>
+      <div class="card">
+        <h2>Imperative Steam-Ops</h2>
+        <div class="code-block">
+# kænbæn enterprise board
+kabban.py create "probe Victus" --assignee imperial
+kabban.py create "trace legion-go" --assignee imerial
+kabban.py dep add k002 --parent k001
+kabban.py dispatch --max 1
+kabban.py start k001
+kabban.py done k001 --evidence "probe ok"
+        </div>
+      </div>
+      <div class="card">
+        <h2>Local-LLM Plugin</h2>
+        <div class="code-block">
+# Ollama CPU brain: llama3.2:3b (2GB, Q4_K_M)
+# port 11434 · chat /api/chat · generate /api/generate
+python -m local_llm --probe
+python -m local_llm --generate --prompt "probe"
+        </div>
+      </div>
+      <div class="card">
+        <h2>QR = THE CHIP</h2>
+        <div class="code-block">
+# receipt qr = SHA-256(id, verdict, evidence, uncertainty, trust)
+# deterministic restart from kabban.json
+kabban.py run k001
+verify k001
+manifest k001
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
