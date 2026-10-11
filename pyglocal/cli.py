@@ -83,11 +83,9 @@ def cmd_kabban(args):
             k.dep_remove(args.child, args.parent)
             print("dep removed")
     elif args.sub == "dispatch":
-        if args.max_tasks:
-            ready = k.dispatch(args.max_tasks)
-            print("dispatched:", [t["id"] for t in ready] if ready else "none")
-        else:
-            print("usage: pyglocal kabban dispatch --max N")
+        max_tasks = args.max_tasks if args.max_tasks else args.max_tasks_opt or 1
+        ready = k.dispatch(max_tasks)
+        print("dispatched:", [t["id"] for t in ready] if ready else "none")
     elif args.sub == "stats":
         s = k.stats()
         print(json_dumps(s))
@@ -172,7 +170,7 @@ def main(argv=None):
 
     # kabban
     kb = sub.add_parser("kabban", help="kænbæn task board")
-    kb.add_argument("sub", choices=["create", "list", "show", "start", "done", "block", "unblock", "dormant", "reroute", "dep", "stats", "status"])
+    kb.add_argument("sub", choices=["create", "list", "show", "start", "done", "block", "unblock", "dormant", "reroute", "dep", "dispatch", "stats", "status"])
     kb.add_argument("intent", nargs="?", default="")
     kb.add_argument("assignee", nargs="?", default="self")
     kb.add_argument("tid", nargs="?", default="")
@@ -181,6 +179,8 @@ def main(argv=None):
     kb.add_argument("child", nargs="?", default="")
     kb.add_argument("parent", nargs="?", default="")
     kb.add_argument("new", nargs="?", default="self")
+    kb.add_argument("max_tasks", type=int, nargs="?", default=None)
+    kb.add_argument("--max-tasks", type=int, dest="max_tasks_opt", default=None)
     kb.set_defaults(func=cmd_kabban)
 
     # fleet
