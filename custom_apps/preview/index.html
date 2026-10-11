@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>pyglocal · toolchain index & MP4 list</title>
+<style>
+  :root {
+    --gold: #f5c842; --gold-dim: #b58a12;
+    --ae-1: #f5c842; --ae-1-dim: #b58a12;
+    --ae-1-glow: rgba(253,185,39,.32);
+    --ae-2: #f0d487;
+    --neon: #10b981; --neon-glow: rgba(16,185,129,.25);
+    --ink: #e5e7eb; --ink-2: #9ca3af; --ink-3: #6b7280;
+    --border: rgba(148,163,184,.18);
+    --glass: rgba(17,24,39,.72);
+    --void: #020617;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    height: 100%; background: var(--void); color: var(--ink);
+    font-family: ui-monospace, 'SFMono-Regular', Menlo, Monaco, Consolas, monospace;
+    line-height: 1.5; -webkit-app-region: drag; user-select: none;
+  }
+  .window { position: fixed; inset: 0; display: flex; flex-direction: column; background: var(--void); -webkit-app-region: no-drag; }
+  .titlebar {
+    display: flex; align-items: center; gap: 8px; padding: 6px 12px;
+    -webkit-app-region: drag; background: rgba(15,23,42,.85); border-bottom: 1px solid var(--border); min-height: 36px;
+  }
+  .titlebar .icon { width: 14px; height: 14px; border-radius: 3px; background: linear-gradient(135deg, var(--gold), var(--gold-dim)); color: var(--void); font-size: 9px; font-weight: 900; display: grid; place-items: center; margin-right: 8px; -webkit-app-region: no-drag; }
+  .titlebar .name { font-size: 12px; font-weight: 700; color: var(--ink); -webkit-app-region: no-drag; letter-spacing: .04em; }
+  .titlebar .buttons { margin-left: auto; display: flex; gap: 4px; }
+  .titlebar .btn { width: 14px; height: 14px; border-radius: 4px; border: none; background: transparent; cursor: pointer; display: grid; place-items: center; color: var(--ink-2); -webkit-app-region: no-drag; transition: background .15s; }
+  .titlebar .btn:hover { background: rgba(255,255,255,.12); color: var(--ink); }
+  .titlebar .btn.close:hover { background: #ef4444; color: #fff; }
+  .content { flex: 1; display: flex; padding: 14px; gap: 14px; overflow: hidden; }
+  .sidebar { width: 240px; min-width: 240px; display: flex; flex-direction: column; gap: 10px; }
+  .panel { background: var(--glass); border: 1px solid var(--border); border-radius: 14px; padding: 14px; }
+  .panel h2 { font-size: 11px; letter-spacing: .12em; color: var(--gold); text-transform: uppercase; font-weight: 700; }
+  .node-row { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-radius: 8px; cursor: pointer; transition: background .15s; }
+  .node-row:hover { background: rgba(245,200,66,.06); }
+  .node-row .id { font-size: 10px; font-weight: 700; color: var(--gold); letter-spacing: .08em; min-width: 44px; }
+  .node-row .name { font-size: 12px; color: var(--ink); flex: 1; }
+  .node-row .cap { font-size: 10px; color: var(--ink-3); }
+  .badge { font-size: 9px; padding: 2px 7px; border-radius: 999px; font-weight: 700; letter-spacing: .04em; }
+  .badge-gold { background: rgba(245,200,66,.12); color: var(--gold); border: 1px solid rgba(245,200,66,.2); }
+  .badge-neon { background: rgba(16,185,129,.12); color: var(--neon); border: 1px solid rgba(16,185,129,.2); }
+  .main { flex: 1; display: flex; flex-direction: column; gap: 12px; overflow-y: auto; padding: 14px; }
+  .card { background: var(--glass); border: 1px solid var(--border); border-radius: 14px; padding: 14px; }
+  .card h2 { font-size: 12px; letter-spacing: .1em; color: var(--gold); text-transform: uppercase; font-weight: 700; }
+  .code-block { background: rgba(11,18,32,.85); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; font-size: 11px; color: var(--ink-2); line-height: 1.6; white-space: pre-wrap; }
+  .protocol-box { background: rgba(245,200,66,.06); border: 1px dashed rgba(245,200,66,.25); border-radius: 8px; padding: 10px 12px; font-size: 11px; color: var(--ink-2); }
+  .protocol-box .protocol { color: var(--gold); font-weight: 700; }
+  .qr-sim { display: flex; align-items: center; gap: 12px; padding: 12px; background: var(--glass); border: 1px solid var(--border); border-radius: 14px; }
+  .qr-sim .label { font-size: 11px; color: var(--ink-3); letter-spacing: .08em; text-transform: uppercase; }
+  .qr-sim .code { font-family: ui-monospace, monospace; font-size: 13px; color: var(--gold); white-space: nowrap; }
+  .qr-sim .details { font-size: 10px; color: var(--ink-3); }
+  footer { margin-top: 12px; padding: 8px 14px; font-size: 10px; color: var(--ink-3); display: flex; justify-content: space-between; border-top: 1px solid var(--border); }
+  .video-row { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 8px; cursor: pointer; transition: background .15s; }
+  .video-row:hover { background: rgba(245,200,66,.06); }
+  .video-row .thumb { width: 40px; height: 23px; border-radius: 4px; background: linear-gradient(90deg, var(--gold), var(--ae-2)); display: flex; align-items: center; justify-content: center; font-size: 9px; color: var(--void); font-weight: 700; }
+  .video-row .info { flex: 1; }
+  .video-row .vname { font-size: 12px; color: var(--ink); font-weight: 700; }
+  .video-row .vmeta { font-size: 10px; color: var(--ink-3); }
+  .video-row .vmeta strong { color: var(--gold); }
+  .badge-size { font-size: 9px; padding: 2px 7px; border-radius: 999px; background: rgba(255,255,255,.08); color: var(--ink-2); border: 1px solid var(--border); }
+  .list-item { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 8px; cursor: pointer; transition: background .15s; }
+  .list-item:hover { background: rgba(245,200,66,.06); }
+  .list-item .li-icon { width: 28px; height: 28px; border-radius: 6px; display: grid; place-items: center; font-size: 11px; font-weight: 700; }
+  .list-item .li-info { flex: 1; }
+  .list-item .li-name { font-size: 12px; font-weight: 700; color: var(--ink); }
+  .list-item .li-desc { font-size: 10px; color: var(--ink-3); }
+  .list-item .li-badge { font-size: 9px; padding: 2px 7px; border-radius: 999px; font-weight: 700; }
+  .tag { font-size: 9px; padding: 2px 7px; border-radius: 999px; background: rgba(245,200,66,.12); color: var(--gold); border: 1px solid rgba(245,200,66,.2); font-weight: 700; letter-spacing: .04em; }
+</style>
+</head>
+<body>
+<div class="window">
+  <div class="titlebar">
+    <div class="icon">æ</div>
+    <div class="name">pyglocal · toolchain index & MP4 list</div>
+    <div class="buttons">
+      <button class="btn close" aria-label="Close">✕</button>
+    </div>
+  </div>
+  <div class="content">
+    <div class="sidebar">
+      <div class="panel">
+        <h2>Toolchains</h2>
+        <div class="node-row"><span class="id">crypto</span><span class="name">SHA-256 hash-chained QR = THE_CHIP receipts</span><span class="cap">trust = Σe/Σu</span></div>
+        <div class="node-row"><span class="id">kabban</span><span class="name">kænbæn enterprise task board</span><span class="cap">dispatch cap 1</span></div>
+        <div class="node-row"><span class="id">fleet</span><span class="name">FleetWave all-in-one QR</span><span class="cap">4 nodes</span></div>
+        <div class="node-row"><span class="id">ollama_cpu</span><span class="name">Ollama CPU brain (llama3.2:3b)</span><span class="cap">no CUDA</span></div>
+        <div class="node-row"><span class="id">mp4_gen</span><span class="name">Constellation MP4</span><span class="cap">120 frames</span></div>
+        <div class="node-row"><span class="id">png_gen</span><span class="name">PNG receipt generation</span><span class="cap">Pillow</span></div>
+        <div class="node-row"><span class="id">html_gen</span><span class="name">HTML/CSS pacelets</span><span class="cap">custom_apps/html/</span></div>
+        <div class="node-row"><span class="id">winsticky</span><span class="name">Sticky Notes integration</span><span class="cap">LocalState</span></div>
+      </div>
+      <div class="panel">
+        <h2>MP4 Deliverables</h2>
+        <div class="video-row">
+          <div class="thumb">æ</div>
+          <div class="info">
+            <div class="vname">local_agent.mp4</div>
+            <div class="vmeta">1920×1080 · <strong>120 fr</strong> · 4.0s · <strong>39 kb/s</strong> · H.264</div>
+          </div>
+          <span class="badge-size">19 KB</span>
+        </div>
+        <div class="video-row">
+          <div class="thumb">◆</div>
+          <div class="info">
+            <div class="vname">test.mp4 (deleted)</div>
+            <div class="vmeta">1920×1080 · 5 fr · 0.17s (removed, was 1-frame cap bug)</div>
+          </div>
+        </div>
+      </div>
+      <div class="panel">
+        <h2>Hash-Chain</h2>
+        <div class="protocol-box">
+          <span class="protocol">QR = THE_CHIP</span><br />
+          <span style="font-size:10px;">SHA-256(id, verdict, evidence, uncertainty, trust)<br />trust = Σevidence / Σuncertainty</span>
+        </div>
+      </div>
+    </div>
+    <div class="main">
+      <div class="card">
+        <h2>MP4 videos</h2>
+        <div class="video-row">
+          <div class="thumb">æ</div>
+          <div class="info">
+            <div class="vname">local_agent.mp4 — Constellation</div>
+            <div class="vmeta">1920×1080 · 120 fr @ 30fps · 4.0s · 39 kb/s · H.264<br /><span style="font-size:10px;">Gold-on-void glocal constellation — the visual receipt for the fleet</span></div>
+          </div>
+          <span class="badge-size">19 KB</span>
+        </div>
+      </div>
+      <div class="card">
+        <h2>Toolchain list</h2>
+        <div class="code-block">
+# pyglocal unified Pythonic toolchains
+# offline-first, receipt-verified, local-first
+
+kabban   — kænbæn enterprise task board (4-task / 3-assignee)
+fleet    — FleetWave all-in-one QR (3-node probe-verified)
+ollama_c — Ollama CPU brain (llama3.2:3b, no CUDA)
+crypto   — SHA-256 hash-chained QR = THE_CHIP receipts
+mp4_gen  — Constellation MP4 (120 frames, H.264)
+png_gen  — PNG receipt generation (Pillow)
+html_gen — HTML/CSS pacelets (custom_apps/html/)
+winsticky— Windows Sticky Notes integration
+cli      — unified CLI (pyglocal kænbæn\|fleet\|ollama\|mp4\|png\|html\|sticky)
+        </div>
+      </div>
+      <div class="card">
+        <h2>Verified outputs</h2>
+        <div class="protocol-box">
+          <span class="protocol">kabban stats</span><br />
+          <span style="font-size:10px;">{"total": 7, "assignees": ["imperial", "reviewer", "vice"], "dispatch cap 1": true}</span><br /><br />
+          <span class="protocol">fleet offer</span><br />
+          <span style="font-size:10px;">ae://fleet?host=IMperial&mesh=pc://mesh/&amp;models=llama3.2:3b,llama3.2:3b&role=command-deck,fleet=local</span><br /><br />
+          <span class="protocol">ollama probe</span><br />
+          <span style="font-size:10px;">{"status": "ready", "model": "llama3.2:3b", "ready": true}</span><br /><br />
+          <span class="protocol">mp4 build</span><br />
+          <span style="font-size:10px;">{"success": true, "frame_count": 120, "duration": "4.0s"}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
