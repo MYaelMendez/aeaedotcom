@@ -82,6 +82,12 @@ def cmd_kabban(args):
         else:
             k.dep_remove(args.child, args.parent)
             print("dep removed")
+    elif args.sub == "dispatch":
+        if args.max_tasks:
+            ready = k.dispatch(args.max_tasks)
+            print("dispatched:", [t["id"] for t in ready] if ready else "none")
+        else:
+            print("usage: pyglocal kabban dispatch --max N")
     elif args.sub == "stats":
         s = k.stats()
         print(json_dumps(s))
@@ -168,8 +174,8 @@ def main(argv=None):
     kb = sub.add_parser("kabban", help="kænbæn task board")
     kb.add_argument("sub", choices=["create", "list", "show", "start", "done", "block", "unblock", "dormant", "reroute", "dep", "stats", "status"])
     kb.add_argument("intent", nargs="?", default="")
-    kb.add_argument("tid", nargs="?", default="")
     kb.add_argument("assignee", nargs="?", default="self")
+    kb.add_argument("tid", nargs="?", default="")
     kb.add_argument("evidence", nargs="?", default="")
     kb.add_argument("reason", nargs="?", default="")
     kb.add_argument("child", nargs="?", default="")
