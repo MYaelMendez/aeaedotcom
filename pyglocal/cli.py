@@ -82,10 +82,73 @@ def cmd_kabban(args):
         else:
             k.dep_remove(args.child, args.parent)
             print("dep removed")
-    elif args.sub == "dispatch":
-        max_tasks = args.max_tasks if args.max_tasks else args.max_tasks_opt or 1
-        ready = k.dispatch(max_tasks)
-        print("dispatched:", [t["id"] for t in ready] if ready else "none")
+    elif args.sub == "subagent":
+        if args.action == "create":
+            t = k.new_task(args.intent, args.assignee)
+            if args.parent:
+                k.dep_add(t["id"], args.parent)
+            print("created {} (assignee: {}, parent: {})".format(t["id"], t["assignee"], args.parent or "none"))
+        elif args.action == "dispatch":
+            board = k.list_tasks()
+            ready = [t for t in board if t["status"] == "todo" and not k.is_blocked(t)]
+            if not ready:
+                print("no untried subagents")
+                return
+            max_tasks = args.max_tasks or 1
+            ready = ready[:max_tasks]
+            for t in ready:
+                t["status"] = "dispatched"
+                t["wave"] = args.wave or "wave-1"
+                t["attempt"] = t.get("attempt", 0) + 1
+                k.add_event(t["id"], "run", "subagent-dispatch:" + args.wave)
+                print("subagent {} (wave {}) dispatched".format(t["id"], t["wave"]))
+            k.save_board(board)
+    elif args.sub == "wave":
+        if args.action == "create":
+            tid = k.new_task(args.title, args.assignee)
+            t = k.new_task(args.title, args.assignee)
+            t["status"] = "todo"
+            t["wave"] = args.wave
+            t["parent"] = tid
+            t["intent"] = args.title
+            k.save_board(k.list_tasks())
+            print("wave {} created (root {}), head {}".format(args.wave, tid, t["id"]))
+        elif args.action == "launch":
+            board = k.list_tasks()
+            wave_tasks = [t for t in board if t.get("wave") == args.wave]
+            if not wave_tasks:
+                print("no tasks for wave")
+                return
+            for t in wave_tasks:
+                t["status"] = "dispatched"
+                k.add_event(t["id"], "run", "wave-launch:" + args.wave)
+                print("wave {} subagent {} dispatched".format(args.wave, t["id"]))
+            k.save_board(board)
+        elif args.action == "finish":
+            board = k.list_tasks()
+            wave_tasks = [t for t in board if t.get("wave") == args.wave]
+            if not wave_tasks:
+                print("no tasks for wave")
+                return
+            done_count = sum(1 for t in wave_tasks if t["status"] == "done")
+            if done_count == len(wave_tasks):
+                root = next((t for t in board if t.get("wave") == args.wave and t.get("parent")), None)
+                if root:
+                    root["status"] = "done"
+                    root["evidence"] = "wave {} complete".format(args.wave)
+                    k.add_event(root["id"], "run->done", "wave-finish")
+                    k.save_board(board)
+                    print("wave {} complete".format(args.wave))
+            else:
+                print("wave {} incomplete: {}/{}".format(args.wave, done_count, len(wave_tasks)))
+        elif args.action == "stats":
+            board = k.list_tasks()
+            wave_tasks = [t for t in board if t.get("wave") == args.wave]
+            if not wave_tasks:
+                print("no tasks for wave")
+                return
+            done_count = sum(1 for t in wave_tasks if t["status"] == "done")
+            print("wave {} — {}/{}".format(args.wave, done_count, len(wave_tasks)))
     elif args.sub == "stats":
         s = k.stats()
         print(json_dumps(s))
@@ -170,17 +233,20 @@ def main(argv=None):
 
     # kabban
     kb = sub.add_parser("kabban", help="kænbæn task board")
-    kb.add_argument("sub", choices=["create", "list", "show", "start", "done", "block", "unblock", "dormant", "reroute", "dep", "dispatch", "stats", "status"])
-    kb.add_argument("intent", nargs="?", default="")
-    kb.add_argument("assignee", nargs="?", default="self")
-    kb.add_argument("tid", nargs="?", default="")
-    kb.add_argument("evidence", nargs="?", default="")
-    kb.add_argument("reason", nargs="?", default="")
-    kb.add_argument("child", nargs="?", default="")
-    kb.add_argument("parent", nargs="?", default="")
-    kb.add_argument("new", nargs="?", default="self")
-    kb.add_argument("max_tasks", type=int, nargs="?", default=None)
-    kb.add_argument("--max-tasks", type=int, dest="max_tasks_opt", default=None)
+    kb.add_argument("sub", choices=["create", "list", "show", "start", "done", "block", "unblock", "dormant", "reroute", "dep", "dispatch", "subagent", "wave", "stats", "status"])
+    kb.add_argument("intent", nargs="?")
+    kb.add_argument("assignee", nargs="?")
+    kb.add_argument("tid", nargs="?")
+    kb.add_argument("evidence", nargs="?")
+    kb.add_argument("reason", nargs="?")
+    kb.add_argument("child", nargs="?")
+    kb.add_argument("parent", nargs="?")
+    kb.add_argument("new", nargs="?")
+    kb.add_argument("max_tasks", type=int, nargs="?")
+    kb.add_argument("action", nargs="?")
+    kb.add_argument("wave", nargs="?")
+    kb.add_argument("op", nargs="?")
+    kb.add_argument("max_tasks_opt", type=int, nargs="?")
     kb.set_defaults(func=cmd_kabban)
 
     # fleet
