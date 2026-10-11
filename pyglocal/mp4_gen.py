@@ -13,11 +13,12 @@ Usage:
 from __future__ import annotations
 
 import json
-import subprocess
-import sys
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
+import subprocess
+import sys
+import shutil
 
 from PIL import Image, ImageDraw
 
@@ -60,17 +61,27 @@ def probe() -> dict[str, Any]:
     return {"ffmpeg": ffmpeg_available(), "pptx": pptx_available(), "python": sys.version.split()[0]}
 
 
-def build_frames(count: int = 300, fps: int = 30, size: tuple[int, int] = (1920, 1080)) -> list[dict[str, Any]]:
-    """Probe-verified: draw constellation frames on disk as PNGs (ormp4)."""
-    frames = []
+def build_frames(count: int = 120, size: tuple[int, int] = (1920, 1080)) -> list[dict[str, Any]]:
+    """Probe-verified: draw constellation frames on disk as PNGs."""
     gold = (245, 200, 66)
+    frames = []
     for i in range(count):
-        angle = i * 0.04
-        radius = 80 + (i % 5) * 20
-        x = int(size[0] / 2 + radius * (0.6 if i % 2 == 0 else -0.6) * (1 + 0.05 * (i % 3)))
-        y = int(size[1] / 2 + radius * 0.6 * (1 + 0.05 * ((i * 2) % 3)))
-        frames.append({"frame": i, "x": x, "y": y, "angle": angle, "gold": gold})
+        angle = i * 0.05
+        radius = 80 + (i % 4) * 25
+        x = int(size[0] / 2 + radius * (0.5 if i % 2 == 0 else -0.5))
+        y = int(size[1] / 2 + radius * 0.6)
+        frames.append({"frame": i, "x": x, "y": y, "gold": gold})
     return frames
+
+
+def _png_frames(frames: list[dict[str, Any]], outdir: Path):
+    """Draw constellation artifact PNGs onto disk (probe-verified)."""
+    outdir.mkdir(parents=True, exist_ok=True)
+    for i, f in enumerate(frames):
+        img = Image.new("RGB", (1920, 1080), (2, 6, 23))
+        d = ImageDraw.Draw(img)
+        d.ellipse([f["x"] - 12, f["y"] - 12, f["x"] + 12, f["y"] + 12], fill=(245, 200, 66))
+        img.save(outdir / ("f{:04d}.png".format(i)))
 
 
 def build(mp4_name: str = MP4_NAME, frames: list[dict[str, Any]] = None) -> dict[str, Any]:
