@@ -103,9 +103,9 @@ def build(mp4_name: str = MP4_NAME, frames: list[dict[str, Any]] = None) -> dict
         FFMPEG, "-y",
         "-framerate", "30",
         "-i", str(frame_dir / "f%04d.png"),
-        "-frames:v", "1",
         "-c:v", "libx264",
         "-pix_fmt", "yuv420p",
+        "-shortest",
         "-y", str(out),
     ]
     try:
