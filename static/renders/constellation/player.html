@@ -109,6 +109,7 @@
       <div class="playlist">
         <button data-video="local_agent" class="active">local_agent.mp4</button>
         <button data-video="brand">brand.mp4</button>
+        <button data-video="blend">blend</button>
         <button data-video="foreground">foreground.mp4</button>
       </div>
     </div>
@@ -124,6 +125,11 @@
           <h3>brand.mp4</h3>
           <div class="meta">1920×1080 · 180 frames · 6.0 s · H.264<br />Animated æææ.com monogram + constellation orbit</div>
           <div class="qr">brand.mp4</div>
+        </div>
+        <div class="card">
+          <h3>blended.mp4</h3>
+          <div class="meta">1920×1080 · 180 frames · 6.0 s · H.264<br />local_agent + brand overlay</div>
+          <div class="qr">blended.mp4</div>
         </div>
         <div class="card">
           <h3>foreground.mp4</h3>
@@ -161,7 +167,7 @@
       return base + p;
     };
     const setSource = (name) => {
-      const src = name === 'local_agent' ? 'local_agent.mp4' : name === 'brand' ? 'brand.mp4' : 'pending';
+      let src = name === 'local_agent' ? 'local_agent.mp4' : name === 'brand' ? 'brand.mp4' : name === 'blend' ? 'blended.mp4' : 'pending';
       const source = video.querySelector('source');
       if (source) source.remove();
       const s = document.createElement('source');
