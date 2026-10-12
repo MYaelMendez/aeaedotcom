@@ -100,7 +100,7 @@
         <div class="stat"><span class="val" id="stat-frames">0/900</span><span class="lbl">Frames</span></div>
         <div class="stat"><span class="val" id="stat-duration">0s</span><span class="lbl">Duration</span></div>
         <div class="stat"><span class="val" id="stat-codec">h264</span><span class="lbl">Codec</span></div>
-        <div class="stat"><span class="val" id="stat-videos">6</span><span class="lbl">Videos</span></div>
+        <div class="stat"><span class="val" id="stat-videos">10</span><span class="lbl">Videos</span></div>
       </div>
       <div class="controls">
         <input id="seek-slider" type="range" min="0" max="100" value="0" />
@@ -113,11 +113,21 @@
         <button data-video="blend">blend</button>
         <button data-video="brand-demo">brand-demo</button>
         <button data-video="foreground">foreground.mp4</button>
+        <button data-video="hero">hero</button>
+        <button data-video="weave">weave</button>
+        <button data-video="close">close</button>
+        <button data-video="qr">qr</button>
+        <button data-video="campaign">campaign (46s)</button>
       </div>
     </div>
     <div class="panel">
       <h2>Brand · mp4 playlist</h2>
       <div class="panel-body">
+        <div class="card">
+          <h3>#startabusiness campaign</h3>
+          <div class="meta">1920×1080 · 1380 frames · 46.0 s · H.264<br />four-media suite (hero → weave → close → qr) stitched</div>
+          <div class="qr">#startabusiness campaign.mp4</div>
+        </div>
         <div class="card">
           <h3>local_agent.mp4</h3>
           <div class="meta">1920×1080 · 120 frames · 4.0 s · H.264<br />Gold-on-void animated constellation (4 orbiting nodes)</div>
@@ -174,6 +184,11 @@
                 : name === 'blend' ? 'blended.mp4'
                 : name === 'brand-demo' ? 'brand-demo.mp4'
                 : name === 'foreground' ? 'foreground.mp4'
+                : name === 'hero' ? '../../../custom_apps/startabusiness/hero.mp4'
+                : name === 'weave' ? '../../custom_apps/startabusiness/weave.mp4'
+                : name === 'close' ? '../../custom_apps/startabusiness/close.mp4'
+                : name === 'qr' ? '../../custom_apps/startabusiness/qr.mp4'
+                : name === 'campaign' ? '../../custom_apps/startabusiness/campaign.mp4'
                 : 'pending';
       const source = video.querySelector('source');
       if (source) source.remove();
@@ -270,7 +285,17 @@
     return base + p;
   };
   const setSource = (name) => {
-    const src = name === 'local_agent' ? 'local_agent.mp4' : name === 'brand' ? 'brand.mp4' : 'pending';
+    let src = name === 'local_agent' ? 'local_agent.mp4'
+              : name === 'brand' ? 'brand.mp4'
+              : name === 'blend' ? 'blended.mp4'
+              : name === 'brand-demo' ? 'brand-demo.mp4'
+              : name === 'foreground' ? 'foreground.mp4'
+              : name === 'hero' ? '../../../custom_apps/startabusiness/hero.mp4'
+              : name === 'weave' ? '../../../custom_apps/startabusiness/weave.mp4'
+              : name === 'close' ? '../../../custom_apps/startabusiness/close.mp4'
+              : name === 'qr' ? '../../../custom_apps/startabusiness/qr.mp4'
+              : name === 'campaign' ? '../../../custom_apps/startabusiness/campaign.mp4'
+              : 'pending';
     const source = video.querySelector('source');
     if (source) source.remove();
     const s = document.createElement('source');
@@ -289,15 +314,15 @@
   };
 
   // Probe state: ONLINE / OFFLINE / PROBING
-    playlistBtns.forEach(btn => {
-      btn.addEventListener('click', () => setSource(btn.dataset.video));
-    });
+  playlistBtns.forEach(btn => {
+    btn.addEventListener('click', () => setSource(btn.dataset.video));
+  });
 
-    // Pre-flight probe: does the video file exist?
-    fetch(resolveSrc('local_agent.mp4'), { method: 'HEAD' })
-      .then(r => { if (r.ok) setSource('local_agent'); else throw new Error('missing'); })
-      .catch(() => { stateBadge.className = 'state-badge off'; stateBadge.textContent = 'OFFLINE'; });
-  })();
+  // Pre-flight probe: does the video file exist?
+  fetch(resolveSrc('local_agent.mp4'), { method: 'HEAD' })
+    .then(r => { if (r.ok) setSource('local_agent'); else throw new Error('missing'); })
+    .catch(() => { stateBadge.className = 'state-badge off'; stateBadge.textContent = 'OFFLINE'; });
+})();
 </script>
 </body>
 </html>
