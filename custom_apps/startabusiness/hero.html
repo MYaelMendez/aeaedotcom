@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>#startabusiness · hero card — ONE PERSON COMPANY</title>
+<style>
+  :root {
+    --gold: #f5c842; --gold-dim: #b58a12; --gold-glow: rgba(253,185,39,.32);
+    --ae-1: #f5c842; --ae-1-dim: #b58a12; --ae-1-glow: rgba(253,185,39,.32);
+    --ae-2: #f0d487; --neon: #10b981; --neon-glow: rgba(16,185,129,.25);
+    --ink: #e5e7eb; --ink-2: #9ca3af; --ink-3: #6b7280;
+    --border: rgba(148,163,184,.18); --border-hot: rgba(245,200,66,.45);
+    --glass: rgba(17,24,39,.72); --glass-2: rgba(2,6,23,.45);
+    --void: #020617;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    height: 100%; background: var(--void); color: var(--ink);
+    font-family: ui-monospace, 'SFMono-Regular', Menlo, Monaco, Consolas, monospace;
+    line-height: 1.5; user-select: none; overflow: hidden; -webkit-app-region: drag;
+  }
+  .window { position: fixed; inset: 0; display: flex; flex-direction: column; background: var(--void); -webkit-app-region: no-drag; }
+  .titlebar { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: rgba(15,23,42,.85); border-bottom: 1px solid var(--border); min-height: 36px; }
+  .titlebar .icon { width: 14px; height: 14px; border-radius: 3px; background: linear-gradient(135deg, var(--gold), var(--gold-dim)); color: var(--void); font-size: 9px; font-weight: 900; display: grid; place-items: center; margin-right: 8px; }
+  .titlebar .name { font-size: 12px; font-weight: 700; color: var(--ink); letter-spacing: .04em; }
+  .titlebar .buttons { margin-left: auto; display: flex; gap: 4px; }
+  .titlebar .btn { width: 14px; height: 14px; border-radius: 4px; border: none; background: transparent; cursor: pointer; display: grid; place-items: center; color: var(--ink-2); }
+  .titlebar .btn:hover { background: rgba(245,200,66,.12); color: var(--gold); }
+  .content { flex: 1; display: grid; grid-template-columns: 280px 1fr; gap: 12px; padding: 12px; overflow: hidden; }
+  .panel { display: flex; flex-direction: column; background: var(--glass); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+  .panel h2 { font-size: 11px; letter-spacing: .1em; color: var(--gold); text-transform: uppercase; font-weight: 700; padding: 12px 14px; border-bottom: 1px solid var(--border); }
+  .panel-body { flex: 1; overflow-y: auto; padding: 12px; display: grid; gap: 10px; }
+  .card { background: rgba(17,24,39,.7); border: 1px solid var(--border); border-radius: 10px; padding: 12px; }
+  .card h3 { font-size: 11px; letter-spacing: .1em; color: var(--gold); text-transform: uppercase; font-weight: 700; }
+  .card .meta { font-size: 10px; color: var(--ink-3); margin-top: 4px; line-height: 1.6; }
+  .card .qr { font-family: ui-monospace, monospace; font-size: 9px; color: var(--gold); word-break: break-all; background: rgba(2,6,23,.8); border: 1px solid var(--border); border-radius: 6px; padding: 8px 10px; margin-top: 6px; }
+  .badge { font-size: 9px; padding: 2px 7px; border-radius: 999px; font-weight: 700; letter-spacing: .04em; }
+  .badge-gold { background: rgba(245,200,66,.12); color: var(--gold); border: 1px solid rgba(245,200,66,.2); }
+  .badge-neon { background: rgba(16,185,129,.12); color: var(--neon); border: 1px solid rgba(16,185,129,.2); }
+  .detail-row { display: flex; gap: 10px; font-size: 11px; color: var(--ink-2); padding: 6px 0; border-bottom: 1px solid rgba(245,200,66,.08); }
+  .detail-row:last-child { border-bottom: none; }
+  .detail-row .k { color: var(--ink-3); width: 80px; flex-shrink: 0; letter-spacing: .04em; }
+  .hero-video { display: grid; place-items: center; background: #000; border-radius: 12px; overflow: hidden; }
+  .hero-video video { width: 100%; height: 100%; object-fit: contain; }
+  footer { margin-top: 12px; padding: 8px 14px; font-size: 10px; color: var(--ink-3); display: flex; justify-content: space-between; border-top: 1px solid var(--border); }
+  .controls { position: absolute; bottom: 12px; left: 12px; right: 12px; display: flex; align-items: center; gap: 12px; background: rgba(15,23,42,.8); border: 1px solid var(--border); border-radius: 10px; padding: 10px 14px; font-size: 12px; color: var(--ink-2); }
+  .controls input { width: 100%; background: rgba(255,255,255,.08); border: 1px solid var(--border); color: var(--ink); border-radius: 6px; padding: 6px 10px; font-family: ui-monospace, monospace; font-size: 11px; }
+  .playlist { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(15,23,42,.92); border-top: 1px solid var(--border); padding: 8px 12px; display: flex; gap: 8px; font-size: 10px; color: var(--ink-2); overflow-x: auto; }
+  .playlist button { background: transparent; border: 1px solid var(--border); color: var(--ink); padding: 4px 8px; border-radius: 4px; cursor: pointer; transition: all .15s; white-space: nowrap; }
+  .playlist button:hover { border-color: var(--gold); color: var(--gold); }
+  .playlist button.active { background: rgba(245,200,66,.12); border-color: var(--gold); color: var(--gold); }
+  .tag { display: inline-block; font-size: 9px; padding: 2px 7px; border-radius: 999px; font-weight: 700; letter-spacing: .04em; margin-left: 6px; }
+  .tag-orange { background: rgba(253,185,39,.12); color: #f5c842; border: 1px solid rgba(253,185,39,.3); }
+</style>
+</head>
+<body>
+<div class="window">
+  <div class="titlebar">
+    <div class="icon">🏁</div>
+    <div class="name">#startabusiness · hero card</div>
+    <div class="buttons">
+      <button class="btn" aria-label="Close" onclick="window.close()">✕</button>
+    </div>
+  </div>
+  <div class="content">
+    <div class="panel">
+      <h2>#startabusiness · ONE PERSON COMPANY</h2>
+      <div class="panel-body">
+        <div class="card">
+          <h3>ENTERPRISE</h3>
+          <div class="meta">one person + agents → operating business</div>
+          <div class="tag tag-orange">#250</div>
+        </div>
+        <div class="card">
+          <h3>SOUVEREIGN BOOTSTRAP</h3>
+          <div class="meta">local agent + Ollama + kænbæn · no cloud dependency · HTML/CSS/Rust/WASM primary · offline-first</div>
+        </div>
+        <div class="card">
+          <h3>ONE PERSON COMPANY</h3>
+          <div class="meta">Doola DAOLLC · agentic enterprise · ownership governance settlement · build role</div>
+        </div>
+        <div class="card">
+          <h3>FLEET</h3>
+          <div class="meta">IMperial (CPU) · Legion Go (dash) · Victus Brain (CUDA) · 3 nodes · 3 models · local only</div>
+        </div>
+        <div class="card">
+          <h3>QUICK CHECKS</h3>
+          <div class="meta">
+            #startabusiness · one person + agents · operating business · GPU Preview · #OSW<br />
+            local_agent.mp4 · brand-demo.mp4 · foreground.mp4 · campaign.mp4
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-video">
+      <video controls autoplay playsinline playsinline muted loop>
+        <source src="hero.mp4" type="video/mp4" />
+        hero.mp4 not available
+      </video>
+    </div>
+  </div>
+</div>
+<div class="playlist">
+  <button onclick="window.location.href='hero.html'" class="active">hero</button>
+  <button onclick="window.location.href='weave.html'">weave</button>
+  <button onclick="window.location.href='close.html'">close</button>
+  <button onclick="window.location.href='qr.html'">qr</button>
+  <button onclick="window.location.href='campaign.html'">campaign (46s)</button>
+</div>
+</body>
+</html>
