@@ -1,0 +1,10 @@
+{
+  "status": "ONLINE",
+  "last_probe": "2026-10-09T03:31:43.368331+00:00",
+  "last_run": null,
+  "dormant_cutoff_hours": 24,
+  "logged": 23,
+  "task_counter": 20,
+  "tasks": {},
+  "receipts": []
+}
