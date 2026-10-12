@@ -96,10 +96,11 @@
       </div>
       <div class="stat-row">
         <div class="stat"><span class="val" id="stat-fps">0</span><span class="lbl">FPS</span></div>
-        <div class="stat"><span class="val" id="stat-frames">0/180</span><span class="lbl">Frames</span></div>
+        <div class="stat"><span class="val" id="stat-frame-time">0:00</span><span class="lbl">Frame Time</span></div>
+        <div class="stat"><span class="val" id="stat-frames">0/900</span><span class="lbl">Frames</span></div>
         <div class="stat"><span class="val" id="stat-duration">0s</span><span class="lbl">Duration</span></div>
         <div class="stat"><span class="val" id="stat-codec">h264</span><span class="lbl">Codec</span></div>
-        <div class="stat"><span class="val" id="stat-videos">2</span><span class="lbl">Videos</span></div>
+        <div class="stat"><span class="val" id="stat-videos">5</span><span class="lbl">Videos</span></div>
       </div>
       <div class="controls">
         <input id="seek-slider" type="range" min="0" max="100" value="0" />
@@ -110,6 +111,7 @@
         <button data-video="local_agent" class="active">local_agent.mp4</button>
         <button data-video="brand">brand.mp4</button>
         <button data-video="blend">blend</button>
+        <button data-video="brand-demo">brand-demo</button>
         <button data-video="foreground">foreground.mp4</button>
       </div>
     </div>
@@ -122,9 +124,9 @@
           <div class="qr">local_agent.mp4</div>
         </div>
         <div class="card">
-          <h3>brand.mp4</h3>
-          <div class="meta">1920×1080 · 180 frames · 6.0 s · H.264<br />Animated æææ.com monogram + constellation orbit</div>
-          <div class="qr">brand.mp4</div>
+          <h3>brand-demo.mp4</h3>
+          <div class="meta">1920×1080 · 900 frames · 30.0 s · H.264<br />codæ:// brand demo — title, satellite, monogram, reveal</div>
+          <div class="qr">brand-demo.mp4</div>
         </div>
         <div class="card">
           <h3>blended.mp4</h3>
@@ -167,7 +169,11 @@
       return base + p;
     };
     const setSource = (name) => {
-      let src = name === 'local_agent' ? 'local_agent.mp4' : name === 'brand' ? 'brand.mp4' : name === 'blend' ? 'blended.mp4' : 'pending';
+      let src = name === 'local_agent' ? 'local_agent.mp4'
+                : name === 'brand' ? 'brand.mp4'
+                : name === 'blend' ? 'blended.mp4'
+                : name === 'brand-demo' ? 'brand-demo.mp4'
+                : 'pending';
       const source = video.querySelector('source');
       if (source) source.remove();
       const s = document.createElement('source');
