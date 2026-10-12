@@ -100,12 +100,12 @@
         <div class="stat"><span class="val" id="stat-frames">0/900</span><span class="lbl">Frames</span></div>
         <div class="stat"><span class="val" id="stat-duration">0s</span><span class="lbl">Duration</span></div>
         <div class="stat"><span class="val" id="stat-codec">h264</span><span class="lbl">Codec</span></div>
-        <div class="stat"><span class="val" id="stat-videos">5</span><span class="lbl">Videos</span></div>
+        <div class="stat"><span class="val" id="stat-videos">6</span><span class="lbl">Videos</span></div>
       </div>
       <div class="controls">
         <input id="seek-slider" type="range" min="0" max="100" value="0" />
         <span id="time-display">00:00 / 00:00</span>
-        <span id="controls-hint">space = play/pause · ← → = seek · f = fullscreen</span>
+        <span id="controls-hint">space = play/pause · ← → = seek · f = fullscreen · v = video catalogue</span>
       </div>
       <div class="playlist">
         <button data-video="local_agent" class="active">local_agent.mp4</button>
@@ -135,8 +135,8 @@
         </div>
         <div class="card">
           <h3>foreground.mp4</h3>
-          <div class="meta">1920×1080 · H.264<br />Scan / foreground render surface</div>
-          <div class="qr">pending</div>
+          <div class="meta">1920×1080 · 900 frames · 30.0 s · H.264<br />Foreground render surface — vertical scan sweep + codæ:// weave</div>
+          <div class="qr">foreground.mp4</div>
         </div>
       </div>
     </div>
@@ -173,6 +173,7 @@
                 : name === 'brand' ? 'brand.mp4'
                 : name === 'blend' ? 'blended.mp4'
                 : name === 'brand-demo' ? 'brand-demo.mp4'
+                : name === 'foreground' ? 'foreground.mp4'
                 : 'pending';
       const source = video.querySelector('source');
       if (source) source.remove();
