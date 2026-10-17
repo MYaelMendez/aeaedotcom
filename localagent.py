@@ -357,6 +357,10 @@ def cmd_menlo(args):
     if not result:
         return {"error": "menlo bridge not ready — launch hermes-engineering-hub"}
 
+    # UX hint: if SDK reports "stand() first", append recovery guidance
+    if not result.get("ok") and "stand() first" in result.get("error", ""):
+        result["hint"] = "run: localagent.py menlo stand"
+
     # Record on kabban board with outcome as evidence
     task_id = str(uuid.uuid4())[:8]
     board = load_board()

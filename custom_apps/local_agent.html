@@ -81,6 +81,9 @@
   }
   .badge-qr { background: rgba(245,200,66,.12); color: var(--gold); border: 1px solid rgba(245,200,66,.2); }
   .badge-offline { background: rgba(16,185,129,.12); color: var(--neon); border: 1px solid rgba(16,185,129,.2); }
+  .menlo-btn { padding: 4px 10px; border-radius: 6px; border: 1px solid var(--gold-dim); background: var(--gold); color: var(--void); font-weight: 700; font-size: 10px; cursor: pointer; transition: opacity .15s; font-family: inherit; }
+  .menlo-btn:hover { opacity: .85; }
+  .menlo-btn:disabled { opacity: .4; cursor: default; }
   footer {
     margin-top: 12px; padding: 8px 14px; font-size: 10px; color: var(--ink-3);
     display: flex; justify-content: space-between; border-top: 1px solid var(--border);
@@ -126,7 +129,7 @@
       <div class="panel">
         <h2>Kænbæn Board</h2>
         <div style="font-size:11px;color:var(--ink-2);line-height:1.6;">
-          4 tasks · 3 assignees · 5 dependency edges · dispatch cap = 1 · dormant reroute · 14+ handoff events
+          29+ tasks · menlo verbs · kabban evidence · dispatch cap = 1 · dormant reroute
         </div>
       </div>
     </div>
@@ -146,30 +149,139 @@ status → node/role/engine/brain/offline/status/tasks/receipts/deps/events
       <div class="card">
         <h2>Recipes</h2>
         <div class="code-block">
-# plan (offline)
-kænbæn run local_agent
+# menlo verbs (live robot)
+python localagent.py menlo status    — bridge health
+python localagent.py menlo stand     — DAMP→STAND→MOVE
+python localagent.py menlo balance   — zero velocity, MOVE
+python localagent.py menlo walk      — set_velocity vx=0.25
+python localagent.py menlo damp      — emergency stop
 
-# run a task
-kænbæn run k001
-
-# start
-kænbæn start k001
-
-# done
-kænbæn done k001 --evidence "probe ok"
-
-# verify (re-emits identical QR)
-kænbæn verify k001
-
-# manifest (receipt + hash_chain)
-kænbæn manifest k001
-
-# QR-scan to resume
-kænbæn run <id>
+# kabban board
+python localagent.py plan "intent"
+python localagent.py run &lt;task_id&gt;
+python localagent.py verify &lt;task_id&gt;
+python localagent.py manifest &lt;task_id&gt;
         </div>
-      </div>
-    </div>
-  </div>
-</div>
-</body>
-</html>
+        </div>
+        <!-- Menlo Robot card -->
+        <div class="card" id="menloCard">
+        <h2>Menlo Robot</h2>
+        <div class="probe-row">
+        <span id="menloStatus" class="status probing">● PROBING</span>
+        <span style="font-size:10px;color:var(--ink-2);">bridge :8901 · fake edge</span>
+        </div>
+        <div id="menloState" style="display:none; margin-top:8px;">
+        <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:6px; font-size:10px;">
+        <div><span style="color:var(--ink-3)">mode</span><br><span id="menloMode" style="color:var(--gold);font-weight:700;">--</span></div>
+        <div><span style="color:var(--ink-3)">armed</span><br><span id="menloArmed" style="color:var(--gold);font-weight:700;">--</span></div>
+        <div><span style="color:var(--ink-3)">joints</span><br><span id="menloJoints" style="color:var(--gold);font-weight:700;">--</span></div>
+        <div><span style="color:var(--ink-3)">cmds</span><br><span id="menloCmds" style="color:var(--gold);font-weight:700;">--</span></div>
+        <div><span style="color:var(--ink-3)">frames</span><br><span id="menloFrames" style="color:var(--gold);font-weight:700;">--</span></div>
+        <div><span style="color:var(--ink-3)">clock</span><br><span id="menloClock" style="color:var(--gold);font-weight:700;">--</span></div>
+        </div>
+        </div>
+        <div id="menloButtons" style="display:none; margin-top:10px; gap:6px;">
+        <button class="menlo-btn" data-verb="stand">Stand</button>
+        <button class="menlo-btn" data-verb="balance">Balance</button>
+        <button class="menlo-btn" data-verb="walk">Walk</button>
+        <button class="menlo-btn" data-verb="damp">Damp</button>
+        </div>
+        <div id="menloLog" style="margin-top:10px; font-size:10px; max-height:120px; overflow-y:auto;">
+        <div style="color:var(--ink-3);">verb log</div>
+        </div>
+        </div>
+        </div>
+        </div>
+        </div>
+        <script>
+        (function() {
+        var MENLO_URL = 'http://127.0.0.1:8901';
+        var statusEl = document.getElementById('menloStatus');
+        var stateEl = document.getElementById('menloState');
+        var buttonsEl = document.getElementById('menloButtons');
+        var logEl = document.getElementById('menloLog');
+        var logEntries = [];
+
+        function setStatus(state, text) {
+        statusEl.className = 'status ' + state;
+        statusEl.textContent = text;
+        }
+
+        function pollState() {
+        fetch(MENLO_URL + '/state')
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+        if (data.ok) {
+        setStatus('online', '\u25cf ONLINE');
+        stateEl.style.display = 'block';
+        buttonsEl.style.display = 'flex';
+        var s = data.state;
+        document.getElementById('menloMode').textContent = s.mode;
+        document.getElementById('menloArmed').textContent = s.armed;
+        document.getElementById('menloJoints').textContent = s.joints;
+        document.getElementById('menloCmds').textContent = s.commands_received;
+        document.getElementById('menloFrames').textContent = s.state_frames;
+        document.getElementById('menloClock').textContent = s.clock + 's';
+        } else {
+        setStatus('offline', '\u25cf OFFLINE');
+        stateEl.style.display = 'none';
+        buttonsEl.style.display = 'none';
+        }
+        })
+        .catch(function() {
+        setStatus('offline', '\u25cf OFFLINE');
+        stateEl.style.display = 'none';
+        buttonsEl.style.display = 'none';
+        });
+        }
+
+        function addLog(verb, result) {
+        logEntries.unshift({verb: verb, result: result, at: new Date().toLocaleTimeString()});
+        if (logEntries.length > 8) logEntries.pop();
+        var html = '<div style="color:var(--ink-3);">verb log</div>';
+        for (var i = 0; i < logEntries.length; i++) {
+        var e = logEntries[i];
+        var ok = e.result && e.result.ok;
+        var color = ok ? 'var(--neon)' : '#ef4444';
+        var detail = ok ? (e.result.state ? 'mode=' + e.result.state.mode : '') : (e.result ? e.result.error : 'bridge down');
+        html += '<div style="padding:2px 0; color:' + color + ';">\u2192 ' + e.verb + ' <span style="color:var(--ink-3)">' + e.at + '</span> ' + detail + '</div>';
+        }
+        logEl.innerHTML = html;
+        }
+
+        var VERB_MAP = {
+        stand: {name: 'stand', args: {}},
+        balance: {name: 'balance', args: {}},
+        walk: {name: 'set_velocity', args: {vx: 0.25, duration: 2.0}},
+        damp: {name: 'damp', args: {}}
+        };
+
+        document.querySelectorAll('.menlo-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+        var verb = btn.getAttribute('data-verb');
+        var v = VERB_MAP[verb];
+        if (!v) return;
+        btn.disabled = true;
+        fetch(MENLO_URL + '/verb', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({name: v.name, args: v.args})
+        })
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+        addLog(verb, data);
+        btn.disabled = false;
+        })
+        .catch(function() {
+        addLog(verb, {ok: false, error: 'bridge down'});
+        btn.disabled = false;
+        });
+        });
+        });
+
+        pollState();
+        setInterval(pollState, 1000);
+        })();
+        </script>
+        </body>
+        </html>
