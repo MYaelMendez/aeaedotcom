@@ -1,0 +1,122 @@
+{
+  "version": "1.0",
+  "description": "æ:// capabilities manifest — machine-readable glocal mesh topology. Each entry = one surface built in the sovereign local agent stack. The fleet demo regenerates from this manifest; adding a capability = adding an entry, not writing a new script.",
+  "mesh": {
+    "name": "æ:// glocal mesh",
+    "operator": "Yæl Méndez",
+    "location": "Lenovo Legion Go — AMD Ryzen APU, Radeon 3GB VRAM, 13GB RAM, Win10",
+    "source_of_truth": "https://myaelmendez.github.io"
+  },
+  "capabilities": [
+    {
+      "id": "webgpu",
+      "name": "WebGPU Compute",
+      "kind": "surface",
+      "path": "webgpu/index.html",
+      "url": "file:///C:/Users/yaelm/vscode/webgpu/index.html",
+      "verbs": ["compute", "render"],
+      "commit": "untracked",
+      "status": "verified",
+      "notes": "65,536 particles, WGSL compute pipeline, triangle quad rendering, 144 FPS on AMD RDNA-3"
+    },
+    {
+      "id": "agentic-envs",
+      "name": "Agentic Environments",
+      "kind": "runtime",
+      "url": "http://127.0.0.1:4198",
+      "state_endpoint": "/api/environments",
+      "verbs": ["create", "run", "memory"],
+      "commit": "untracked",
+      "status": "standalone",
+      "notes": "FastAPI + Ollama, tool-use loop, env store, vendored WebLLM bundle"
+    },
+    {
+      "id": "webllm",
+      "name": "WebLLM Bridge",
+      "kind": "surface",
+      "path": "agentic-environments/webllm.html",
+      "url": "http://127.0.0.1:4198/webllm",
+      "verbs": ["chat", "pull", "push"],
+      "commit": "untracked",
+      "status": "standalone",
+      "notes": "Browser-native LLM inference on WebGPU, vendored @mlc-ai/web-llm@0.2.86"
+    },
+    {
+      "id": "cad-viewer",
+      "name": "Text-to-CAD Viewer",
+      "kind": "runtime",
+      "url": "http://127.0.0.1:5173",
+      "state_endpoint": "/",
+      "verbs": ["build", "render"],
+      "commit": "untracked",
+      "status": "dev-server",
+      "notes": "earthtojake/text-to-cad, 21k★, MIT, agent-native MCP-compatible"
+    },
+    {
+      "id": "menlo-bridge",
+      "name": "Menlo Bridge",
+      "kind": "bridge",
+      "url": "http://127.0.0.1:8901",
+      "state_endpoint": "/state",
+      "verbs": ["stand", "balance", "walk", "damp", "status"],
+      "commit": "f9de3d3c",
+      "status": "live",
+      "notes": "stdlib HTTP server, real Robot against fake edge (firmware mode), CORS + IPC proxying"
+    },
+    {
+      "id": "menlo-face",
+      "name": "Robot Face",
+      "kind": "surface",
+      "path": "agentic-electronic/web/factory.html",
+      "url": "file:///C:/Users/yaelm/vscode/agentic-electronic/web/factory.html",
+      "verbs": ["stand", "balance", "walk", "damp"],
+      "commit": "9de17e71",
+      "status": "live",
+      "notes": "SVG face driven by bridge telemetry — mode→eye color, armed→glow, flash on verb click"
+    },
+    {
+      "id": "electron-factory",
+      "name": "Electron Factory",
+      "kind": "runtime",
+      "path": "agentic-electronic/factory-core.mjs",
+      "url": "file:///C:/Users/yaelm/vscode/agentic-electronic/web/factory.html",
+      "verbs": ["spawn", "kill", "list"],
+      "commit": "fa948739",
+      "status": "live",
+      "notes": "Pure Node agentic runtime, nested Electron factory, spawn/adopt bridge with ownership tracking"
+    },
+    {
+      "id": "render-fleet",
+      "name": "Render Fleet",
+      "kind": "render",
+      "path": "aeaedotcom/static/renders/constellation/",
+      "url": "file:///C:/Users/yaelm/vscode/aeaedotcom/static/renders/constellation/",
+      "verbs": ["render", "verify"],
+      "commit": "e86c49d",
+      "status": "live",
+      "notes": "15+ MP4s, gold-on-void æ-theme, Pillow + ffmpeg, H.264 1920×1080 +faststart"
+    },
+    {
+      "id": "local-agent",
+      "name": "Local Agent CLI",
+      "kind": "cli",
+      "path": "aeaedotcom/localagent.py",
+      "url": null,
+      "verbs": ["dispatch", "menlo", "kabban", "render"],
+      "commit": "1890e40",
+      "status": "live",
+      "notes": "Unified CLI dispatcher — menlo verbs + kabban evidence + render fleet"
+    },
+    {
+      "id": "fallback-chain",
+      "name": "Fallback Chain",
+      "kind": "config",
+      "path": null,
+      "url": null,
+      "verbs": ["route"],
+      "commit": "config",
+      "status": "live",
+      "notes": "Cloud-primary xiaomi/mimo-v2.6-pro → local qwen2.5-coder-64k via Ollama :11434"
+    }
+  ]
+}

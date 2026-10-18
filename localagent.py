@@ -22,6 +22,7 @@ Usage:
     localagent.py verify "task_id"
     localagent.py manifest "task_id"
     localagent.py menlo <status|stand|balance|walk|damp>
+    localagent.py render fleet
     localagent.py help
 """
 import json
@@ -382,6 +383,41 @@ def cmd_menlo(args):
     return result
 
 
+def cmd_render_fleet():
+    """Run fleet_demo.py — regenerates fleet.mp4 from capabilities.json."""
+    script = ROOT / "fleet_demo.py"
+    if not script.exists():
+        return {"error": "fleet_demo.py not found"}
+    try:
+        proc = subprocess.run(
+            [sys.executable, str(script)],
+            capture_output=True, text=True, timeout=180
+        )
+        if proc.returncode != 0:
+            return {"error": f"fleet_demo failed: {proc.stderr[:500]}"}
+        result = json.loads(proc.stdout.strip())
+        # Record on kabban board with sha256 as evidence
+        task_id = str(uuid.uuid4())[:8]
+        board = load_board()
+        board.append({
+            "id": task_id,
+            "intent": "fleet:render",
+            "assignee": "self",
+            "status": "done",
+            "parent": None,
+            "children": [],
+            "evidence": [{"text": json.dumps(result, default=str), "at": now_iso()}],
+            "uncertainty": [],
+            "created": now_iso(),
+            "updated": now_iso(),
+        })
+        save_board(board)
+        add_event(task_id, "fleet:render", actor="localagent")
+        return result
+    except Exception as e:
+        return {"error": str(e)}
+
+
 def cmd_help():
     return {"usage": "localagent.py <probe|status|plan|run|verify|manifest|menlo|help>"}
 
@@ -405,6 +441,7 @@ def main():
         "mech:run": lambda: mech_run(args[0]) if args else {"error": "task_id required"},
         "mech:board": lambda: {"board": mech_board()},
         "menlo": lambda: cmd_menlo(args),
+        "render": lambda: cmd_render_fleet(),
         "help": cmd_help,
     }
 
