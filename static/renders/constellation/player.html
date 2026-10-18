@@ -118,6 +118,13 @@
         <button data-video="close">close</button>
         <button data-video="qr">qr</button>
         <button data-video="campaign">campaign (46s)</button>
+        <button data-video="demo_capabilities">capabilities</button>
+        <button data-video="ioa">ioa</button>
+        <button data-video="menlo_sdk">menlo_sdk</button>
+        <button data-video="menlo_live">menlo_live</button>
+        <button data-video="menlo_unified">menlo_unified</button>
+        <button data-video="menlo_command">menlo_command</button>
+        <button data-video="fleet">fleet</button>
       </div>
     </div>
     <div class="panel">
@@ -147,6 +154,41 @@
           <h3>foreground.mp4</h3>
           <div class="meta">1920×1080 · 900 frames · 30.0 s · H.264<br />Foreground render surface — vertical scan sweep + codæ:// weave</div>
           <div class="qr">foreground.mp4</div>
+        </div>
+        <div class="card">
+          <h3>demo_capabilities.mp4</h3>
+          <div class="meta">1920×1080 · 1140 frames · 38.0 s · H.264<br />capabilities demo — WebGPU, agentic envs, WebLLM, CAD, brand</div>
+          <div class="qr">demo_capabilities.mp4</div>
+        </div>
+        <div class="card">
+          <h3>ioa_internet_of_agents.mp4</h3>
+          <div class="meta">1920×1080 · 1110 frames · 37.0 s · H.264<br />#ioa — 9 agents, hermes hub + 4 local + 4 cloud, mesh traffic</div>
+          <div class="qr">ioa_internet_of_agents.mp4</div>
+        </div>
+        <div class="card">
+          <h3>menlo_asimov_sdk.mp4</h3>
+          <div class="meta">1920×1080 · 920 frames · 30.67 s · H.264<br />Menlo Asimov SDK — wire verbs, state stream, Sent→Outcome lifecycle</div>
+          <div class="qr">menlo_asimov_sdk.mp4</div>
+        </div>
+        <div class="card">
+          <h3>menlo_live_mesh.mp4</h3>
+          <div class="meta">1920×1080 · 700 frames · 23.33 s · H.264<br />live mesh node — real Robot against fake edge, 25 commands, firmware mode machine</div>
+          <div class="qr">menlo_live_mesh.mp4</div>
+        </div>
+        <div class="card">
+          <h3>menlo_unified.mp4</h3>
+          <div class="meta">1920×1080 · 780 frames · 26.0 s · H.264<br />unified Menlo + local_agent — CLI → bridge → kabban → dashboard → mesh</div>
+          <div class="qr">menlo_unified.mp4</div>
+        </div>
+        <div class="card">
+          <h3>menlo_command.mp4</h3>
+          <div class="meta">1920×1080 · 720 frames · 24.0 s · H.264<br />command and control — stand/damp verbs, face reactions, C2 loop</div>
+          <div class="qr">menlo_command.mp4</div>
+        </div>
+        <div class="card">
+          <h3>fleet.mp4</h3>
+          <div class="meta">1920×1080 · 1080 frames · 36.0 s · H.264<br />glocal mesh fleet — 10 capabilities, manifest-driven, recursive</div>
+          <div class="qr">fleet.mp4</div>
         </div>
       </div>
     </div>
@@ -188,9 +230,16 @@
                 : name === 'weave' ? '../../custom_apps/startabusiness/weave.mp4'
                 : name === 'close' ? '../../custom_apps/startabusiness/close.mp4'
                 : name === 'qr' ? '../../custom_apps/startabusiness/qr.mp4'
-                : name === 'campaign' ? '../../custom_apps/startabusiness/campaign.mp4'
+                : name === 'campaign' ? '../../../custom_apps/startabusiness/campaign.mp4'
+                : name === 'demo_capabilities' ? 'demo_capabilities.mp4'
+                : name === 'ioa' ? 'ioa_internet_of_agents.mp4'
+                : name === 'menlo_sdk' ? 'menlo_asimov_sdk.mp4'
+                : name === 'menlo_live' ? 'menlo_live_mesh.mp4'
+                : name === 'menlo_unified' ? 'menlo_unified.mp4'
+                : name === 'menlo_command' ? 'menlo_command.mp4'
+                : name === 'fleet' ? 'fleet.mp4'
                 : 'pending';
-      const source = video.querySelector('source');
+    const source = video.querySelector('source');
       if (source) source.remove();
       const s = document.createElement('source');
       s.src = resolveSrc(src);
@@ -295,6 +344,13 @@
               : name === 'close' ? '../../../custom_apps/startabusiness/close.mp4'
               : name === 'qr' ? '../../../custom_apps/startabusiness/qr.mp4'
               : name === 'campaign' ? '../../../custom_apps/startabusiness/campaign.mp4'
+              : name === 'demo_capabilities' ? 'demo_capabilities.mp4'
+              : name === 'ioa' ? 'ioa_internet_of_agents.mp4'
+              : name === 'menlo_sdk' ? 'menlo_asimov_sdk.mp4'
+              : name === 'menlo_live' ? 'menlo_live_mesh.mp4'
+              : name === 'menlo_unified' ? 'menlo_unified.mp4'
+              : name === 'menlo_command' ? 'menlo_command.mp4'
+              : name === 'fleet' ? 'fleet.mp4'
               : 'pending';
     const source = video.querySelector('source');
     if (source) source.remove();
